@@ -3,9 +3,10 @@
   "compilerOptions": {
     "strictNullChecks": true,
     "jsx": "preserve",
+    "allowJs": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
-  }
+  }, 
 }
