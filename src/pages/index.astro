@@ -1,37 +1,41 @@
 ---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+
 const user = Astro.locals.user;
 ---
 
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body class="min-h-screen grid place-items-center">
-    {
-      user ? (
-        <div class="flex flex-col gap-2">
-          <form method="POST" action="/api/signout">
-            <button class="underline">Sign out</button>
-          </form>
-          <a class="underline" href="/admin">
-            {" "}
-            Go to the admin page
-          </a>
-        </div>
-      ) : (
-        <div class="flex flex-col gap-2">
-          <a class="underline" href="/api/github">
-            Sign In With Github
-          </a>
-          <a class="underline" href="/signin">
-            Sign In With Username/Password
-          </a>
-        </div>
-      )
-    }
+  <body>
+    <Header />
+    <main>
+      {
+        user ? (
+          <div class="flex flex-col gap-2">
+            <form method="POST" action="/api/signout">
+              <button class="underline">Cerrar sesión</button>
+            </form>
+            {/*   <a class="underline" href="/admin">
+              {" "}
+              Go to the admin page
+            </a> */}
+          </div>
+        ) : (
+          <div class="flex flex-col gap-2">
+            <a class="underline" href="/api/github">
+              Iniciar sesión con Github
+            </a>
+            <a class="underline" href="/signin">
+             Iniciar sesión con Username/Password
+            </a>
+          </div>
+        )
+      }
+    </main>
   </body>
 </html>

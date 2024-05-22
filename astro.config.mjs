@@ -12,6 +12,11 @@ import vercel from "@astrojs/vercel/serverless";
 export default defineConfig({
   site: 'https://example.com',
   output: "server",
-  integrations: [mdx(), sitemap(), tailwind(), vue(), auth(), db()],
-  adapter: vercel()
+  integrations: [mdx(), sitemap(), tailwind(), vue({ devtools: true }), auth(), db()],
+  adapter: vercel(),
+  vite: {
+    optimizeDeps: {
+      exclude: ["oslo"]
+    }
+  }
 });

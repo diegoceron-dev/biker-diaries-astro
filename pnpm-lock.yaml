@@ -35,6 +35,9 @@ dependencies:
   '@lucia-auth/adapter-drizzle':
     specifier: ^1.0.7
     version: 1.0.7(lucia@3.2.0)
+  '@vee-validate/zod':
+    specifier: ^4.12.8
+    version: 4.12.8(vue@3.4.27)
   arctic:
     specifier: ^1.2.1
     version: 1.8.1
@@ -74,9 +77,15 @@ dependencies:
   typescript:
     specifier: ^5.4.5
     version: 5.4.5
+  vee-validate:
+    specifier: ^4.12.8
+    version: 4.12.8(vue@3.4.27)
   vue:
     specifier: ^3.4.27
     version: 3.4.27(typescript@5.4.5)
+  zod:
+    specifier: ^3.23.8
+    version: 3.23.8
 
 packages:
 
@@ -269,7 +278,7 @@ packages:
   /@astrojs/sitemap@3.1.4:
     resolution: {integrity: sha512-po8CqDCK14O6phU1mB5C8SyVLyQEa+7pJM8oXxs1mVh8DgvxxaA5E7lak1vzOmBcyyyHBW32jakGqNYc66sBRw==, tarball: https://registry.npmjs.org/@astrojs/sitemap/-/sitemap-3.1.4.tgz}
     dependencies:
-      sitemap: 7.1.1
+      sitemap: 7.1.2
       stream-replace-string: 2.0.0
       zod: 3.23.8
     dev: false
@@ -2267,7 +2276,7 @@ packages:
       '@babel/types': 7.24.5
       '@types/babel__generator': 7.6.8
       '@types/babel__template': 7.4.4
-      '@types/babel__traverse': 7.20.5
+      '@types/babel__traverse': 7.20.6
     dev: false
 
   /@types/babel__generator@7.6.8:
@@ -2283,8 +2292,8 @@ packages:
       '@babel/types': 7.24.5
     dev: false
 
-  /@types/babel__traverse@7.20.5:
-    resolution: {integrity: sha512-WXCyOcRtH37HAUkpXhUduaxdm82b4GSlyTqajXviN4EfiuPgNYR109xMCKvpl6zPIpua0DGlMEDCq+g8EdoheQ==, tarball: https://registry.npmjs.org/@types/babel__traverse/-/babel__traverse-7.20.5.tgz}
+  /@types/babel__traverse@7.20.6:
+    resolution: {integrity: sha512-r1bzfrm0tomOI8g1SzvCaQHo6Lcv6zu0EA+W2kHrt8dyrHQxGzBBL4kdkzIS+jBMV+EYcMAEAqXqYaLJq5rOZg==, tarball: https://registry.npmjs.org/@types/babel__traverse/-/babel__traverse-7.20.6.tgz}
     dependencies:
       '@babel/types': 7.24.5
     dev: false
@@ -2379,6 +2388,16 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==, tarball: https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.2.0.tgz}
     dev: false
 
+  /@vee-validate/zod@4.12.8(vue@3.4.27):
+    resolution: {integrity: sha512-P+G8grCc5iN7FMfvLzVWoGKxamBd0EYgN/hXBmzgbJV7B7FGnQADlUIsqt4jM+oGacbFW12B56zSORaVy3Owqg==, tarball: https://registry.npmjs.org/@vee-validate/zod/-/zod-4.12.8.tgz}
+    dependencies:
+      type-fest: 4.18.2
+      vee-validate: 4.12.8(vue@3.4.27)
+      zod: 3.23.8
+    transitivePeerDependencies:
+      - vue
+    dev: false
+
   /@vercel/analytics@1.2.2(next@14.2.3)(react@18.3.1):
     resolution: {integrity: sha512-X0rctVWkQV1e5Y300ehVNqpOfSOufo7ieA5PIdna8yX/U7Vjz0GFsGf4qvAhxV02uQ2CVt7GYcrFfddXXK2Y4A==, tarball: https://registry.npmjs.org/@vercel/analytics/-/analytics-1.2.2.tgz}
     peerDependencies:
@@ -2413,7 +2432,7 @@ packages:
       estree-walker: 2.0.2
       glob: 7.2.3
       graceful-fs: 4.2.11
-      micromatch: 4.0.6
+      micromatch: 4.0.7
       node-gyp-build: 4.8.1
       resolve-from: 5.0.0
     transitivePeerDependencies:
@@ -2607,6 +2626,10 @@ packages:
     dependencies:
       '@vue/compiler-dom': 3.4.27
       '@vue/shared': 3.4.27
+    dev: false
+
+  /@vue/devtools-api@6.6.1:
+    resolution: {integrity: sha512-LgPscpE3Vs0x96PzSSB4IGVSZXZBZHpfxs+ZA1d+VEPwHdOXowy/Y2CsvCAIFrf+ssVU1pD1jidj505EpUnfbA==, tarball: https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.6.1.tgz}
     dev: false
 
   /@vue/devtools-core@7.2.1(vite@5.2.11)(vue@3.4.27):
@@ -2956,7 +2979,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.23.0
-      caniuse-lite: 1.0.30001620
+      caniuse-lite: 1.0.30001621
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.1
@@ -3032,7 +3055,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001620
+      caniuse-lite: 1.0.30001621
       electron-to-chromium: 1.4.777
       node-releases: 2.0.14
       update-browserslist-db: 1.0.16(browserslist@4.23.0)
@@ -3067,8 +3090,8 @@ packages:
     engines: {node: '>=14.16'}
     dev: false
 
-  /caniuse-lite@1.0.30001620:
-    resolution: {integrity: sha512-WJvYsOjd1/BYUY6SNGUosK9DUidBPDTnOARHp3fSmFO1ekdxaY6nKRttEVrfMmYi80ctS0kz1wiWmm14fVc3ew==, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001620.tgz}
+  /caniuse-lite@1.0.30001621:
+    resolution: {integrity: sha512-+NLXZiviFFKX0fk8Piwv3PfLPGtRqJeq2TiNoUff/qB5KJgwecJTvCXDpmlyP/eCI/GUEmp/h/y5j0yckiiZrA==, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001621.tgz}
     dev: false
 
   /ccount@2.0.1:
@@ -3676,7 +3699,7 @@ packages:
       '@nodelib/fs.walk': 1.2.8
       glob-parent: 5.1.2
       merge2: 1.4.1
-      micromatch: 4.0.6
+      micromatch: 4.0.7
     dev: false
 
   /fast-xml-parser@4.4.0:
@@ -3730,7 +3753,7 @@ packages:
   /find-yarn-workspace-root2@1.2.16:
     resolution: {integrity: sha512-hr6hb1w8ePMpPVUK39S4RlwJzi+xPLuVuG8XlwXU3KD5Yn3qgBWVfy3AzNlDhWvE1EORCE65/Qm26rFQt3VLVA==, tarball: https://registry.npmjs.org/find-yarn-workspace-root2/-/find-yarn-workspace-root2-1.2.16.tgz}
     dependencies:
-      micromatch: 4.0.6
+      micromatch: 4.0.7
       pkg-dir: 4.2.0
     dev: false
 
@@ -5025,12 +5048,12 @@ packages:
       - supports-color
     dev: false
 
-  /micromatch@4.0.6:
-    resolution: {integrity: sha512-Y4Ypn3oujJYxJcMacVgcs92wofTHxp9FzfDpQON4msDefoC0lb3ETvQLOdLcbhSwU1bz8HrL/1sygfBIHudrkQ==, tarball: https://registry.npmjs.org/micromatch/-/micromatch-4.0.6.tgz}
+  /micromatch@4.0.7:
+    resolution: {integrity: sha512-LPP/3KorzCwBxfeUuZmaR6bG2kdeHSbe0P2tY3FLRU4vYrjYz5hI4QZwV0njUx3jeuKe67YukQ1LSPZBKDqO/Q==, tarball: https://registry.npmjs.org/micromatch/-/micromatch-4.0.7.tgz}
     engines: {node: '>=8.6'}
     dependencies:
       braces: 3.0.3
-      picomatch: 4.0.2
+      picomatch: 2.3.1
     dev: false
 
   /mimic-fn@2.1.0:
@@ -5170,7 +5193,7 @@ packages:
       '@next/env': 14.2.3
       '@swc/helpers': 0.5.5
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001620
+      caniuse-lite: 1.0.30001621
       graceful-fs: 4.2.11
       postcss: 8.4.31
       react: 18.3.1
@@ -5516,11 +5539,6 @@ packages:
   /picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==, tarball: https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz}
     engines: {node: '>=8.6'}
-    dev: false
-
-  /picomatch@4.0.2:
-    resolution: {integrity: sha512-M7BAV6Rlcy5u+m6oPhAPFgJTzAioX/6B0DxyvDlo9l8+T3nLKbrczg2WLUyzd45L8RqfUMyGPzekbMvX2Ldkwg==, tarball: https://registry.npmjs.org/picomatch/-/picomatch-4.0.2.tgz}
-    engines: {node: '>=12'}
     dev: false
 
   /pify@2.3.0:
@@ -6128,8 +6146,8 @@ packages:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==, tarball: https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.5.tgz}
     dev: false
 
-  /sitemap@7.1.1:
-    resolution: {integrity: sha512-mK3aFtjz4VdJN0igpIJrinf3EO8U8mxOPsTBzSsy06UtjZQJ3YY3o3Xa7zSc5nMqcMrRwlChHZ18Kxg0caiPBg==, tarball: https://registry.npmjs.org/sitemap/-/sitemap-7.1.1.tgz}
+  /sitemap@7.1.2:
+    resolution: {integrity: sha512-ARCqzHJ0p4gWt+j7NlU5eDlIO9+Rkr/JhPFZKKQ1l5GCus7rJH4UdrlVAh0xC/gDS/Qir2UMxqYNHtsKr2rpCw==, tarball: https://registry.npmjs.org/sitemap/-/sitemap-7.1.2.tgz}
     engines: {node: '>=12.0.0', npm: '>=5.6.0'}
     hasBin: true
     dependencies:
@@ -6338,7 +6356,7 @@ packages:
       is-glob: 4.0.3
       jiti: 1.21.0
       lilconfig: 2.1.0
-      micromatch: 4.0.6
+      micromatch: 4.0.7
       normalize-path: 3.0.0
       object-hash: 3.0.0
       picocolors: 1.0.1
@@ -6432,6 +6450,11 @@ packages:
   /type-fest@2.19.0:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==, tarball: https://registry.npmjs.org/type-fest/-/type-fest-2.19.0.tgz}
     engines: {node: '>=12.20'}
+    dev: false
+
+  /type-fest@4.18.2:
+    resolution: {integrity: sha512-+suCYpfJLAe4OXS6+PPXjW3urOS4IoP9waSiLuXfLgqZODKw/aWwASvzqE886wA0kQgGy0mIWyhd87VpqIy6Xg==, tarball: https://registry.npmjs.org/type-fest/-/type-fest-4.18.2.tgz}
+    engines: {node: '>=16'}
     dev: false
 
   /typesafe-path@0.2.2:
@@ -6611,6 +6634,16 @@ packages:
   /uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==, tarball: https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz}
     hasBin: true
+    dev: false
+
+  /vee-validate@4.12.8(vue@3.4.27):
+    resolution: {integrity: sha512-A07rm3+y7SRk0CMD/O4nBT0nxtwjyfzGZwjEUDk18SxK0ZMzd4AFCzzdHlIiCE1QgHetxd0I3kVkZdN0GG0Oww==, tarball: https://registry.npmjs.org/vee-validate/-/vee-validate-4.12.8.tgz}
+    peerDependencies:
+      vue: ^3.4.26
+    dependencies:
+      '@vue/devtools-api': 6.6.1
+      type-fest: 4.18.2
+      vue: 3.4.27(typescript@5.4.5)
     dev: false
 
   /vfile-location@5.0.2:
