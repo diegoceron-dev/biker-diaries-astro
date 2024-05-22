@@ -37,6 +37,7 @@
     "typescript": "^5.4.5",
     "vee-validate": "^4.12.8",
     "vue": "^3.4.27",
+    "vue3-carousel": "^0.3.3",
     "zod": "^3.23.8"
   }
 }

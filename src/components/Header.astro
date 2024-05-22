@@ -1,6 +1,10 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
 import { SITE_TITLE } from "../consts";
+import { ViewTransitions } from 'astro:transitions';
+
+const user = Astro.locals.user;
+const session = Astro.locals.session;
 ---
 
 <header>
@@ -8,24 +12,33 @@ import { SITE_TITLE } from "../consts";
     <h2><a href="/">{SITE_TITLE}</a></h2>
     <div class="internal-links">
       <HeaderLink href="/">Inicio</HeaderLink>
-      <!-- <HeaderLink href="/blog">Blog</HeaderLink> -->
       <HeaderLink href="/about">Acerca de</HeaderLink>
     </div>
-    <div class="social-links">
-		<HeaderLink href="/signin">Login</HeaderLink>
-	</div>
+    <div class="social-links pr-10">
+      <HeaderLink href={user ? "/api/signout" : "/signin"}>
+        {user ? "Cerrar sesión" : "Iniciar sesión"}
+      </HeaderLink>
+    </div>
   </nav>
+<!--   USER: {JSON.stringify(user)}
+  <hr>
+  SESSION: {JSON.stringify(session)} -->
+
+<ViewTransitions />
 </header>
 <style>
   header {
     margin: 0;
-    padding: 0 1em;
-    background: white;
-    box-shadow: 0 2px 8px rgba(var(--black), 5%);
-  }
+    color: #1e1d1d;
+    background-color: #CDDCDC;
+    background-image: radial-gradient(at 50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%), linear-gradient(to bottom, rgba(255,255,255,0.25) 0%, rgba(0,0,0,0.25) 100%);
+    background-blend-mode: screen, overlay;
+    }
   h2 {
     margin: 0;
-    font-size: 1em;
+    font-size: 1.2em;
+    color: #1e1d1d;
+    font-weight: 600;
   }
 
   h2 a,
@@ -45,7 +58,7 @@ import { SITE_TITLE } from "../consts";
   }
   nav a.active {
     text-decoration: none;
-    border-bottom-color: var(--accent);
+    border-bottom-color: #a3c6c6;
   }
   .social-links,
   .social-links a {

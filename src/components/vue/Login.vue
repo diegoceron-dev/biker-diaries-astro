@@ -7,6 +7,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
+const goToGithubAPI = () => {
+  window.location.href = "api/github";
+};
 </script>
 
 <template>
@@ -49,11 +53,20 @@ import {
 
         <button
           type="submit"
-          class="w-full text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+          class="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
         >
-          Sign Up
+          Sign In
         </button>
       </form>
+
+      <div class="pt-4">
+        <button
+          @click="goToGithubAPI"
+          class="w-full text-black bg-slate-200 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+        >
+          Sign In with Github
+        </button>
+      </div>
     </CardContent>
     <CardFooter>
       <p class="text-sm font-light text-gray-500 dark:text-gray-400">
