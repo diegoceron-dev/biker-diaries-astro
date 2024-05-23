@@ -18,7 +18,7 @@ const goToGithubAPI = () => {
 
 const goToHome = () => {
   window.location.href = "/";
-}
+};
 
 const email = ref("");
 const password = ref("");
@@ -37,8 +37,10 @@ const handleSubmit = async (event: Event) => {
       body: formData,
     });
 
+    console.log(response);
+
     if (response.ok) {
-      const successText = await response.json();
+      const successText = await response.text();
 
       toast({
         description: successText,
@@ -47,8 +49,9 @@ const handleSubmit = async (event: Event) => {
 
       goToHome();
     } else {
+      alert("error");
       const errorText = await response.text();
-      console.error("Error en el registro de usuario", errorText);
+      console.log(response);
 
       toast({
         title: "¡Uh oh! Algo ha salido mal.",
@@ -57,6 +60,7 @@ const handleSubmit = async (event: Event) => {
       });
     }
   } catch (error: any) {
+    console.log(error);
     toast({
       title: "¡Uh oh! Algo ha salido mal.",
       description: error.toString(),

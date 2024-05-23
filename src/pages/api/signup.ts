@@ -8,7 +8,6 @@ export async function POST(context: APIContext): Promise<Response> {
   const formData = await context.request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
-  
 
   if (!email || !password) {
     return new Response("email and Password are required", { status: 400 });
@@ -26,10 +25,12 @@ export async function POST(context: APIContext): Promise<Response> {
     });
   }
   
-  const findEmail = await db.select().from(User).where(eq(User.email, email ));
-  
-  if (findEmail) {
-    return new Response("Email ya se encuentra en uso", { status: 400 });
+  const foundUser = (
+    await db.select().from(User).where(eq(User.email, email))
+  ).at(0);
+
+  if (foundUser) {
+    return new Response("El correo ya existe", { status: 400 });
   }
 
   const userId = generateId(15);
