@@ -15,7 +15,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
   
-    --primary: 142.1 76.2% 36.3%;
+    --primary: 158.961, 38%, 60%;
     --primary-foreground: 355.7 100% 97.3%;
   
     --secondary: 122.1 76.2% 36.3%;
@@ -77,8 +77,8 @@
 }
 
 :root {
-  --accent: #98d0bc;
-  --accent-dark: #9fd1cd;
+  --accent: #73c0a5;
+  --accent-dark: #61a08a;
   --black: 15, 18, 25;
   --gray: 96, 115, 159;
   --gray-light: 229, 233, 240;

@@ -47,7 +47,7 @@ export async function GET(context: APIContext): Promise<Response> {
       {
         id: userId,
         github_id: githubUser.id,
-        username: githubUser.login,
+        email: githubUser.login,
       },
     ]);
 
