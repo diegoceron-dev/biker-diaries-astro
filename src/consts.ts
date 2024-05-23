@@ -2,6 +2,7 @@
 // You can import this data from anywhere in your site by using the `import` keyword.
 
 export const SITE_TITLE = 'Biker Diaries';
+export const SITE_ABR = 'BD';
 export const SITE_DESCRIPTION = 'Welcome to my website!';
 export const CAROUSEL_ARRAY: Array<string> = [
     "https://images.unsplash.com/photo-1609204276470-d22da7d40a3c?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",

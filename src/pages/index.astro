@@ -1,5 +1,4 @@
 ---
-import Slider from "@/components/vue/Slider.vue";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
@@ -13,62 +12,46 @@ import Footer from "@/components/Footer.astro";
   </head>
   <body>
     <Header />
-    <main class="pb-12">
-      <article>
-        <div class="px-52 py-12 hero-image"><Slider client:only="vue" /></div>
+    <main class="sm:p-8 md:px-52 md:py-12 flex flex-col space-y-12">
 
-        <div class="px-52 py-12">
-          <p class="text-center">
-            Nuestra aplicación está diseñada para mejorar la organización de tus
-            eventos y salidas, fomentando una comunidad donde la pasión por las
-            motocicletas y la camaradería están en primer lugar.
-          </p>
-        </div>
+      <!-- Cover -->
+      <div>
+        <img src="https://images.unsplash.com/photo-1609204276470-d22da7d40a3c" alt="" />
+      </div>
 
-        <div class="container mx-auto px-48">
-          <div class="flex flex-wrap mx-4">
-            <!-- Columna 1 -->
-            <div class="w-full md:w-1/3 px-4 mb-8">
-              <div class="bg-gray-400 p-6 rounded-xl shadow-xl border">
-                <h2 class="text-xl font-bold mb-2 text-white">Planea</h2>
-                <p class="text-white">Diseña tu viaje</p>
-              </div>
-            </div>
-            <!-- Columna 2 -->
-            <div class="w-full md:w-1/3 px-4 mb-8">
-              <div class="bg-white p-6 rounded-xl shadow-xl border">
-                <h2 class="text-xl font-bold mb-2">Comparte</h2>
-                <p class="text-gray-700">Invita a tus amigos</p>
-              </div>
-            </div>
-            <!-- Columna 3 -->
-            <div class="w-full md:w-1/3 md:px-4 md:mb-8">
-              <div
-                class="bg-gray-400 md:p-6 rounded-xl shadow-xl border text-white"
-              >
-                <h2 class="text-xl font-bold mb-2 text-white">Disfruta</h2>
-                <p class="text-white">Haz memorable tu viaje!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="px-52 py-12">
-          <p class="text-center">
-            Puedes ingresar la fecha y hora de inicio y fin, el lugar, y el tipo
-            de evento, ya sea un paseo con amigos, un rally, o una competencia
-            de tiempo. Y lo mejor de todo, como creador del evento, tienes la
-            posibilidad de invitar a otros usuarios a unirse a tu aventura,
-            creando así una experiencia compartida y enriquecedora
-          </p>
-        </div>
+      <!-- Titulo -->
+      <div class="sm:text-xl md:text-4xl text-primary text-center">Biker Diaries</div>
+
+      <!-- Descripción -->
+      <div class="text-justify md:text-2xl">
+        <p>
+          Nuestra aplicación está diseñada para mejorar la organización de tus
+          eventos y salidas, en una comunidad donde la pasión por las
+          motocicletas y la camaradería están en primer lugar.
+        </p>
+      </div>
+
+      <!-- Carousel -->
+      <!-- <div class="h-[100px]]"><Slider client:only="vue" /></div> -->
+
+      <div class="text-justify md:text-2xl">
+        <p>
+          Puedes ingresar la fecha y hora de inicio y fin, el lugar, y el tipo
+          de evento, ya sea un paseo con amigos, un rally, o una competencia de
+          tiempo. Y lo mejor de todo, como creador del evento, tienes la
+          posibilidad de invitar a otros usuarios a unirse a tu aventura,
+          creando así una experiencia compartida y enriquecedora
+        </p>
+      </div>
+
+      <div>
         <div
           class="bg-gradient-to-r from-[#fff] via-secondary to-[#fff] text-white font-bold py-4 px-18 text-center transform transition duration-500 hover:scale-110 cursor-pointer"
         >
           ¡Únete a Biker Diaries y empieza a planear tu próxima gran aventura!
         </div>
-      </article>
+      </div>
     </main>
-
     <Footer />
   </body>
 </html>
