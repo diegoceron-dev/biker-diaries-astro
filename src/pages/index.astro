@@ -15,7 +15,8 @@ import Footer from "@/components/Footer.astro";
     <Header />
     <main class="pb-12">
       <article>
-        <div class="px-12 pt-12 hero-image"><Slider client:only="vue" /></div>
+        <div class="px-52 py-12 hero-image"><Slider client:only="vue" /></div>
+
         <div class="px-52 py-12">
           <p class="text-center">
             Nuestra aplicación está diseñada para mejorar la organización de tus
@@ -23,18 +24,14 @@ import Footer from "@/components/Footer.astro";
             motocicletas y la camaradería están en primer lugar.
           </p>
         </div>
-        <div
-          class="bg-gradient-to-r from-[#fff] via-[#dee7e6] to-[#fff] text-stone-950 font-bold py-4 px-18 text-center transform transition duration-500 hover:scale-110  cursor-pointer"
-        >
-          ¡Únete a Biker Diaries y empieza a planear tu próxima gran aventura!
-        </div>
-        <div class="container mx-auto py-12 px-48">
-          <div class="flex flex-wrap -mx-4">
+
+        <div class="container mx-auto px-48">
+          <div class="flex flex-wrap mx-4">
             <!-- Columna 1 -->
             <div class="w-full md:w-1/3 px-4 mb-8">
-              <div class="bg-white p-6 rounded-xl shadow-xl border">
-                <h2 class="text-xl font-bold mb-2">Planea</h2>
-                <p class="text-gray-700">Diseña tu ruta y arma tu viaje</p>
+              <div class="bg-gray-400 p-6 rounded-xl shadow-xl border">
+                <h2 class="text-xl font-bold mb-2 text-white">Planea</h2>
+                <p class="text-white">Diseña tu viaje</p>
               </div>
             </div>
             <!-- Columna 2 -->
@@ -46,18 +43,28 @@ import Footer from "@/components/Footer.astro";
             </div>
             <!-- Columna 3 -->
             <div class="w-full md:w-1/3 md:px-4 md:mb-8">
-              <div class="bg-white md:p-6 rounded-xl shadow-xl border">
-                <h2 class="text-xl font-bold mb-2">Disfruta</h2>
-                <p class="text-gray-700">Haz memorable tu viaje!</p>
+              <div
+                class="bg-gray-400 md:p-6 rounded-xl shadow-xl border text-white"
+              >
+                <h2 class="text-xl font-bold mb-2 text-white">Disfruta</h2>
+                <p class="text-white">Haz memorable tu viaje!</p>
               </div>
             </div>
           </div>
         </div>
-        <div class="md:px-52">
+        <div class="px-52 py-12">
           <p class="text-center">
-            Puedes ingresar la fecha y hora de inicio y fin, el lugar, y el tipo de evento, ya sea un paseo con amigos, un rally, o una competencia de tiempo.
-            Y lo mejor de todo, como creador del evento, tienes la posibilidad de invitar a otros usuarios a unirse a tu aventura, creando así una experiencia compartida y enriquecedora
+            Puedes ingresar la fecha y hora de inicio y fin, el lugar, y el tipo
+            de evento, ya sea un paseo con amigos, un rally, o una competencia
+            de tiempo. Y lo mejor de todo, como creador del evento, tienes la
+            posibilidad de invitar a otros usuarios a unirse a tu aventura,
+            creando así una experiencia compartida y enriquecedora
           </p>
+        </div>
+        <div
+          class="bg-gradient-to-r from-[#fff] via-secondary to-[#fff] text-white font-bold py-4 px-18 text-center transform transition duration-500 hover:scale-110 cursor-pointer"
+        >
+          ¡Únete a Biker Diaries y empieza a planear tu próxima gran aventura!
         </div>
       </article>
     </main>

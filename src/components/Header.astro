@@ -7,9 +7,11 @@ const user = Astro.locals.user;
 const session = Astro.locals.session;
 ---
 
-<header>
+<header class="bg-gradient-to-r from-primary via-primary to-primary border-b-4 border-slate-300">
   <nav>
-    <h2><a href="/">{SITE_TITLE}</a></h2>
+    <h2 class="text-3xl font-bold !text-slate-100 hover:!text-slate-50 transition duration-300 ease-in-out transform hover:scale-105">
+      <a href="/">{SITE_TITLE}</a>
+    </h2>
     <div class="internal-links">
       <HeaderLink href="/">Inicio</HeaderLink>
       <HeaderLink href="/about">Acerca de</HeaderLink>
@@ -20,7 +22,7 @@ const session = Astro.locals.session;
           <HeaderLink href="/signin">Iniciar sesión</HeaderLink>
         ) : (
           <form method="POST" action="/api/signout">
-            Bienvenido {user.email.toUpperCase()} 
+            Bienvenido {user.email.toUpperCase()}
             <button class="underline">Cerrar sesión</button>
           </form>
         )
@@ -35,56 +37,3 @@ const session = Astro.locals.session;
   </nav>
   <ViewTransitions />
 </header>
-<style>
-  header {
-    margin: 0;
-    color: #1e1d1d;
-    background-color: #cddcdc;
-    background-image: radial-gradient(
-        at 50% 100%,
-        rgba(255, 255, 255, 0.5) 0%,
-        rgba(0, 0, 0, 0.5) 100%
-      ),
-      linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(0, 0, 0, 0.25) 100%
-      );
-    background-blend-mode: screen, overlay;
-  }
-  h2 {
-    margin: 0;
-    font-size: 1.2em;
-    color: #1e1d1d;
-    font-weight: 600;
-  }
-
-  h2 a,
-  h2 a.active {
-    text-decoration: none;
-  }
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  nav a {
-    padding: 1em 0.5em;
-    color: var(--black);
-    border-bottom: 4px solid transparent;
-    text-decoration: none;
-  }
-  nav a.active {
-    text-decoration: none;
-    border-bottom-color: #a3c6c6;
-  }
-  .social-links,
-  .social-links a {
-    display: flex;
-  }
-  @media (max-width: 720px) {
-    .social-links {
-      display: none;
-    }
-  }
-</style>
