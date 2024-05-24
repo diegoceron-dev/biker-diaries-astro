@@ -13,7 +13,7 @@ import {
 const { toast } = useToast();
 
 const goToGithubAPI = () => {
-  window.location.href = "api/github";
+  window.location.href = "api/auth/github";
 };
 
 const goToHome = () => {
@@ -32,7 +32,7 @@ const handleSubmit = async (event: Event) => {
   formData.append("password", password.value);
 
   try {
-    const response = await fetch("/api/signup", {
+    const response = await fetch("/api/auth/signup", {
       method: "POST",
       body: formData,
     });

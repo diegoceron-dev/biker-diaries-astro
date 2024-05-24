@@ -1,12 +1,12 @@
 ---
 import MainLayout from "@/layouts/MainLayout.astro";
-import Login from "@/components/vue/Login.vue";
+import Login from "@/components/vue/auth/Login.vue";
 
 const user = Astro.locals.user;
 const session = Astro.locals.session;
 
 if (user && session) {
-  return Astro.redirect('/admin');
+  return Astro.redirect('/events/');
 }
 ---
 

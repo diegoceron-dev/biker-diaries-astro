@@ -1,0 +1,14 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro";
+import MyEvents from "@/components/vue/events/MyEvents.vue";
+
+const user = Astro.locals.user;
+
+if (!user) return Astro.redirect("/signin");
+---
+
+<MainLayout title="Mis eventos">
+  <section class="h-screen">
+    <MyEvents client:load />
+  </section>
+</MainLayout>

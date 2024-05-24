@@ -1,0 +1,14 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro";
+import CreateEvent from "@/components/vue/events/CreateEvent.vue";
+
+const user = Astro.locals.user;
+
+if (!user) return Astro.redirect("/signin");
+---
+
+<MainLayout title="Crear evento">
+  <section class="h-screen">
+    <CreateEvent client:load />
+  </section>
+</MainLayout>

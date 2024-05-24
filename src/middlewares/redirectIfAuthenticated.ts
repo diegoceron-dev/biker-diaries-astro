@@ -8,7 +8,7 @@ export const redirectIfAuthenticated = defineMiddleware((context: APIContext, ne
   // Verifica si el usuario y la sesión no son nulos
   if (user && session) {
     // Redirige a la página principal u otra ruta adecuada
-    return context.redirect("/admin");
+    return context.redirect("/events/");
   }
 
   // Si el usuario y la sesión no son válidos, continúa con la siguiente ruta

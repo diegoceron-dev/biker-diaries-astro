@@ -131,7 +131,7 @@ nav a.active {
 
 @font-face {
   font-family: "Nunito";
-  src: url("/font/nunito-italic.ttf") format("woff");
+  src: url("/font/nunito-italic.ttf") format("ttf");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -139,7 +139,7 @@ nav a.active {
 
 @font-face {
   font-family: "Nunito";
-  src: url("/fonts/nunito-variable.ttf") format("woff");
+  src: url("/fonts/nunito-variable.ttf") format("ttf");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
