@@ -1,26 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useToast } from "@/components/ui/toast/use-toast";
-import type { APIContext } from "astro";
+import { onMounted } from "vue";
+import { useStore } from "@nanostores/vue";
+import { typeEventCatalog } from "@/store/catalogs";
+import { useCatalog } from "@/composables/services/useServiceCatalogs";
 
-const { toast } = useToast();
+const catalog = useStore(typeEventCatalog);
+const useServiceCatalogs = useCatalog();
 
-const getData = async () => {
-  const response = await fetch("/api/catalogs/getCatalog", {
-    method: "GET",
-  });
-
-  const data = await response.json();
-  console.log(data);
-};
-
+// Obtener datos al montar el componente
 onMounted(() => {
-  getData();
+  useServiceCatalogs.getData(); 
 });
-
-const goToCreateEvent = async () => {
-  // window.location.href = "/events/create";
-};
 </script>
 
 <template>
@@ -39,7 +29,17 @@ const goToCreateEvent = async () => {
         </div>
       </div>
       <div class="flex flex-col border-gray-200 border-2 rounded-xl py-4 px-8">
-        <div class="text-gray-400 md:h-[400px]">Sin eventos</div>
+        <div
+          v-if="Object.keys(catalog).length === 0"
+          class="text-gray-400 md:h-[400px]"
+        >
+          Sin eventos
+        </div>
+        <div v-else class="space-y-2">
+          <div v-for="item in catalog" :key="item.id" class="event-item">
+            <p>{{ item.description }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

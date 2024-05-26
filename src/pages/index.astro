@@ -8,26 +8,30 @@ const user = Astro.locals.user;
 const session = Astro.locals.session;
 
 if (user && session) {
-  return Astro.redirect('/events/');
+  return Astro.redirect("/events/");
 }
 ---
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-  </head>
+
+  <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+
   <body>
     <Header />
     <main class="sm:p-8 md:px-52 md:py-12 flex flex-col space-y-12">
-
       <!-- Cover -->
       <div>
-        <img src="https://images.unsplash.com/photo-1609204276470-d22da7d40a3c" alt="" />
+        <img
+          src="https://images.unsplash.com/photo-1609204276470-d22da7d40a3c"
+          alt=""
+        />
       </div>
 
       <!-- Titulo -->
-      <div class="sm:text-xl md:text-4xl text-primary text-center">Biker Diaries</div>
+      <div class="sm:text-xl md:text-4xl text-primary text-center">
+        Biker Diaries
+      </div>
 
       <!-- Descripción -->
       <div class="text-justify md:text-2xl">

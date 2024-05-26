@@ -5,7 +5,6 @@ import { ViewTransitions } from "astro:transitions";
 
 const user = Astro.locals.user;
 const session = Astro.locals.session;
-
 ---
 
 <header
@@ -18,7 +17,8 @@ const session = Astro.locals.session;
       <a href="/">{SITE_TITLE}</a>
     </h2>
     <div class="internal-links">
-      <HeaderLink href="/">Inicio</HeaderLink>
+      {!user ? <HeaderLink href="/">Inicio</HeaderLink> : null}
+      {user ? <HeaderLink href="/events">Mis Eventos</HeaderLink> : null}
       <HeaderLink href="/about">Acerca de</HeaderLink>
     </div>
     <div class="social-links pr-10">
@@ -28,9 +28,7 @@ const session = Astro.locals.session;
         ) : (
           <form method="POST" action="/api/auth/signout">
             <div class="pt-4">
-              <button
-                class="w-full text-black bg-slate-200 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 transform transition duration-500 hover:scale-110 cursor-pointer"
-              >
+              <button class="w-full text-black bg-slate-200 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 transform transition duration-500 hover:scale-110 cursor-pointer">
                 Cerrar Sesión
               </button>
             </div>

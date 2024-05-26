@@ -37,8 +37,6 @@ const handleSubmit = async (event: Event) => {
       body: formData,
     });
 
-    console.log(response);
-
     if (response.ok) {
       const successText = await response.text();
 
@@ -51,7 +49,6 @@ const handleSubmit = async (event: Event) => {
     } else {
       alert("error");
       const errorText = await response.text();
-      console.log(response);
 
       toast({
         title: "¡Uh oh! Algo ha salido mal.",
@@ -60,7 +57,6 @@ const handleSubmit = async (event: Event) => {
       });
     }
   } catch (error: any) {
-    console.log(error);
     toast({
       title: "¡Uh oh! Algo ha salido mal.",
       description: error.toString(),

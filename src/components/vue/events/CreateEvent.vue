@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useToast } from "@/components/ui/toast/use-toast";
+import { useToast } from "@/components/ui/toast";
+import { useCatalog } from "@/composables/services/useServiceCatalogs";
+import { typeEventCatalog } from "@/store/catalogs";
+import { useStore } from "@nanostores/vue";
+import { onMounted } from "vue";
 
+const catalog = useStore(typeEventCatalog);
+const useServiceCatalogs = useCatalog();
 const { toast } = useToast();
 
 const handleSubmit = async () => {
@@ -32,8 +37,10 @@ const handleSubmit = async () => {
   }
 };
 
-const saveEvent = async () => {
-};
+const saveEvent = async () => {};
+
+onMounted(() => {});
+
 </script>
 
 <template>
@@ -51,7 +58,15 @@ const saveEvent = async () => {
         </div>
       </div>
       <div class="flex flex-col border-gray-200 border-2 rounded-xl py-4 px-8">
-        <div class="text-gray-400 md:h-[400px]">Formulario</div>
+        <div class="text-gray-400 md:h-[400px]">
+          <div
+            v-if="Object.keys(catalog).length === 0"
+            class="text-gray-400 md:h-[400px]"
+          >
+            Sin eventos
+          </div>
+          <form><input name="address" placeholder="Address" type="text" /></form>
+        </div>
       </div>
     </div>
   </div>
