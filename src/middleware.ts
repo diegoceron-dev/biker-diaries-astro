@@ -1,8 +1,9 @@
 import { lucia } from "./auth";
 import { verifyRequestOrigin } from "lucia";
+// @ts-ignore
 import { defineMiddleware } from "astro:middleware";
 
-export const onRequest = defineMiddleware(async (context, next) => {
+export const onRequest = defineMiddleware(async (context: any, next: any) => {
 	if (context.request.method !== "GET") {
 		const originHeader = context.request.headers.get("Origin");
 		const hostHeader = context.request.headers.get("Host");

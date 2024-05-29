@@ -1,20 +1,26 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
-import { SITE_TITLE, SITE_ABR } from "../consts";
+import { SITE_TITLE } from "../consts";
 import { ViewTransitions } from "astro:transitions";
+import Button from "@/components/ui/button/Button.vue";
+import {
+  LogOut,
+  Bike
+} from "lucide-vue-next";
 
 const user = Astro.locals.user;
 const session = Astro.locals.session;
 ---
 
 <header
-  class="bg-gradient-to-r from-primary via-primary to-primary border-b-4 border-slate-300"
+  class="border-b-2 border-[#d5dae2] bg-[#f7f9fc] h-[69px]"
 >
   <nav>
     <h2
-      class="md:text-3xl text-md font-bold !text-slate-100 hover:!text-slate-50 transition duration-300 ease-in-out transform hover:scale-105"
+      class="flex flex-row md:pl-8 md:text-3xl text-md font-bold !text-gray-900 transition duration-300 ease-in-out transform hover:scale-105"
     >
       <a href="/">{SITE_TITLE}</a>
+      <Bike size={32} class="mt-4"/>
     </h2>
     <div class="internal-links">
       {!user ? <HeaderLink href="/">Inicio</HeaderLink> : null}
@@ -27,10 +33,10 @@ const session = Astro.locals.session;
           <HeaderLink href="/signin">Iniciar sesión</HeaderLink>
         ) : (
           <form method="POST" action="/api/auth/signout">
-            <div class="pt-4">
-              <button class="w-full text-black bg-slate-200 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 transform transition duration-500 hover:scale-110 cursor-pointer">
-                Cerrar Sesión
-              </button>
+            <div class="">
+              <Button variant="outline" size="icon">
+                <LogOut />
+              </Button>
             </div>
           </form>
         )

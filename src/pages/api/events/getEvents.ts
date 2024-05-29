@@ -1,10 +1,13 @@
-import type { APIContext, APIRoute } from "astro";
-import { db, eq, Event } from "astro:db";
+import type { APIRoute } from "astro";
+import { db, Event } from "astro:db";
 
-export const GET: APIRoute = async ({ params, request, props }) => {
+export const GET: APIRoute = async () => {
   const events = await db.select().from(Event);
 
-  const jsonResponse = JSON.stringify(events);
+  // Invertir el orden de los eventos
+  const reversedEvents = events.reverse();
+
+  const jsonResponse = JSON.stringify(reversedEvents);
 
   return new Response(jsonResponse, {
     headers: {

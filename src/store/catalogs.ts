@@ -36,6 +36,6 @@ export const setCatalogItems = (items: Catalog[]) => {
 if (typeof window !== 'undefined') {
   typeEventCatalog.subscribe((newItems) => {
     localStorage.setItem('typeEventCatalog', JSON.stringify(newItems));
-    console.log('Catálogo actualizado:', newItems);
+    // console.log('Catálogo actualizado:', newItems);
   });
 }

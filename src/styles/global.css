@@ -13,29 +13,29 @@ scodnary #76BCC4
     --foreground: 240 10% 3.9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 216, 14%, 39%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
 
-    --primary: 185.957, 56%, 51%;
-    --primary-foreground: 355.7 100% 97.3%;
+    --primary: 211, 100%, 49%;
+    --primary-foreground: 222, 13%, 16%;
 
-    --secondary: 186.154, 40%, 62%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 211, 100%, 95%;
+    --secondary-foreground: 216, 14%, 39%;
 
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
 
-    --accent: 11.264%, 0%, 0%;
+    --accent: 185.957, 56%, 51%;
     --accent-foreground: 240 5.9% 10%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 142.1 76.2% 36.3%;
+    --border: 240 5.9% 85%;
+    --input:  240 5.9% 90%;
+    --ring:  211, 100%, 49%;
     --radius: 1rem;
   }
 
@@ -98,8 +98,8 @@ h2 a.active {
 }
 
 nav a {
-  padding: 1em 0.5em;
-  color: var(--black);
+  padding: 0.5em 0.5em;
+  color: #373e49 !important;
   border-bottom: 4px solid transparent;
   text-decoration: none !important;
 }
@@ -146,11 +146,12 @@ nav a.active {
 }
 
 body {
+  color: #566171 !important;
   font-family: "Montserrat", sans-serif;
   margin: 0;
   padding: 0;
   text-align: left;
-  background: linear-gradient(var(--gray-gradient)) no-repeat;
+  background: #fff;
   background-size: 100% 600px;
   word-wrap: break-word;
   overflow-wrap: break-word;

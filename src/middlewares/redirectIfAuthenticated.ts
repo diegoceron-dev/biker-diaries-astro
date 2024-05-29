@@ -1,4 +1,4 @@
-import type { APIContext, MiddlewareNext } from "astro";
+/* import type { APIContext, MiddlewareNext } from "astro";
 import { defineMiddleware } from "astro:middleware";
 
 export const redirectIfAuthenticated = defineMiddleware((context: APIContext, next: MiddlewareNext) => {
@@ -14,3 +14,4 @@ export const redirectIfAuthenticated = defineMiddleware((context: APIContext, ne
   // Si el usuario y la sesión no son válidos, continúa con la siguiente ruta
   return next();
 });
+ */

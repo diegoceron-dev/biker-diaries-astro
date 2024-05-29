@@ -1,7 +1,7 @@
-import type { APIContext, APIRoute } from "astro";
+import type { APIRoute } from "astro";
 import { db, EventType } from "astro:db";
 
-export const GET: APIRoute = async ({ params, request, props }) => {
+export const GET: APIRoute = async () => {
   const catalog = await db.select().from(EventType);
 
   const jsonResponse = JSON.stringify(catalog);

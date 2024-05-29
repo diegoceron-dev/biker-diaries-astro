@@ -48,10 +48,30 @@ export const Event = defineTable({
     description: column.text({ optional: true }),
     startDate: column.date({ optional: false }),
     endDate: column.date({ optional: false }),
-    location: column.text({ optional: false }),
     eventType: column.text({ optional: false, references: () => EventType.columns.id }), // Referencia a la tabla EventType
-    creatorId: column.text({ optional: false, references: () => User.columns.id }),
+    creatorId: column.text({ optional: true, references: () => User.columns.id }),
     isPublic: column.boolean({ optional: false, default: false }), // Público o Privado
+    price: column.number({ optional: true }),
+  },
+});
+
+export const WaypointType = defineTable({
+  columns: {
+    id: column.text({ optional: false, unique: true }),
+    name: column.text({ optional: false, unique: true }), // 'start', 'end', 'waypoint'
+  },
+});
+
+export const Waypoint = defineTable({
+  columns: {
+    id: column.text({ optional: false, unique: true, primaryKey: true }),
+    eventId: column.text({ optional: false, references: () => Event.columns.id }), // Referencia a la tabla Event
+    name: column.text({ optional: false }),
+    latitude: column.text({ optional: true }),
+    longitude: column.text({ optional: true }),
+    description: column.text({ optional: true }),
+    typeId: column.text({ optional: false, references: () => WaypointType.columns.id }), // Referencia a la tabla WaypointType
+    sequence: column.number({ optional: false }), // Secuencia para ordenar los puntos
   },
 });
 
@@ -101,6 +121,8 @@ export default defineDb({
     InvitationRequest,
     EventParticipationStatus,
     InvitationRequestStatus,
-    EventType
+    EventType,
+    Waypoint,
+    WaypointType
   },
 });

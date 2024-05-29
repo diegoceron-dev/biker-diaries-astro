@@ -5,7 +5,6 @@ export default {
   darkMode: ["class"],
   safelist: ["dark"],
   prefix: "",
-  
     content: [
       './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
     ],
@@ -16,6 +15,10 @@ export default {
       padding: "2rem",
       screens: {
         "2xl": "1400px",
+      },
+      spacing: {
+        '112': '28rem',
+        '128': '32rem',
       },
     },
     extend: {

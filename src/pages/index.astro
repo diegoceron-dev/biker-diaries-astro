@@ -10,6 +10,9 @@ const session = Astro.locals.session;
 if (user && session) {
   return Astro.redirect("/events/");
 }
+else {
+  return Astro.redirect("/signin")
+}
 ---
 
 <!doctype html>
