@@ -52,6 +52,10 @@ import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { useEvent } from "@/composables/services/useEvents";
 
+import { autofill } from "@mapbox/search-js-web";
+// import SearchBoxMap from "@/components/vue/map/SearchBoxMap.vue";
+import SearchBox from "@/components/vue/map/SearchBox.vue";
+
 const props = defineProps({
   userId: String,
 });
@@ -87,6 +91,7 @@ const formSchema = toTypedSchema(
       eventType: z.string().min(1, "El tipo de evento es obligatorio"), // Podrías usar z.enum si tienes un conjunto fijo de tipos de evento
       isPublic: z.boolean().default(false),
       // price: z.number()
+      // cover: z.string().optional
     })
     .refine(
       (data) => {
@@ -116,15 +121,6 @@ const onSubmit = handleSubmit(async (values) => {
     isPublic: values.isPublic!,
     creatorId: props.userId,
   });
-
-  /*   toast({
-    title: "You submitted the following values:",
-    description: h(
-      "pre",
-      { class: "mt-2 w-[340px] rounded-md bg-slate-950 p-4" },
-      h("code", { class: "text-white" }, JSON.stringify(values, null, 2))
-    ),
-  }); */
 });
 
 const startDate = computed({
@@ -136,20 +132,26 @@ const endDate = computed({
   get: () => (values.endDate ? parseDate(values.endDate) : undefined),
   set: (val) => val,
 });
-onMounted(() => {});
+
+onMounted(() => {
+  autofill({
+    accessToken:
+      "pk.eyJ1IjoiZGllZ29jZXJvbmRldiIsImEiOiJjbDBxNWY5OWcwOWMyM2NxbmFyNjN0cm51In0.gEWz2YRkQypcE52QUIErIA",
+  });
+});
 </script>
 
 <template>
   <div>
     <div class="flex flex-col space-y-4 md:py-12 md:px-24">
       <div class="flex flex-row justify-between">
-        <p class="text-3xl text-gray-600">Nuevo Evento</p>
+        <p class="text-2xl text-gray-700">Nuevo Evento</p>
       </div>
       <div class="p-2 md:p-0">
         <Card>
           <CardContent>
             <div class="flex flex-row justify-between">
-              <div><p class="text-gray-600">Datos generales</p></div>
+              <div hidden><p class="text-gray-600">Datos generales</p></div>
             </div>
 
             <form class="space-y-4" @submit="onSubmit" autocomplete="off">
@@ -171,7 +173,7 @@ onMounted(() => {});
                     </FormItem>
                   </FormField>
                 </div>
-                <div class="basis-1/4">
+                <div class="basis-1/2">
                   <FormField v-slot="{ componentField }" name="eventType">
                     <FormItem v-auto-animate>
                       <FormLabel>Tipo de Evento</FormLabel>
@@ -199,19 +201,45 @@ onMounted(() => {});
                 </div>
               </div>
 
-              <FormField v-slot="{ componentField }" name="description">
-                <FormItem v-auto-animate>
-                  <FormLabel>Descripción</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Descripción del evento (opcional, mín. 2 caracteres, máx. 500)."
-                      class="resize-none"
-                      v-bind="componentField"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </FormField>
+              <div class="flex md:flex-row flex-col md:space-x-8 pt-2">
+                <div class="basis-1/2">
+                  <FormField v-slot="{ componentField }" name="description">
+                    <FormItem v-auto-animate>
+                      <FormLabel>Descripción</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          rows="5"
+                          placeholder="Descripción del evento (opcional, mín. 2 caracteres, máx. 500)."
+                          class="resize-none"
+                          v-bind="componentField"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  </FormField>
+                </div>
+
+                <div class="basis-1/2" hidden>
+                  <FormField v-slot="{ componentField }" name="cover">
+                    <FormItem v-auto-animate>
+                      <FormLabel>Portada</FormLabel>
+                      <FormControl>
+                        <div
+                          class="grid w-full items-center gap-1.5 cursor-pointer"
+                        >
+                          <Input
+                            class="w-[100%] cursor-pointer"
+                            id="picture"
+                            type="file"
+                            v-bind="componentField"
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  </FormField>
+                </div>
+              </div>
 
               <div class="flex md:flex-row flex-col md:space-x-8 pt-2">
                 <div class="basis-1/4">
@@ -225,7 +253,7 @@ onMounted(() => {});
                               variant="outline"
                               :class="
                                 cn(
-                                  'w-[240px] ps-3 text-start font-normal',
+                                  'w-[85%] ps-3 text-start font-normal',
                                   !startDate && 'text-muted-foreground'
                                 )
                               "
@@ -278,7 +306,7 @@ onMounted(() => {});
                               variant="outline"
                               :class="
                                 cn(
-                                  'w-[240px] ps-3 text-start font-normal',
+                                  'w-[85%] ps-3 text-start font-normal',
                                   !endDate && 'text-muted-foreground'
                                 )
                               "
@@ -334,7 +362,8 @@ onMounted(() => {});
                   </FormField>
                 </div>
               </div>
-              <div class="pt-2 flex flex-row">
+
+              <div v-if="false" class="pt-2 flex flex-row">
                 <div><p class="text-gray-600">Locaciones</p></div>
                 <div class="pt-2 pl-2">
                   <PlusCircleIcon
@@ -343,7 +372,7 @@ onMounted(() => {});
                 </div>
               </div>
 
-              <div class="flex flex-row space-x-8">
+              <div class="flex md:flex-row flex-col md:space-x-8 pt-4">
                 <div class="basis-1/4">
                   <FormField v-slot="{ componentField }" name="startPoint">
                     <FormItem class="flex flex-col" v-auto-animate>
@@ -353,9 +382,7 @@ onMounted(() => {});
                           <FormControl>
                             <Button
                               variant="outline"
-                              :class="
-                                cn('w-[240px] ps-3 text-start font-normal')
-                              "
+                              :class="cn('w-[85%] ps-3 text-start font-normal')"
                             >
                               <AudioWaveform
                                 class="ms-auto h-4 w-4 opacity-50"
@@ -365,7 +392,8 @@ onMounted(() => {});
                           </FormControl>
                         </PopoverTrigger>
                         <PopoverContent class="w-auto p-0">
-                          mapa
+                          <SearchBox />
+                          <!-- <SearchBoxMap /> -->
                         </PopoverContent>
                       </Popover>
                       <FormMessage />
@@ -386,9 +414,7 @@ onMounted(() => {});
                           <FormControl>
                             <Button
                               variant="outline"
-                              :class="
-                                cn('w-[240px] ps-3 text-start font-normal')
-                              "
+                              :class="cn('w-[85%] ps-3 text-start font-normal')"
                             >
                               <AudioWaveform
                                 class="ms-auto h-4 w-4 opacity-50"
@@ -415,9 +441,7 @@ onMounted(() => {});
                           <FormControl>
                             <Button
                               variant="outline"
-                              :class="
-                                cn('w-[240px] ps-3 text-start font-normal')
-                              "
+                              :class="cn('w-[85%] ps-3 text-start font-normal')"
                             >
                               <AudioWaveform
                                 class="ms-auto h-4 w-4 opacity-50"

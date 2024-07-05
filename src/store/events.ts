@@ -10,6 +10,8 @@ export type Event = {
   eventType: string | any;
   creatorId?: string | any;
   isPublic: boolean;
+  cover?: string;
+  price?: number;
 };
 
 // Función para leer desde localStorage (solo en el cliente)

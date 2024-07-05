@@ -51,6 +51,7 @@ export const Event = defineTable({
     eventType: column.text({ optional: false, references: () => EventType.columns.id }), // Referencia a la tabla EventType
     creatorId: column.text({ optional: true, references: () => User.columns.id }),
     isPublic: column.boolean({ optional: false, default: false }), // Público o Privado
+    cover: column.text({ optional: false }),
     price: column.number({ optional: true }),
   },
 });

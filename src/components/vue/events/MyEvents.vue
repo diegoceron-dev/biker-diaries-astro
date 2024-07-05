@@ -25,6 +25,7 @@ const useEvents = useEvent();
 const catalog = useStore(typeEventCatalogStore);
 const events = useStore(eventsStore);
 
+
 // Obtener datos al montar el componente
 onMounted(async () => {
   await useServiceCatalogs.getData();
@@ -41,7 +42,6 @@ const showDate = (item: Event) => {
   )} con destino a Tal Lugar`;
 };
 
-
 const showEventType = (item: Event) => {
   return `${catalog.value[item.eventType].description}`;
 };
@@ -51,7 +51,7 @@ const showEventType = (item: Event) => {
   <div>
     <div class="flex flex-col space-y-4 py-12 px-24">
       <div class="flex flex-row justify-between">
-        <p class="text-3xl text-gray-600">Mis Eventos</p>
+        <p class="text-2xl text-gray-700">Mis Eventos</p>
         <div>
           <a href="/events/create">
             <button
@@ -67,43 +67,7 @@ const showEventType = (item: Event) => {
           Sin eventos
         </div>
         <div v-else>
-          <div class="flex flex-wrap">
-            <div
-              v-for="item in events"
-              :key="item.id"
-              class="w-full md:w-1/2 px-2.5 py-2.5"
-            >
-              <div
-                class="shadow-md rounded-lg overflow-hidden border border-border transform transition duration-200 hover:scale-[101%] cursor-pointer bg-gray-50 text-[#566171]"
-              >
-                <div class="flex">
-                  <!-- Section for Information -->
-                  <div class="w-2/3 p-6">
-                    <h2 class="text-[16px] font-bold mb-2">
-                      {{ item.name.substring(0, 30) }}...
-                    </h2>
-                    <p class="text-[12px] text-gray-700 mb-2">
-                      {{ item.description.substring(0, 40) }}...
-                    </p>
-                    <p class="text-[12px] text-gray-700">
-                      {{ showDate(item) }}
-                    </p>
-                    <Badge variant="outline" class="text-dark border border-primary">
-                      {{ showEventType(item) }}
-                    </Badge>
-                  </div>
-                  <!-- Section for Image -->
-                  <div class="w-1/3">
-                    <img
-                      src="https://images.unsplash.com/photo-1558981001-5864b3250a69"
-                      alt="Imagen del Evento"
-                      class="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="flex flex-wrap"></div>
         </div>
       </div>
     </div>

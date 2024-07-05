@@ -3,50 +3,86 @@ import HeaderLink from "./HeaderLink.astro";
 import { SITE_TITLE } from "../consts";
 import { ViewTransitions } from "astro:transitions";
 import Button from "@/components/ui/button/Button.vue";
-import {
-  LogOut,
-  Bike
-} from "lucide-vue-next";
+import { LogOut, UserCog2Icon } from "lucide-vue-next";
+import ModeToggle from "@/components/vue/toggle/ModeToggle.vue";
 
 const user = Astro.locals.user;
 const session = Astro.locals.session;
 ---
 
 <header
-  class="border-b-2 border-[#d5dae2] bg-[#f7f9fc] h-[69px]"
+  class="border-b-2 border-border h-[69px] bg-gradient-to-r from-slate-400 to-slate-600 dark:bg-gradient-to-r  dark:from-slate-500 dark:to-slate-600"
 >
   <nav>
-    <h2
-      class="flex flex-row md:pl-8 md:text-3xl text-md font-bold !text-gray-900 transition duration-300 ease-in-out transform hover:scale-105"
+    <a href="/">
+      <img
+        class="pl-8"
+        src="./../../public/logo/default.webp"
+        width="220px"
+        alt="Biker Diaries"
+      /></a
     >
-      <a href="/">{SITE_TITLE}</a>
-      <Bike size={32} class="mt-4"/>
-    </h2>
-    <div class="internal-links">
+    <!--     <div class="internal-links">
       {!user ? <HeaderLink href="/">Inicio</HeaderLink> : null}
       {user ? <HeaderLink href="/events">Mis Eventos</HeaderLink> : null}
-      <HeaderLink href="/about">Acerca de</HeaderLink>
-    </div>
+      {!user ? <HeaderLink href="/about">Acerca de</HeaderLink> : null}
+    </div> -->
     <div class="social-links pr-10">
       {
+        user ? (
+          <>
+            <div class="pr-2">
+              <ModeToggle client:load />
+            </div>
+            <div class="pr-2">
+              <form method="POST" action="/profile">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  class="transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
+                >
+                  <UserCog2Icon class={"hover:text-dark hover:dark:text-white"} />
+                </Button>
+              </form>
+            </div>
+            <div>
+              <form method="POST" action="/api/auth/signout">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  class="transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
+                >
+                  <LogOut class={"hover:text-dark hover:dark:text-white"} />
+                </Button>
+              </form>
+            </div>
+          </>
+        ) : null
+      }
+      <!-- 
+    {
         user === null ? (
           <HeaderLink href="/signin">Iniciar sesión</HeaderLink>
         ) : (
-          <form method="POST" action="/api/auth/signout">
-            <div class="">
-              <Button variant="outline" size="icon">
+          <div>
+            <form method="POST" action="/api/auth/signout">
+              <Button
+                variant="outline"
+                size="icon"
+                class="transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
+              >
                 <LogOut />
               </Button>
-            </div>
-          </form>
+            </form>
+          </div>
         )
       }
-
+      
       {
         user === null && session === null ? (
           <HeaderLink href="/signup">Registro</HeaderLink>
         ) : null
-      }
+      } -->
     </div>
   </nav>
   <ViewTransitions />
