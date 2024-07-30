@@ -1,17 +1,15 @@
 ---
-import HeaderLink from "./HeaderLink.astro";
-import { SITE_TITLE } from "../consts";
 import { ViewTransitions } from "astro:transitions";
 import Button from "@/components/ui/button/Button.vue";
-import { LogOut, UserCog2Icon } from "lucide-vue-next";
+import { LogOut, UserCog2Icon, Home } from "lucide-vue-next";
 import ModeToggle from "@/components/vue/toggle/ModeToggle.vue";
 
 const user = Astro.locals.user;
-const session = Astro.locals.session;
+// const session = Astro.locals.session;
 ---
 
 <header
-  class="border-b-2 border-border h-[69px] bg-gradient-to-r from-slate-400 to-slate-600 dark:bg-gradient-to-r  dark:from-slate-500 dark:to-slate-600"
+  class="border border-t-0 border-l-0 border-r-0 border-b-2 dark:border-slate-300 border-slate-700 h-[69px] bg-gradient-to-r from-slate-200 to-slate-100 dark:bg-gradient-to-r dark:from-slate-500 dark:to-slate-600"
 >
   <nav>
     <a href="/">
@@ -32,7 +30,15 @@ const session = Astro.locals.session;
         user ? (
           <>
             <div class="pr-2">
-              <ModeToggle client:load />
+              <form method="POST" action="/">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  class="transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
+                >
+                  <Home class={"hover:text-dark hover:dark:text-white"} />
+                </Button>
+              </form>
             </div>
             <div class="pr-2">
               <form method="POST" action="/profile">
@@ -41,7 +47,9 @@ const session = Astro.locals.session;
                   size="icon"
                   class="transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
                 >
-                  <UserCog2Icon class={"hover:text-dark hover:dark:text-white"} />
+                  <UserCog2Icon
+                    class={"hover:text-dark hover:dark:text-white"}
+                  />
                 </Button>
               </form>
             </div>
@@ -59,6 +67,9 @@ const session = Astro.locals.session;
           </>
         ) : null
       }
+      <div class="pl-2">
+        <ModeToggle client:load />
+      </div>
       <!-- 
     {
         user === null ? (

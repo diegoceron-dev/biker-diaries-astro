@@ -120,7 +120,7 @@ const handleSubmit = async (event: Event) => {
     </CardContent>
     <CardFooter>
       <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-       No tiene una cuenta?
+        No tiene una cuenta?
         <a
           href="/signup"
           class="font-medium text-primary-600 hover:underline dark:text-primary-500"

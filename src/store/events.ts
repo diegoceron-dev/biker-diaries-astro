@@ -7,8 +7,8 @@ export type Event = {
   description: string;
   startDate: Date;
   endDate: Date;
-  eventType: string | any;
-  creatorId?: string | any;
+  eventType: string;
+  creatorId?: string;
   isPublic: boolean;
   cover?: string;
   price?: number;
@@ -17,7 +17,7 @@ export type Event = {
 // Función para leer desde localStorage (solo en el cliente)
 function loadEventFromLocalStorage() {
   if (typeof window !== 'undefined') {
-    const savedEvent = localStorage.getItem('events');
+    const savedEvent = localStorage.getItem('|');
     return savedEvent ? JSON.parse(savedEvent) : {};
   }
   return {};

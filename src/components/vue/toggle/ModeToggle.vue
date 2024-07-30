@@ -7,20 +7,14 @@ import { MoonStarIcon, Sun } from "lucide-vue-next";
 
 const mode = useColorMode();
 
-onMounted(() => {
-  mode.value = "dark";
-});
-
 const toggleTheme = () => {
   if (mode.value === "dark") {
     mode.value = "light";
     return;
   }
 
-  if (mode.value === "light") {
-    mode.value = "dark";
-    return;
-  }
+  mode.value = "dark";
+  return;
 };
 </script>
 

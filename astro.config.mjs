@@ -10,13 +10,20 @@ import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.com',
+  site: "https://example.com",
   output: "server",
-  integrations: [mdx(), sitemap(), tailwind(), vue({ devtools: true }), auth(), db()],
+  integrations: [
+    mdx(),
+    sitemap(),
+    tailwind(),
+    vue({ devtools: true }),
+    auth(),
+    db(),
+  ],
   adapter: vercel(),
   vite: {
     optimizeDeps: {
-      exclude: ["oslo"]
-    }
-  }
+      exclude: ["oslo"],
+    },
+  },
 });

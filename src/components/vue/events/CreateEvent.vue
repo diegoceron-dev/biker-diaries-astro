@@ -88,10 +88,8 @@ const formSchema = toTypedSchema(
         required_error: "La fecha de inicio es obligatoria",
       }),
       endDate: z.string({ required_error: "La fecha de fin es obligatoria" }),
-      eventType: z.string().min(1, "El tipo de evento es obligatorio"), // Podrías usar z.enum si tienes un conjunto fijo de tipos de evento
+      eventType: z.string().min(1, "El tipo de evento es obligatorio"),
       isPublic: z.boolean().default(false),
-      // price: z.number()
-      // cover: z.string().optional
     })
     .refine(
       (data) => {
@@ -142,84 +140,107 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <div class="flex flex-col space-y-4 md:py-12 md:px-24">
+  <div class="p-4 md:p-12">
+    <div class="flex flex-col space-y-4">
       <div class="flex flex-row justify-between">
         <p class="text-2xl text-gray-700">Nuevo Evento</p>
       </div>
-      <div class="p-2 md:p-0">
-        <Card>
-          <CardContent>
-            <div class="flex flex-row justify-between">
-              <div hidden><p class="text-gray-600">Datos generales</p></div>
-            </div>
+      
+      <Card>
+        <CardContent>
+          <div class="flex flex-row">
+            <div><p class="text-gray-600">Datos generales</p></div>
+          </div>
 
-            <form class="space-y-4" @submit="onSubmit" autocomplete="off">
-              <div
-                class="flex md:flex-row flex-col md:space-x-8 justify-between"
-              >
-                <div class="basis-1/2">
-                  <FormField v-slot="{ componentField }" name="name">
-                    <FormItem v-auto-animate>
-                      <FormLabel>Nombre del Evento</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Nombre del evento (mín. 2 caracteres, máx. 50)."
-                          v-bind="componentField"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  </FormField>
-                </div>
-                <div class="basis-1/2">
-                  <FormField v-slot="{ componentField }" name="eventType">
-                    <FormItem v-auto-animate>
-                      <FormLabel>Tipo de Evento</FormLabel>
-                      <FormControl>
-                        <Select v-bind="componentField">
-                          <SelectTrigger>
-                            <SelectValue
-                              placeholder="Selecciona tu tipo de evento"
-                            />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem
-                              v-for="item in catalogs"
-                              :key="item.id"
-                              :value="item.id"
-                            >
-                              {{ item.description }}
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  </FormField>
-                </div>
+          <form @submit="onSubmit" autocomplete="off">
+            <div class="flex md:flex-row flex-col">
+              <div class="basis-1/2">
+                <FormField v-slot="{ componentField }" name="name">
+                  <FormItem v-auto-animate>
+                    <FormLabel>Nombre del Evento</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Nombre del evento (mín. 2 caracteres, máx. 50)."
+                        v-bind="componentField"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                </FormField>
+              </div>
+              <div class="basis-1/4">
+                <FormField v-slot="{ componentField }" name="eventType">
+                  <FormItem v-auto-animate>
+                    <FormLabel>Tipo de Evento</FormLabel>
+                    <FormControl>
+                      <Select v-bind="componentField">
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder="Selecciona tu tipo de evento"
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem
+                            v-for="item in catalogs"
+                            :key="item.id"
+                            :value="item.id"
+                          >
+                            {{ item.description }}
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                </FormField>
               </div>
 
-              <div class="flex md:flex-row flex-col md:space-x-8 pt-2">
-                <div class="basis-1/2">
-                  <FormField v-slot="{ componentField }" name="description">
-                    <FormItem v-auto-animate>
-                      <FormLabel>Descripción</FormLabel>
+              <div
+                class="basis-1/4 h-100 w-100 flex justify-start md:justify-end"
+              >
+                <FormField v-slot="{ componentField }" name="isPublic">
+                  <FormItem
+                    v-auto-animate
+                    class="flex flex-col justify-center content-end align-bottom"
+                  >
+                    <FormLabel>Evento Público</FormLabel>
+                    <div class="flex justify-center">
                       <FormControl>
-                        <Textarea
-                          rows="5"
-                          placeholder="Descripción del evento (opcional, mín. 2 caracteres, máx. 500)."
-                          class="resize-none"
+                        <Switch
+                          class="border dark:border-slate-700"
                           v-bind="componentField"
                         />
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  </FormField>
-                </div>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                </FormField>
+              </div>
+            </div>
 
-                <div class="basis-1/2" hidden>
+            <div class="flex flex-col">
+              <div class="w-100 basis-auto">
+                <FormField v-slot="{ componentField }" name="description">
+                  <FormItem v-auto-animate>
+                    <FormLabel>Descripción</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        rows="5"
+                        placeholder="Descripción del evento (opcional, mín. 2 caracteres, máx. 500)."
+                        class="resize-none"
+                        v-bind="componentField"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                </FormField>
+              </div>
+            </div>
+
+            <!--
+              <div class="flex flex-col">
+                <div>
                   <FormField v-slot="{ componentField }" name="cover">
                     <FormItem v-auto-animate>
                       <FormLabel>Portada</FormLabel>
@@ -240,45 +261,45 @@ onMounted(() => {
                   </FormField>
                 </div>
               </div>
+            -->
 
-              <div class="flex md:flex-row flex-col md:space-x-8 pt-2">
-                <div class="basis-1/4">
-                  <FormField v-slot="{ componentField }" name="startDate">
-                    <FormItem class="flex flex-col" v-auto-animate>
-                      <FormLabel>Fecha de inicio</FormLabel>
-                      <Popover>
-                        <PopoverTrigger as-child>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              :class="
-                                cn(
-                                  'w-[85%] ps-3 text-start font-normal',
-                                  !startDate && 'text-muted-foreground'
-                                )
-                              "
-                            >
-                              <span>{{
-                                startDate
-                                  ? df.format(toDate(startDate))
-                                  : "Seleccionar fecha"
-                              }}</span>
-                              <CalendarIcon
-                                class="ms-auto h-4 w-4 opacity-50"
-                              />
-                            </Button>
-                            <input hidden />
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent class="w-auto p-0">
-                          <Calendar
-                            v-model:placeholder="placeholder"
-                            v-model="startDate"
-                            calendar-label="Fecha de inicio"
-                            initial-focus
-                            :min-value="new CalendarDate(1900, 1, 1)"
-                            :max-value="new CalendarDate(2030, 1, 1)"
-                            @update:model-value="
+            <div class="flex flex-col w-100  space-y-4">
+              <div class="basis-1/4 space-y-4">
+                <FormField v-slot="{ componentField }" name="startDate">
+                  <FormItem class="flex flex-col" v-auto-animate>
+                    <FormLabel>Fecha de inicio</FormLabel>
+                    <Popover>
+                      <PopoverTrigger as-child>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            :class="
+                              cn(
+                                'w-[85%] ps-3 text-start font-normal',
+                                !startDate && 'text-muted-foreground'
+                              )
+                            "
+                          >
+                            <span>{{
+                              startDate
+                                ? df.format(toDate(startDate))
+                                : "Seleccionar fecha"
+                            }}</span>
+                            <CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
+                          </Button>
+                          <input hidden />
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent class="w-auto p-0">
+                        <Calendar
+                          close
+                          v-model:placeholder="placeholder"
+                          v-model="startDate"
+                          calendar-label="Fecha de inicio"
+                          initial-focus
+                          :min-value="new CalendarDate(1900, 1, 1)"
+                          :max-value="new CalendarDate(2030, 1, 1)"
+                          @update:model-value="
                             (v: any) => {
                               if (v) {
                                 setFieldValue('startDate', v.toString());
@@ -287,51 +308,49 @@ onMounted(() => {
                               }
                             }
                           "
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  </FormField>
-                </div>
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                </FormField>
+              </div>
 
-                <div class="basis-1/4">
-                  <FormField v-slot="{ componentField }" name="endDate">
-                    <FormItem class="flex flex-col" v-auto-animate>
-                      <FormLabel>Fecha de termino</FormLabel>
-                      <Popover>
-                        <PopoverTrigger as-child>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              :class="
-                                cn(
-                                  'w-[85%] ps-3 text-start font-normal',
-                                  !endDate && 'text-muted-foreground'
-                                )
-                              "
-                            >
-                              <span>{{
-                                endDate
-                                  ? df.format(toDate(endDate))
-                                  : "Seleccionar fecha"
-                              }}</span>
-                              <CalendarIcon
-                                class="ms-auto h-4 w-4 opacity-50"
-                              />
-                            </Button>
-                            <input hidden />
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent class="w-auto p-0">
-                          <Calendar
-                            v-model:placeholder="placeholder"
-                            v-model="endDate"
-                            calendar-label="Date of birth"
-                            initial-focus
-                            :min-value="new CalendarDate(1900, 1, 1)"
-                            :max-value="new CalendarDate(2030, 1, 1)"
-                            @update:model-value="
+              <div class="basis-1/4 space-y-4">
+                <FormField v-slot="{ componentField }" name="endDate">
+                  <FormItem class="flex flex-col" v-auto-animate>
+                    <FormLabel>Fecha de termino</FormLabel>
+                    <Popover>
+                      <PopoverTrigger as-child>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            :class="
+                              cn(
+                                'w-[85%] ps-3 text-start font-normal',
+                                !endDate && 'text-muted-foreground'
+                              )
+                            "
+                          >
+                            <span>{{
+                              endDate
+                                ? df.format(toDate(endDate))
+                                : "Seleccionar fecha"
+                            }}</span>
+                            <CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
+                          </Button>
+                          <input hidden />
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent class="w-auto p-0">
+                        <Calendar
+                          v-model:placeholder="placeholder"
+                          v-model="endDate"
+                          calendar-label="Date of birth"
+                          initial-focus
+                          :min-value="new CalendarDate(1900, 1, 1)"
+                          :max-value="new CalendarDate(2030, 1, 1)"
+                          @update:model-value="
                             (v: any) => {
                               if (v) {
                                 setFieldValue('endDate', v.toString());
@@ -340,39 +359,25 @@ onMounted(() => {
                               }
                             }
                           "
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  </FormField>
-                </div>
-
-                <div>
-                  <FormField v-slot="{ componentField }" name="isPublic">
-                    <FormItem v-auto-animate class="flex flex-col">
-                      <FormLabel class="justify-center pr-2 pb-2"
-                        >Evento Público</FormLabel
-                      >
-                      <FormControl>
-                        <Switch v-bind="componentField" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  </FormField>
-                </div>
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                </FormField>
               </div>
+            </div>
 
-              <div v-if="false" class="pt-2 flex flex-row">
-                <div><p class="text-gray-600">Locaciones</p></div>
-                <div class="pt-2 pl-2">
-                  <PlusCircleIcon
-                    class="hover:text-primary text-primary cursor-pointer transition hover:scale-105"
-                  />
-                </div>
+            <div v-if="false" class="flex flex-row">
+              <div><p class="text-gray-600">Locaciones</p></div>
+              <div class="pt-2 pl-2">
+                <PlusCircleIcon
+                  class="hover:text-primary text-primary cursor-pointer transition hover:scale-105"
+                />
               </div>
+            </div>
 
-              <div class="flex md:flex-row flex-col md:space-x-8 pt-4">
+            <!--               <div class="flex md:flex-row flex-col md:space-x-8 pt-4">
                 <div class="basis-1/4">
                   <FormField v-slot="{ componentField }" name="startPoint">
                     <FormItem class="flex flex-col" v-auto-animate>
@@ -393,7 +398,6 @@ onMounted(() => {
                         </PopoverTrigger>
                         <PopoverContent class="w-auto p-0">
                           <SearchBox />
-                          <!-- <SearchBoxMap /> -->
                         </PopoverContent>
                       </Popover>
                       <FormMessage />
@@ -458,20 +462,21 @@ onMounted(() => {
                     </FormItem>
                   </FormField>
                 </div>
-              </div>
+              </div> -->
 
-              <div class="pt-4">
-                <Button
-                  size="lg"
-                  type="submit"
-                  class="text-md hover:bg-primary bg-primary text-white cursor-pointer transition hover:scale-105"
-                  >Guardar</Button
-                >
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
+            <div class="pt-4">
+              <Button
+                size="lg"
+                type="submit"
+                class="text-md hover:bg-primary bg-primary text-white cursor-pointer transition hover:scale-105"
+                >Guardar</Button
+              >
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   </div>
 </template>
+
+
