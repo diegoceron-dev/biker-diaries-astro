@@ -60,10 +60,7 @@ export const columns: ColumnDef<Event>[] = [
     accessorKey: "actions",
     header: () => h("div", { class: "text-center" }, "Actions"),
     cell: ({ row }) => {
-/*       const value = row.getValue("eventType") as String;
-      const formattedValue = value.replace(/_/g, " ").toUpperCase();
-      return h("div", { class: "text-center font-medium" }, h(Badge, null, formattedValue)); */
-      
+
     },
   },
 ];

@@ -6,9 +6,9 @@ import { events as eventsStore, type Event } from "@/store/events";
 import { useCatalog } from "@/composables/services/useServiceCatalogs";
 import { useEvent } from "@/composables/services/useEvents";
 import { Button } from "@/components/ui/button";
-import EventDataTable from "./table/EventDataTable.vue";
-import { columns } from "./table/columns";
+import { columns } from "./columns";
 import i18n from "@/i18n";
+import DataTable from "@/components/vue/tableDefault/data-table/DataTable.vue";
 
 const useServiceCatalogs = useCatalog();
 const useEvents = useEvent();
@@ -44,8 +44,7 @@ onMounted(async () => {
         <a href="/events/create"><Button>Crear nuevo evento</Button></a>
       </div>
       <div class="flex flex-col flex-grow overflow-y-auto">
-        <!-- Comprobar si hay datos antes de renderizar la tabla -->
-        <EventDataTable :columns="columns" :data="events" />
+        <DataTable :columns="columns" :data="events" />
       </div>
     </div>
   </div>
