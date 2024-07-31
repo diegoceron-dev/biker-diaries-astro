@@ -140,21 +140,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-4 md:p-12">
+  <div class="flex flex-col space-y-4 md:py-12 md:px-24 p-4">
     <div class="flex flex-col space-y-4">
       <div class="flex flex-row justify-between">
-        <p class="text-2xl text-gray-700">Nuevo Evento</p>
+        <p class="text-2x">Nuevo Evento</p>
       </div>
-      
+
       <Card>
         <CardContent>
-          <div class="flex flex-row">
-            <div><p class="text-gray-600">Datos generales</p></div>
-          </div>
-
-          <form @submit="onSubmit" autocomplete="off">
-            <div class="flex md:flex-row flex-col">
-              <div class="basis-1/2">
+          <form @submit="onSubmit" autocomplete="off" class="space-y-4">
+            <div class="flex flex-col md:flex-row gap-4 md:gap-12">
+              <!-- Nombre del Evento -->
+              <div class="flex flex-col md:w-1/4">
                 <FormField v-slot="{ componentField }" name="name">
                   <FormItem v-auto-animate>
                     <FormLabel>Nombre del Evento</FormLabel>
@@ -169,12 +166,14 @@ onMounted(() => {
                   </FormItem>
                 </FormField>
               </div>
-              <div class="basis-1/4">
+
+              <!-- Tipo de Evento -->
+              <div class="flex flex-col md:w-1/4">
                 <FormField v-slot="{ componentField }" name="eventType">
                   <FormItem v-auto-animate>
                     <FormLabel>Tipo de Evento</FormLabel>
                     <FormControl>
-                      <Select v-bind="componentField">
+                      <Select v-bind="componentField" class="w-full">
                         <SelectTrigger>
                           <SelectValue
                             placeholder="Selecciona tu tipo de evento"
@@ -196,16 +195,12 @@ onMounted(() => {
                 </FormField>
               </div>
 
-              <div
-                class="basis-1/4 h-100 w-100 flex justify-start md:justify-end"
-              >
+              <!-- Evento Público -->
+              <div class="flex flex-col">
                 <FormField v-slot="{ componentField }" name="isPublic">
-                  <FormItem
-                    v-auto-animate
-                    class="flex flex-col justify-center content-end align-bottom"
-                  >
+                  <FormItem v-auto-animate>
                     <FormLabel>Evento Público</FormLabel>
-                    <div class="flex justify-center">
+                    <div class="flex items-center">
                       <FormControl>
                         <Switch
                           class="border dark:border-slate-700"
@@ -219,52 +214,28 @@ onMounted(() => {
               </div>
             </div>
 
+            <!-- Descripción -->
             <div class="flex flex-col">
-              <div class="w-100 basis-auto">
-                <FormField v-slot="{ componentField }" name="description">
-                  <FormItem v-auto-animate>
-                    <FormLabel>Descripción</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        rows="5"
-                        placeholder="Descripción del evento (opcional, mín. 2 caracteres, máx. 500)."
-                        class="resize-none"
-                        v-bind="componentField"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                </FormField>
-              </div>
+              <FormField v-slot="{ componentField }" name="description">
+                <FormItem v-auto-animate>
+                  <FormLabel>Descripción</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      rows="5"
+                      placeholder="Descripción del evento (opcional, mín. 2 caracteres, máx. 500)."
+                      class="resize-none"
+                      v-bind="componentField"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              </FormField>
             </div>
 
-            <!--
-              <div class="flex flex-col">
-                <div>
-                  <FormField v-slot="{ componentField }" name="cover">
-                    <FormItem v-auto-animate>
-                      <FormLabel>Portada</FormLabel>
-                      <FormControl>
-                        <div
-                          class="grid w-full items-center gap-1.5 cursor-pointer"
-                        >
-                          <Input
-                            class="w-[100%] cursor-pointer"
-                            id="picture"
-                            type="file"
-                            v-bind="componentField"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  </FormField>
-                </div>
-              </div>
-            -->
-
-            <div class="flex flex-col w-100  space-y-4">
-              <div class="basis-1/4 space-y-4">
+            <!-- Fecha de Inicio y Fecha de Término -->
+            <div class="flex flex-col md:flex-row gap-4 md:gap-12">
+              <!-- Fecha de Inicio -->
+              <div class="flex flex-col md:w-2/6">
                 <FormField v-slot="{ componentField }" name="startDate">
                   <FormItem class="flex flex-col" v-auto-animate>
                     <FormLabel>Fecha de inicio</FormLabel>
@@ -275,7 +246,7 @@ onMounted(() => {
                             variant="outline"
                             :class="
                               cn(
-                                'w-[85%] ps-3 text-start font-normal',
+                                'w-full text-start font-normal',
                                 !startDate && 'text-muted-foreground'
                               )
                             "
@@ -300,14 +271,14 @@ onMounted(() => {
                           :min-value="new CalendarDate(1900, 1, 1)"
                           :max-value="new CalendarDate(2030, 1, 1)"
                           @update:model-value="
-                            (v: any) => {
-                              if (v) {
-                                setFieldValue('startDate', v.toString());
-                              } else {
-                                setFieldValue('startDate', undefined);
-                              }
-                            }
-                          "
+                      (v: any) => {
+                        if (v) {
+                          setFieldValue('startDate', v.toString());
+                        } else {
+                          setFieldValue('startDate', undefined);
+                        }
+                      }
+                    "
                         />
                       </PopoverContent>
                     </Popover>
@@ -316,10 +287,11 @@ onMounted(() => {
                 </FormField>
               </div>
 
-              <div class="basis-1/4 space-y-4">
+              <!-- Fecha de Término -->
+              <div class="flex flex-col md:w-2/6">
                 <FormField v-slot="{ componentField }" name="endDate">
                   <FormItem class="flex flex-col" v-auto-animate>
-                    <FormLabel>Fecha de termino</FormLabel>
+                    <FormLabel>Fecha de término</FormLabel>
                     <Popover>
                       <PopoverTrigger as-child>
                         <FormControl>
@@ -327,7 +299,7 @@ onMounted(() => {
                             variant="outline"
                             :class="
                               cn(
-                                'w-[85%] ps-3 text-start font-normal',
+                                'w-full text-start font-normal',
                                 !endDate && 'text-muted-foreground'
                               )
                             "
@@ -346,19 +318,19 @@ onMounted(() => {
                         <Calendar
                           v-model:placeholder="placeholder"
                           v-model="endDate"
-                          calendar-label="Date of birth"
+                          calendar-label="Fecha de término"
                           initial-focus
                           :min-value="new CalendarDate(1900, 1, 1)"
                           :max-value="new CalendarDate(2030, 1, 1)"
                           @update:model-value="
-                            (v: any) => {
-                              if (v) {
-                                setFieldValue('endDate', v.toString());
-                              } else {
-                                setFieldValue('endDate', undefined);
-                              }
-                            }
-                          "
+                      (v: any) => {
+                        if (v) {
+                          setFieldValue('endDate', v.toString());
+                        } else {
+                          setFieldValue('endDate', undefined);
+                        }
+                      }
+                    "
                         />
                       </PopoverContent>
                     </Popover>
@@ -368,109 +340,8 @@ onMounted(() => {
               </div>
             </div>
 
-            <div v-if="false" class="flex flex-row">
-              <div><p class="text-gray-600">Locaciones</p></div>
-              <div class="pt-2 pl-2">
-                <PlusCircleIcon
-                  class="hover:text-primary text-primary cursor-pointer transition hover:scale-105"
-                />
-              </div>
-            </div>
-
-            <!--               <div class="flex md:flex-row flex-col md:space-x-8 pt-4">
-                <div class="basis-1/4">
-                  <FormField v-slot="{ componentField }" name="startPoint">
-                    <FormItem class="flex flex-col" v-auto-animate>
-                      <FormLabel>Punto de salida</FormLabel>
-                      <Popover>
-                        <PopoverTrigger as-child>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              :class="cn('w-[85%] ps-3 text-start font-normal')"
-                            >
-                              <AudioWaveform
-                                class="ms-auto h-4 w-4 opacity-50"
-                              />
-                            </Button>
-                            <input hidden />
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent class="w-auto p-0">
-                          <SearchBox />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  </FormField>
-                </div>
-
-                <div hidden class="basis-1/4">
-                  <FormField
-                    v-slot="{ componentField }"
-                    name="waypoint"
-                    class="divide-y-4"
-                  >
-                    <FormItem class="flex flex-col" v-auto-animate>
-                      <FormLabel>Parada</FormLabel>
-                      <Popover>
-                        <PopoverTrigger as-child>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              :class="cn('w-[85%] ps-3 text-start font-normal')"
-                            >
-                              <AudioWaveform
-                                class="ms-auto h-4 w-4 opacity-50"
-                              />
-                            </Button>
-                            <input hidden />
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent class="w-auto p-0">
-                          mapa
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  </FormField>
-                </div>
-
-                <div class="basis-1/4">
-                  <FormField v-slot="{ componentField }" name="endpoint">
-                    <FormItem class="flex flex-col" v-auto-animate>
-                      <FormLabel>Punto de llegada</FormLabel>
-                      <Popover>
-                        <PopoverTrigger as-child>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              :class="cn('w-[85%] ps-3 text-start font-normal')"
-                            >
-                              <AudioWaveform
-                                class="ms-auto h-4 w-4 opacity-50"
-                              />
-                            </Button>
-                            <input hidden />
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent class="w-auto p-0">
-                          mapa
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  </FormField>
-                </div>
-              </div> -->
-
             <div class="pt-4">
-              <Button
-                size="lg"
-                type="submit"
-                class="text-md hover:bg-primary bg-primary text-white cursor-pointer transition hover:scale-105"
-                >Guardar</Button
-              >
+              <Button type="submit" class="w-full">Guardar</Button>
             </div>
           </form>
         </CardContent>
@@ -478,5 +349,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-

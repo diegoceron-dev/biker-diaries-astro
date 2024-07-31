@@ -116,16 +116,16 @@ nav a.active {
 }
 
 @font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat.ttf");
+  font-family: "Atkinson-Regular";
+  src: url("/font/atkinson-regular.woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Montserrat";
-  src: url("/fonts/Montserrat.ttf");
+  font-family: "Atkinson-Regular";
+  src: url("/fonts/atkinson-regular.woff");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -133,7 +133,7 @@ nav a.active {
 
 body {
   color: #566171 !important;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat Variable', sans-serif;
   margin: 0;
   padding: 0;
   text-align: left;

@@ -88,25 +88,33 @@ const table = useVueTable({
       return expanded.value;
     },
     columnPinning: {
-      left: ["name"],
+      // left: ["name"],
     },
   },
 });
+
+const getColumnNameFromString = (str: string): string | null => {
+  const regex = /h\("div",\s*{[^}]*},\s*"([^"]+)"\)/;
+  const match = str.match(regex);
+  return match ? match[1] : null;
+};
+
 </script>
 
 <template>
   <div class="w-full">
-    <div class="flex gap-2 items-center py-4">
+    <div class="flex gap-2 items-center pb-4">
       <Input
         class="max-w-sm"
-        placeholder="Filter emails..."
+        placeholder="Buscar evento"
         :model-value="table.getColumn('name')?.getFilterValue() as string"
         @update:model-value="table.getColumn('name')?.setFilterValue($event)"
       />
+      
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
           <Button variant="outline" class="ml-auto">
-            Columns <ChevronDown class="ml-2 h-4 w-4" />
+            Columnas <ChevronDown class="ml-2 h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -123,14 +131,14 @@ const table = useVueTable({
               }
             "
           >
-            {{ column.id }}
+            {{ getColumnNameFromString(column.columnDef.header?.toString()!) }}
           </DropdownMenuCheckboxItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-    <div class="rounded-md border">
+    <div class="rounded-md border border-slate-400">
       <Table>
-        <TableHeader> 
+        <TableHeader>
           <TableRow
             v-for="headerGroup in table.getHeaderGroups()"
             :key="headerGroup.id"
@@ -141,7 +149,8 @@ const table = useVueTable({
               :data-pinned="header.column.getIsPinned()"
               :class="
                 cn(
-                  { 'sticky bg-background/95': header.column.getIsPinned() },
+                  {'bg-transparent hover:bg-transparent hover:rounded': true},
+                  { 'sticky': header.column.getIsPinned() },
                   header.column.getIsPinned() === 'left' ? 'left-0' : 'right-0'
                 )
               "
@@ -187,7 +196,7 @@ const table = useVueTable({
 
           <TableRow v-else>
             <TableCell :colspan="columns.length" class="h-24 text-center">
-              No results.
+              Sin Resultados.
             </TableCell>
           </TableRow>
         </TableBody>

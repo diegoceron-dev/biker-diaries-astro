@@ -2,11 +2,12 @@ import type { ColumnDef } from "@tanstack/vue-table";
 import { type Event } from "@/store/events";
 import { h } from "vue";
 import { Badge } from '@/components/ui/badge'
+import DropdownAction from "@/components/vue/events/list/DropdownAction.vue"
 
 export const columns: ColumnDef<Event>[] = [
   {
     accessorKey: "name",
-    header: () => h("div", { class: "text-left" }, "Name"),
+    header: () => h("div", { class: "text-left" }, "Nombre"),
     cell: ({ row }) => {
       const value = row.getValue("name") as String;
       return h("div", { class: "text-left font-medium" }, value.toString().toUpperCase());
@@ -23,7 +24,7 @@ export const columns: ColumnDef<Event>[] = [
   },
   {
     accessorKey: "startDate",
-    header: () => h("div", { class: "text-left" }, "Start Date"),
+    header: () => h("div", { class: "text-left" }, "Inicio"),
     cell: ({ row }) => {
       const value = row.getValue("startDate") as String;
       const formattedDate = new Date(value.toString()).toLocaleDateString("es-ES", {
@@ -36,7 +37,7 @@ export const columns: ColumnDef<Event>[] = [
   },
   {
     accessorKey: "endDate",
-    header: () => h("div", { class: "text-left" }, "End Date"),
+    header: () => h("div", { class: "text-left" }, "Fin"),
     cell: ({ row }) => {
       const value = row.getValue("endDate") as String;
       const formattedDate = new Date(value.toString()).toLocaleDateString("es-ES", {
@@ -49,7 +50,7 @@ export const columns: ColumnDef<Event>[] = [
   },
   {
     accessorKey: "eventType",
-    header: () => h("div", { class: "text-center" }, "Event Type"),
+    header: () => h("div", { class: "text-center" }, "Categoría"),
     cell: ({ row }) => {
       const value = row.getValue("eventType") as String;
       const formattedValue = value.replace(/_/g, " ").toUpperCase();
@@ -57,10 +58,15 @@ export const columns: ColumnDef<Event>[] = [
     },
   },
   {
-    accessorKey: "actions",
-    header: () => h("div", { class: "text-center" }, "Actions"),
+    id: 'actions',
+    enableHiding: false,
     cell: ({ row }) => {
+      const payment = row.original
 
+      return h('div', { class: 'relative' }, h(DropdownAction, {
+        payment,
+        onExpand: row.toggleExpanded,
+      }))
     },
   },
 ];
