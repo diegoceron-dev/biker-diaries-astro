@@ -4,27 +4,35 @@ import {
   InvitationRequestStatus,
   EventType,
   Event,
-  WaypointType
+  WaypointType,
+  EventStatus,
 } from "astro:db";
 
 export default async function seed() {
   await db.insert(EventParticipationStatus).values([
-    { id: "invited", description: "Invited" },
-    { id: "accepted", description: "Accepted" },
-    { id: "declined", description: "Declined" },
+    { id: "invited", name: "Invited" },
+    { id: "accepted", name: "Accepted" },
+    { id: "declined", name: "Declined" },
   ]);
 
   await db.insert(InvitationRequestStatus).values([
-    { id: "pending", description: "Pending" },
-    { id: "approved", description: "Approved" },
-    { id: "rejected", description: "Rejected" },
+    { id: "pending", name: "Pending" },
+    { id: "approved", name: "Approved" },
+    { id: "rejected", name: "Rejected" },
   ]);
 
   await db.insert(EventType).values([
-    { id: "friends_ride", description: "Paseo con amigos" },
-    { id: "rally", description: "Rally" },
-    { id: "time_competition", description: "Competencia de tiempo" },
-    { id: "other", description: "Otros" },
+    { id: "friends_ride", name: "Paseo con amigos" },
+    { id: "rally", name: "Rally" },
+    { id: "time_competition", name: "Competencia de tiempo" },
+    { id: "other", name: "Otros" },
+  ]);
+
+  await db.insert(EventStatus).values([
+    { id: "upcoming", name: "Por Ocurrir" },
+    { id: "ongoing", name: "En curso" },
+    { id: "cancelled", name: "Cancelado" },
+    { id: "completed", name: "Terminado" },
   ]);
 
   await db.insert(WaypointType).values([
@@ -35,7 +43,7 @@ export default async function seed() {
 
   // Insertar un evento
   await db.insert(Event).values([
-    {
+    /*     {
       id: "123123123",
       name: "Mountain Ride",
       description: "A scenic ride through the mountains.",
@@ -79,7 +87,6 @@ export default async function seed() {
       endDate: new Date("2024-06-01T18:00:00.000Z"),
       eventType: "time_competition",
       isPublic: true,
-    }
+    } */
   ]);
-
 }

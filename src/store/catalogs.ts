@@ -5,7 +5,7 @@ import { map } from 'nanostores';
 // Tipo de datos para los elementos del catálogo de eventos
 export type Catalog = {
   id: string;
-  description: string;
+  name: string;
 };
 
 // Función para leer desde localStorage (solo en el cliente)

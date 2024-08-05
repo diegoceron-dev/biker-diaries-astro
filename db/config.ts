@@ -4,7 +4,7 @@ import { defineDb, defineTable, column } from "astro:db";
 export const EventParticipationStatus = defineTable({
   columns: {
     id: column.text({ optional: false, unique: true }), // ID único del estado
-    description: column.text({ optional: false, unique: true }), // Nombre del estado (ej. "invited", "accepted", "declined")
+    name: column.text({ optional: false, unique: true }), // Nombre del estado (ej. "invited", "accepted", "declined")
   },
 });
 
@@ -12,7 +12,7 @@ export const EventParticipationStatus = defineTable({
 export const InvitationRequestStatus = defineTable({
   columns: {
     id: column.text({ optional: false, unique: true }), // ID único del estado
-    description: column.text({ optional: false, unique: true }), // Nombre del estado (ej. "pending", "approved", "rejected")
+    name: column.text({ optional: false, unique: true }), // Nombre del estado (ej. "pending", "approved", "rejected")
   },
 });
 
@@ -53,6 +53,7 @@ export const Event = defineTable({
     isPublic: column.boolean({ optional: false, default: false }), // Público o Privado
     cover: column.text({ optional: true }),
     price: column.number({ optional: true }),
+    status: column.text({ optional: true, references: () => EventStatus.columns.id }), 
   },
 });
 
@@ -107,7 +108,14 @@ export const InvitationRequest = defineTable({
 export const EventType = defineTable({
   columns: {
     id: column.text({ optional: false, unique: true }), // ID único del tipo de evento
-    description: column.text({ optional: false, unique: true }), // Nombre del tipo de evento (ej. "paseo con amigos", "rally", "competencia de tiempo")
+    name: column.text({ optional: false, unique: true }), // Nombre del tipo de evento (ej. "paseo con amigos", "rally", "competencia de tiempo")
+  },
+});
+
+export const EventStatus = defineTable({
+  columns: {
+    id: column.text({ optional: false, unique: true }), // ID único del tipo de evento
+    name: column.text({ optional: false, unique: true }),
   },
 });
 
@@ -124,6 +132,7 @@ export default defineDb({
     InvitationRequestStatus,
     EventType,
     Waypoint,
-    WaypointType
+    WaypointType,
+    EventStatus
   },
 });

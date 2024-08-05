@@ -1,27 +1,21 @@
 <script setup lang="ts">
-import { onMounted, h, ref } from "vue";
+import { onMounted, h, ref, watch } from "vue";
 import { useStore } from "@nanostores/vue";
-// import { typeEventCatalog as typeEventCatalogStore } from "@/store/catalogs";
 import { events as eventsStore, type Event } from "@/store/events";
 import { useCatalog } from "@/composables/services/useServiceCatalogs";
 import { useEvent } from "@/composables/services/useEvents";
 import { Button } from "@/components/ui/button";
 import { columns } from "./columns";
-import i18n from "@/i18n";
 import DataTable from "@/components/vue/tableDefault/data-table/DataTable.vue";
 
 const useServiceCatalogs = useCatalog();
 const useEvents = useEvent();
 
-// const catalog = useStore(typeEventCatalogStore);
 const eventsList = useStore(eventsStore);
 
 const events = ref<Event[]>([]);
 
-onMounted(async () => {
-  await useServiceCatalogs.getData();
-  await useEvents.getMyEvents();
-
+const updateEvents = () => {
   const eventsData = eventsList.value;
 
   if (eventsData) {
@@ -33,6 +27,17 @@ onMounted(async () => {
       }))
       .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
   }
+};
+
+onMounted(async () => {
+  await useServiceCatalogs.getData();
+  await useEvents.getMyEvents();
+  updateEvents();
+});
+
+// Watcher para actualizar la lista de eventos cuando el store cambie
+watch(eventsList, () => {
+  updateEvents();
 });
 </script>
 

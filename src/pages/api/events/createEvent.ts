@@ -14,7 +14,8 @@ export const POST: APIRoute = async ({ request }) => {
       endDate: new Date(requestData.endDate),
       eventType: requestData.eventType,
       isPublic: requestData.isPublic,
-      creatorId: requestData.creatorId
+      creatorId: requestData.creatorId,
+      status: requestData.status
     });
  
   return new Response("Evento creado exitosamente", { status: 200 });

@@ -103,7 +103,7 @@ const getColumnNameFromString = (str: string): string | null => {
 
 <template>
   <div class="w-full">
-    <div class="flex gap-2 items-center pb-4">
+    <div class="flex gap-2 items-center pb-4 m-1">
       <Input
         class="max-w-sm"
         placeholder="Buscar evento"
@@ -215,7 +215,7 @@ const getColumnNameFromString = (str: string): string | null => {
           :disabled="!table.getCanPreviousPage()"
           @click="table.previousPage()"
         >
-          Previous
+          Anterior
         </Button>
         <Button
           variant="outline"
@@ -223,7 +223,7 @@ const getColumnNameFromString = (str: string): string | null => {
           :disabled="!table.getCanNextPage()"
           @click="table.nextPage()"
         >
-          Next
+          Siguiente
         </Button>
       </div>
     </div>

@@ -12,6 +12,7 @@ export type Event = {
   isPublic: boolean;
   cover?: string;
   price?: number;
+  status: string;
 };
 
 // Función para leer desde localStorage (solo en el cliente)

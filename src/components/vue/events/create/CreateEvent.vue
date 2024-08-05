@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { useToast } from "@/components/ui/toast";
 import { typeEventCatalog } from "@/store/catalogs";
 import { useStore } from "@nanostores/vue";
 import { Textarea } from "@/components/ui/textarea";
 import { computed, onMounted, ref } from "vue";
-import { h } from "vue";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
@@ -70,7 +68,11 @@ const catalogs = useStore(typeEventCatalog);
 
 const useEvents = useEvent();
 
-const { toast } = useToast();
+// const loading = ref(false);
+
+const loading = computed(() => {
+  return useEvents.loading;
+});
 
 const formSchema = toTypedSchema(
   z
@@ -118,7 +120,12 @@ const onSubmit = handleSubmit(async (values) => {
     eventType: values.eventType!,
     isPublic: values.isPublic!,
     creatorId: props.userId,
+    status: "upcoming",
   });
+
+  setTimeout(() => {
+    window.location.href = "/events";
+  }, 2000);
 });
 
 const startDate = computed({
@@ -185,7 +192,7 @@ onMounted(() => {
                             :key="item.id"
                             :value="item.id"
                           >
-                            {{ item.description }}
+                            {{ item.name }}
                           </SelectItem>
                         </SelectContent>
                       </Select>
@@ -341,7 +348,9 @@ onMounted(() => {
             </div>
 
             <div class="pt-4">
-              <Button type="submit" class="w-full">Guardar</Button>
+              <Button type="submit" class="w-full" :disabled="!loading"
+                >Guardar</Button
+              >
             </div>
           </form>
         </CardContent>
