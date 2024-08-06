@@ -99,10 +99,28 @@ export function useEvent() {
     }
   };
 
+  const generateDescriptionEvent = async (values: Event) => {
+    const body = {
+      eventTitle: values.name,
+      eventStart: new Date(values.startDate),
+      eventEnd: new Date(values.endDate),
+      weather: "LLUVIOSO",
+      destination: "LA MARQUESA, TOLUCA MEXICO",
+    };
+
+    const response = await fetch("/api/chatgpt/eventDescription", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+
+    console.log(response);
+  };
+
   return {
     loading,
     getMyEvents,
     createEvent,
     cancelEvent,
+    generateDescriptionEvent
   };
 }
