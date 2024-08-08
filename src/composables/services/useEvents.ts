@@ -2,7 +2,7 @@
 
 import { ref } from "vue";
 import { useToast } from "@/components/ui/toast/use-toast";
-import { setEventItems } from "@/store/events";
+import { setEventItems, getEventById } from "@/store/events";
 import type { Event } from "@/store/events";
 
 // Define y exporta el composable
@@ -37,6 +37,12 @@ export function useEvent() {
       loading.value = false;
     }
   };
+
+  const getEvent = (id: string) => {
+    const eventStore = getEventById(id);
+    
+    return eventStore;
+  }
 
   const createEvent = async (event: Event) => {
     loading.value = true;
@@ -119,6 +125,7 @@ export function useEvent() {
   return {
     loading,
     getMyEvents,
+    getEvent,
     createEvent,
     cancelEvent,
     generateDescriptionEvent

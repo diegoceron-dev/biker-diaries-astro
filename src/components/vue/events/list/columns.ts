@@ -79,12 +79,29 @@ export const columns: ColumnDef<Event>[] = [
     header: () => h("div", { class: "text-center" }, "Status"),
     cell: ({ row }) => {
       const value = row.getValue("status") as String;
-      // const formattedValue = value.toUpperCase()
-    
+
+      // Definir clases de Tailwind CSS basadas en el valor del status
+      const statusClasses = {
+        upcoming: "bg-green-100 text-green-800",
+        cancelled: "bg-red-100 text-red-800",
+        default: "bg-gray-100 text-gray-800",
+      };
+
+      // Seleccionar la clase correspondiente o usar la clase por defecto
+      const selectedClass =
+        statusClasses[value as keyof typeof statusClasses] ||
+        statusClasses.default;
+
       return h(
         "div",
-        { class: "text-center font-medium" },
-        h("div", {}, JSON.stringify(value))
+        { class: `text-center font-medium` },
+        h(
+          "span",
+          {
+            class: `px-2 py-1 rounded-full text-xs font-semibold ${selectedClass}`,
+          },
+          value.toUpperCase()
+        )
       );
     },
   },
@@ -95,9 +112,12 @@ export const columns: ColumnDef<Event>[] = [
       const event = row.original;
 
       const handleCancel = async () => {
-        // Implementa aquí la lógica para cancelar el evento
         await useEvents.cancelEvent(event);
         await useEvents.getMyEvents();
+      };
+
+      const handleSee = () => {
+        window.location.href = `/events/${event.id}`;
       };
 
       return h(
@@ -105,7 +125,8 @@ export const columns: ColumnDef<Event>[] = [
         { class: "relative" },
         h(DropdownAction, {
           event,
-          onCancel: handleCancel, // Escucha el evento cancel
+          onCancel: handleCancel,
+          onSee: handleSee,
         })
       );
     },

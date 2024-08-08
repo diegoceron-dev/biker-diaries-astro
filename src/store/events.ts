@@ -18,8 +18,8 @@ export type Event = {
 // Función para leer desde localStorage (solo en el cliente)
 function loadEventFromLocalStorage() {
   if (typeof window !== 'undefined') {
-    const savedEvent = localStorage.getItem('|');
-    return savedEvent ? JSON.parse(savedEvent) : {};
+    const savedEvents = localStorage.getItem('events');
+    return savedEvents ? JSON.parse(savedEvents) : {};
   }
   return {};
 }
@@ -37,6 +37,11 @@ export const setEventItems = (items: Event[]) => {
   for (const item of items) {
     events.setKey(item.id!, item);
   }
+};
+
+// Función para recuperar un evento específico por su ID
+export const getEventById = (id: string): Event | undefined => {
+  return events.get()[id];
 };
 
 // Suscribirse a cambios en el catálogo de eventos para guardar en localStorage

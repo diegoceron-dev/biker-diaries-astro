@@ -113,7 +113,7 @@ const { handleSubmit, setFieldValue, values } = useForm({
 });
 
 const onSubmit = handleSubmit(async (values) => {
-  /*   await useEvents.createEvent({
+   await useEvents.createEvent({
     description: values.description!,
     name: values.name!,
     startDate: new Date(values.startDate),
@@ -122,45 +122,13 @@ const onSubmit = handleSubmit(async (values) => {
     isPublic: values.isPublic!,
     creatorId: props.userId,
     status: "upcoming",
-  }); */
-
-  /*   setTimeout(() => {
+  });
+  
+  setTimeout(() => {
     window.location.href = "/events";
-  }, 2000); */
-
-  await useEvents.generateDescriptionEvent({
-    description: values.description!,
-    name: values.name!,
-    startDate: new Date(values.startDate),
-    endDate: new Date(values.endDate),
-    eventType: values.eventType!,
-    isPublic: values.isPublic!,
-    creatorId: props.userId,
-    status: "upcoming",
-  });
+  }, 1000);
+  
 });
-
-/* const handleSubmitDescription = async (values: {
-  name: string;
-  startDate: string;
-  endDate: string;
-  eventType: string;
-  isPublic: boolean;
-  description?: string | undefined;
-}) => {
-  const response = await axios.post("/api/chatgpt/eventDescription", {
-    eventTitle: values.name,
-    eventStart: new Date(values.startDate),
-    eventEnd: new Date(values.endDate),
-    weather: "LLUVIOSO",
-    destination: "LA MARQUESA, TOLUCA MEXICO",
-  });
-
-  const recomendation = response.data.recommendation;
-
-  console.log(recomendation);
-};
- */
 const startDate = computed({
   get: () => (values.startDate ? parseDate(values.startDate) : undefined),
   set: (val) => val,

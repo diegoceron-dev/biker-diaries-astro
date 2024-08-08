@@ -9,18 +9,21 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, ClipboardEdit, ClipboardX } from "lucide-vue-next";
 
-const emits = defineEmits(['cancel', 'modify']);
+const emits = defineEmits(["cancel", "modify", "see"]);
 
 const disabled = ref(false);
 
 const modify = () => {
-  emits('modify')
-}
+  emits("modify");
+};
 
 const cancel = () => {
-  console.log('cancel dropdown')
-  emits('cancel');
-} 
+  emits("cancel");
+};
+
+const see = () => {
+  emits("see");
+};
 </script>
 
 <template>
@@ -37,11 +40,14 @@ const cancel = () => {
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end" class="cursor-pointer">
-      <DropdownMenuItem class="cursor-pointer"
-        ><ClipboardEdit class="size-4" /> <span class="pl-2" @click="modify">Modificar</span>
+      <DropdownMenuItem class="cursor-pointer" @click="see"
+        ><ClipboardX class="size-4" /> <span class="pl-2">Ver más</span>
       </DropdownMenuItem>
-      <DropdownMenuItem class="cursor-pointer"
-        ><ClipboardX class="size-4" /> <span class="pl-2" @click="cancel">Cancelar</span>
+      <DropdownMenuItem class="cursor-pointer" @click="modify"
+        ><ClipboardEdit class="size-4" /> <span class="pl-2">Modificar</span>
+      </DropdownMenuItem>
+      <DropdownMenuItem class="cursor-pointer" @click="cancel"
+        ><ClipboardX class="size-4" /> <span class="pl-2">Cancelar</span>
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>

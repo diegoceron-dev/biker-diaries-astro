@@ -1,0 +1,15 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro";
+import EventDetail from "@/components/vue/events/view/EventDetail.vue";
+
+const { id } = Astro.params || null;
+const user = Astro.locals.user;
+
+if (!user) return Astro.redirect("/signin");
+---
+
+<MainLayout title="Mis eventos">
+  <section>
+    <EventDetail id={id} client:load />
+  </section>
+</MainLayout>
