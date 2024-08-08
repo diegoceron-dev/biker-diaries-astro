@@ -183,7 +183,7 @@ onMounted(() => {
   <div class="flex flex-col space-y-4 md:py-12 md:px-24 p-4">
     <div class="flex flex-col space-y-4">
       <div class="flex flex-row justify-between">
-        <p class="text-2x text-slate-700">Nuevo Evento</p>
+        <p class="text-3xl text-slate-600 font-extralight pb-2">Nuevo Evento</p>
       </div>
 
       <Card>

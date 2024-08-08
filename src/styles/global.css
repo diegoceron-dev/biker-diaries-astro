@@ -133,6 +133,7 @@ nav a.active {
 }
 
 body {
+  font-weight: 300;
   font-family: 'Montserrat Variable', sans-serif;
   margin: 0;
   padding: 0;
@@ -151,21 +152,27 @@ h5,
 h6 {
   margin: 0 0 0.5rem 0;
   line-height: 1.2;
+  font-weight: 300;
 }
 h1 {
   font-size: 2.052em;
+  font-weight: 300;
 }
 h2 {
   font-size: 1.641em;
+  font-weight: 300;
 }
 h3 {
   font-size: 1.353em;
+  font-weight: 300;
 }
 h4 {
   font-size: 963em;
+  font-weight: 300;
 }
 h5 {
   font-size: 725em;
+  font-weight: 300;
 }
 strong,
 b {
@@ -184,9 +191,11 @@ a {
 textarea {
   width: 100%;
   font-size: 16px;
+  font-weight: 300;
 }
 input {
   font-size: 16px;
+  font-weight: 300;
 }
 table {
   width: 100%;
@@ -220,6 +229,7 @@ hr {
 @media (max-width: 720px) {
   body {
     font-size: 18px;
+    font-weight: 300;
   }
   main {
     padding: 1em;
@@ -227,6 +237,7 @@ hr {
 }
 
 .sr-only {
+  font-weight: 300;
   border: 0;
   padding: 0;
   margin: 0;

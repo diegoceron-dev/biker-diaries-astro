@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import axios from "axios";
 
+
 interface RequestBody {
   eventTitle: string;
   eventStart: string;
@@ -11,34 +12,60 @@ interface RequestBody {
 
 export const POST: APIRoute = async ({ request }) => {
   console.clear();
-  const data: RequestBody = await request.json();
+  
+  let data: RequestBody;
+  try {
+    data = await request.json();
+    console.log("Request Data:", data);
+  } catch (error) {
+    console.error("Error parsing JSON:", error);
+    return new Response(
+      JSON.stringify({ error: "Invalid JSON" }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        status: 400,
+      }
+    );
+  }
 
-  console.log(data);
   try {
     const response = await axios.post(
-      "https://api.openai.com/v1/completions",
+      "https://api.openai.com/v1/chat/completions",
       {
-        model: "gpt-3.5-turbo-instruct",
-        prompt: generatePrompt(data),
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content: "You are a helpful assistant."
+          },
+          {
+            role: "user",
+            content: generatePrompt(data)
+          }
+        ],
         max_tokens: 150,
       },
       {
         headers: {
-          Authorization: `sk-pqE-vnsaBY2-JRA1SDdZfGQMNNC3zXIXEgsJ3o2gPCT3BlbkFJBHqcPBRd3AukCx7UUrDa2SzmW4iFgI2AetGDATXPYA`,
+          Authorization: `Bearer sk-pqE-vnsaBY2-JRA1SDdZfGQMNNC3zXIXEgsJ3o2gPCT3BlbkFJBHqcPBRd3AukCx7UUrDa2SzmW4iFgI2AetGDATXPYA`, //${ import.meta.env.GITHUB_CLIENT_SECRET.OPENAI_API_KEY}
           "Content-Type": "application/json",
         },
       }
     );
 
-    const recommendation = response.data.choices[0].text.trim();
+    console.log("API Response:", response.data);
+
+    const recommendation = response.data.choices[0].message.content.trim();
 
     return new Response(JSON.stringify({ recommendation }), {
       headers: {
         "Content-Type": "application/json",
       },
     });
-  } catch (error) {
-    console.log(error)
+  } catch (error: any) {
+    console.error("API Error:", error.response ? error.response.data : error.message);
     return new Response(
       JSON.stringify({ error: "Error generating recommendation" }),
       {

@@ -98,7 +98,6 @@ const getColumnNameFromString = (str: string): string | null => {
   const match = str.match(regex);
   return match ? match[1] : null;
 };
-
 </script>
 
 <template>
@@ -106,11 +105,12 @@ const getColumnNameFromString = (str: string): string | null => {
     <div class="flex gap-2 items-center pb-4 m-1">
       <Input
         class="max-w-sm"
-        placeholder="Buscar evento"
+        placeholder="Buscar"
         :model-value="table.getColumn('name')?.getFilterValue() as string"
+        autofocus
         @update:model-value="table.getColumn('name')?.setFilterValue($event)"
       />
-      
+
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
           <Button variant="outline" class="ml-auto">
@@ -136,7 +136,7 @@ const getColumnNameFromString = (str: string): string | null => {
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-    <div class="rounded-md border border-slate-400">
+    <div class="rounded-md border border-slate-400 shadow-md">
       <Table>
         <TableHeader>
           <TableRow
@@ -149,8 +149,8 @@ const getColumnNameFromString = (str: string): string | null => {
               :data-pinned="header.column.getIsPinned()"
               :class="
                 cn(
-                  {'bg-transparent hover:bg-transparent hover:rounded': true},
-                  { 'sticky': header.column.getIsPinned() },
+                  { 'bg-transparent hover:bg-transparent hover:rounded': true },
+                  { sticky: header.column.getIsPinned() },
                   header.column.getIsPinned() === 'left' ? 'left-0' : 'right-0'
                 )
               "
@@ -195,7 +195,7 @@ const getColumnNameFromString = (str: string): string | null => {
           </template>
 
           <TableRow v-else>
-            <TableCell :colspan="columns.length" class="h-24 text-center">
+            <TableCell :colspan="columns.length" class="h-24 text-center text-slate-500">
               Sin Resultados.
             </TableCell>
           </TableRow>
