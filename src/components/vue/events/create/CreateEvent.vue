@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { typeEventCatalog } from "@/store/catalogs";
 import { useStore } from "@nanostores/vue";
-import { Textarea } from "@/components/ui/textarea";
 import { computed, onMounted, ref } from "vue";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
@@ -36,11 +35,7 @@ import {
 } from "@internationalized/date";
 // @ts-ignore
 import { toDate } from "radix-vue/date";
-import {
-  Calendar as CalendarIcon,
-  PlusCircleIcon,
-  AudioWaveform,
-} from "lucide-vue-next";
+import { Calendar as CalendarIcon } from "lucide-vue-next";
 import {
   Popover,
   PopoverContent,
@@ -50,16 +45,15 @@ import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { useEvent } from "@/composables/services/useEvents";
 
-import { autofill } from "@mapbox/search-js-web";
-// import SearchBoxMap from "@/components/vue/map/SearchBoxMap.vue";
-import SearchBox from "@/components/vue/map/SearchBox.vue";
-import axios from "axios";
+import Editor from "@tinymce/tinymce-vue";
 
 const props = defineProps({
   userId: String,
 });
 
 const placeholder = ref();
+
+const editorContent = ref();
 
 const df = new DateFormatter("en-US", {
   dateStyle: "long",
@@ -68,8 +62,6 @@ const df = new DateFormatter("en-US", {
 const catalogs = useStore(typeEventCatalog);
 
 const useEvents = useEvent();
-
-// const loading = ref(false);
 
 const loading = computed(() => {
   return useEvents.loading;
@@ -113,8 +105,8 @@ const { handleSubmit, setFieldValue, values } = useForm({
 });
 
 const onSubmit = handleSubmit(async (values) => {
-   await useEvents.createEvent({
-    description: values.description!,
+  await useEvents.createEvent({
+    description: editorContent.value,
     name: values.name!,
     startDate: new Date(values.startDate),
     endDate: new Date(values.endDate),
@@ -123,12 +115,12 @@ const onSubmit = handleSubmit(async (values) => {
     creatorId: props.userId,
     status: "upcoming",
   });
-  
+
   setTimeout(() => {
     window.location.href = "/events";
   }, 1000);
-  
 });
+
 const startDate = computed({
   get: () => (values.startDate ? parseDate(values.startDate) : undefined),
   set: (val) => val,
@@ -139,12 +131,7 @@ const endDate = computed({
   set: (val) => val,
 });
 
-onMounted(() => {
-  autofill({
-    accessToken:
-      "pk.eyJ1IjoiZGllZ29jZXJvbmRldiIsImEiOiJjbDBxNWY5OWcwOWMyM2NxbmFyNjN0cm51In0.gEWz2YRkQypcE52QUIErIA",
-  });
-});
+onMounted(() => {});
 </script>
 
 <template>
@@ -228,11 +215,28 @@ onMounted(() => {
                 <FormItem v-auto-animate>
                   <FormLabel>Descripción</FormLabel>
                   <FormControl>
-                    <Textarea
-                      rows="5"
-                      placeholder="Descripción del evento (opcional, mín. 2 caracteres, máx. 500)."
-                      class="resize-none"
-                      v-bind="componentField"
+                    <Editor
+                      v-model="editorContent"
+                      ref="editorRef"
+                      api-key="m6yhshx15n7lh6omdjuk895p413v1t8eeelyzhr6ujgcmgei"
+                      :init="{
+                  toolbar_mode: 'sliding',
+                  plugins:
+                    'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+                  toolbar:
+                    'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                  tinycomments_mode: 'embedded',
+                  tinycomments_author: 'Author name',
+                  mergetags_list: [
+                    { value: 'First.Name', title: 'First Name' },
+                    { value: 'Email', title: 'Email' },
+                  ],
+                  ai_request: (request: any, respondWith: any) =>
+                    respondWith.string(() =>
+                      Promise.reject('See docs to implement AI Assistant')
+                    ),
+                }"
+                      initial-value=""
                     />
                   </FormControl>
                   <FormMessage />

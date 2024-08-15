@@ -144,36 +144,7 @@ body {
   line-height: 1.7;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0 0 0.5rem 0;
-  line-height: 1.2;
-  font-weight: 300;
-}
-h1 {
-  font-size: 2.052em;
-  font-weight: 300;
-}
-h2 {
-  font-size: 1.641em;
-  font-weight: 300;
-}
-h3 {
-  font-size: 1.353em;
-  font-weight: 300;
-}
-h4 {
-  font-size: 963em;
-  font-weight: 300;
-}
-h5 {
-  font-size: 725em;
-  font-weight: 300;
-}
+
 strong,
 b {
   font-weight: 600;

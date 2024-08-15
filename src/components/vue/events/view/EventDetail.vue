@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { typeEventCatalog } from "@/store/catalogs";
 import { computed, onMounted, ref } from "vue";
 import { useEvent } from "@/composables/services/useEvents";
 import type { Event } from "@/store/events";
-import { useToast } from "@/components/ui/toast/use-toast";
 import {
   Card,
   CardContent,
@@ -12,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { EarthLock, Earth } from "lucide-vue-next";
 
 const props = defineProps({
   id: {
@@ -70,6 +69,30 @@ const selectedClass = computed(() => {
     statusClasses.default
   );
 });
+
+const dates = computed(() => {
+  if (event.value === undefined) return "";
+
+  const start = new Date(event.value!.startDate.toString()).toLocaleDateString(
+    "es-ES",
+    {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }
+  );
+
+  const end = new Date(event.value!.endDate.toString()).toLocaleDateString(
+    "es-ES",
+    {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }
+  );
+
+  return `${start} -  ${end}`;
+});
 </script>
 
 <template>
@@ -84,23 +107,27 @@ const selectedClass = computed(() => {
 
           <!-- Contenido del header -->
           <div class="relative z-10 p-4">
-            <CardTitle class="text-white text-xl font-bold drop-shadow-lg">
-              {{ event.name }}
+            <CardTitle
+              class="flex gap-2 text-white text-2xl font-bold drop-shadow-lg"
+            >
+              <span>{{ event.name }}</span>
+              <span v-if="event.isPublic">
+                <Earth :size="32" />
+              </span>
+              <span v-else>
+                <EarthLock />
+              </span>
             </CardTitle>
-            <CardDescription class="text-white text-sm drop-shadow-md mt-2">
-              {{
-                new Date(event.startDate.toString()).toLocaleDateString(
-                  "es-ES",
-                  {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  }
-                )
-              }}
-
+            <CardDescription
+              class="text-white text-base drop-shadow-md mt-2 flex gap-x-2"
+            >
               <span
-                :class="`px-2 py-1 rounded-full text-xs font-semibold ${selectedClass}`"
+                class="card bg-white/20 backdrop-blur-md border border-white/50 rounded-full shadow-lg px-2 py-1 text-base"
+              >
+                {{ dates }}
+              </span>
+              <span
+                :class="`px-2 py-1 rounded-full text-base capitalize ${selectedClass}`"
               >
                 {{ event.status }}
               </span>
@@ -108,7 +135,7 @@ const selectedClass = computed(() => {
           </div>
         </CardHeader>
         <CardContent>
-          <p class="text-base">{{ event.description }}</p>
+          <p class="text-base" v-html="event.description"></p>
         </CardContent>
         <CardFooter> </CardFooter>
       </Card>
