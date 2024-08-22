@@ -49,7 +49,7 @@ export const POST: APIRoute = async ({ request }) => {
       },
       {
         headers: {
-          Authorization: `Bearer`, //${ import.meta.env.GITHUB_CLIENT_SECRET.OPENAI_API_KEY}
+         //  Authorization: `Bearer`,
           "Content-Type": "application/json",
         },
       }
