@@ -242,7 +242,7 @@ onMounted(() => {});
                     <!--                     <Editor
                       v-model="editorContent"
                       ref="editorRef"
-                      api-key="m6yhshx15n7lh6omdjuk895p413v1t8eeelyzhr6ujgcmgei"
+                      api-key=""
                       :init="{
                   toolbar_mode: 'sliding',
                   plugins:
