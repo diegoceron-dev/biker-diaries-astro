@@ -7,6 +7,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import {
   FormControl,
   FormField,
@@ -35,7 +36,12 @@ import {
 } from "@internationalized/date";
 // @ts-ignore
 import { toDate } from "radix-vue/date";
-import { Calendar as CalendarIcon } from "lucide-vue-next";
+import {
+  Calendar as CalendarIcon,
+  XCircle,
+  XIcon,
+  LocateFixedIcon,
+} from "lucide-vue-next";
 import {
   Popover,
   PopoverContent,
@@ -45,7 +51,7 @@ import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { useEvent } from "@/composables/services/useEvents";
 
-import Editor from "@tinymce/tinymce-vue";
+// import Editor from "@tinymce/tinymce-vue";
 
 const props = defineProps({
   userId: String,
@@ -66,6 +72,20 @@ const useEvents = useEvent();
 const loading = computed(() => {
   return useEvents.loading;
 });
+
+const locations = ref<string[]>([""]); // Inicialmente, un solo input de ubicación
+
+const addLocation = () => {
+  if (locations.value.length === 3) return;
+
+  locations.value.push(""); // Añadir un nuevo input vacío
+};
+
+const removeLocation = (index: number) => {
+  if (locations.value.length > 1) {
+    locations.value.splice(index, 1); // Eliminar la ubicación en el índice dado
+  }
+};
 
 const formSchema = toTypedSchema(
   z
@@ -131,6 +151,10 @@ const endDate = computed({
   set: (val) => val,
 });
 
+const getPlaceholder = (index: number) => {
+  return `Ingrese ubicación ${index + 1}`;
+};
+
 onMounted(() => {});
 </script>
 
@@ -146,7 +170,7 @@ onMounted(() => {});
           <form @submit="onSubmit" autocomplete="off" class="space-y-4">
             <div class="flex flex-col md:flex-row gap-4 md:gap-12">
               <!-- Nombre del Evento -->
-              <div class="flex flex-col md:w-1/4">
+              <div class="flex flex-col md:w-2/6">
                 <FormField v-slot="{ componentField }" name="name">
                   <FormItem v-auto-animate>
                     <FormLabel>Nombre del Evento</FormLabel>
@@ -163,7 +187,7 @@ onMounted(() => {});
               </div>
 
               <!-- Tipo de Evento -->
-              <div class="flex flex-col md:w-1/4">
+              <div class="flex flex-col md:w-2/6">
                 <FormField v-slot="{ componentField }" name="eventType">
                   <FormItem v-auto-animate>
                     <FormLabel>Tipo de Evento</FormLabel>
@@ -215,7 +239,7 @@ onMounted(() => {});
                 <FormItem v-auto-animate>
                   <FormLabel>Descripción</FormLabel>
                   <FormControl>
-                    <Editor
+                    <!--                     <Editor
                       v-model="editorContent"
                       ref="editorRef"
                       api-key="m6yhshx15n7lh6omdjuk895p413v1t8eeelyzhr6ujgcmgei"
@@ -237,6 +261,12 @@ onMounted(() => {});
                     ),
                 }"
                       initial-value=""
+                    /> -->
+                    <Textarea
+                      rows="5"
+                      placeholder="Descripción del evento (opcional, mín. 2 caracteres, máx. 500)."
+                      class="resize-none"
+                      v-bind="componentField"
                     />
                   </FormControl>
                   <FormMessage />
@@ -349,6 +379,70 @@ onMounted(() => {});
                     <FormMessage />
                   </FormItem>
                 </FormField>
+              </div>
+            </div>
+
+            <!-- Ubicaciones -->
+            <div class="flex flex-col md:flex-row gap-4 md:gap-12 w-full">
+              <!-- Bloque para ubicaciones dinámicas -->
+              <div class="flex flex-col space-y-4 md:w-2/6">
+                <span
+                  class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-slate-700"
+                  >Ubicaciones</span
+                >
+
+                <div
+                  v-for="(location, index) in locations"
+                  :key="index"
+                  class="flex gap-2 items-center"
+                >
+                  <Popover>
+                    <PopoverTrigger as-child>
+                      <div class="relative w-full max-w-sm items-center">
+                        <Input
+                          v-model="locations[index]"
+                          type="text"
+                          :placeholder="getPlaceholder(index)"
+                          class="w-full pl-10"
+                        />
+                        <span
+                          class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
+                        >
+                          <LocateFixedIcon
+                            class="size-6 text-slate-400/70"
+                          />
+                        </span>
+                      </div>
+                    </PopoverTrigger>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      :disabled="locations.length === 1"
+                      @click="removeLocation(index)"
+                    >
+                      <XIcon
+                        class="ms-auto h-4 w-4 opacity-50 text-red-600"
+                      />
+                    </Button>
+                    <PopoverContent
+                      class="w-auto p-2"
+                      v-if="locations[index] !== ''"
+                      align="end"
+                    >
+                      <p>Ubicación {{ index + 1 }}: {{ locations[index] }}</p>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
+                <!-- Botón para agregar una nueva ubicación -->
+                <Button
+                  type="button"
+                  variant="outline"
+                  :disabled="locations.length >= 3"
+                  @click="addLocation"
+                >
+                  Agregar Ubicación
+                </Button>
               </div>
             </div>
 
