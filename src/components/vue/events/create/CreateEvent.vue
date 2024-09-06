@@ -41,6 +41,13 @@ import {
   XCircle,
   XIcon,
   LocateFixedIcon,
+  Locate,
+  Map,
+  LucideMapPin,
+  MapPinOff,
+  MapPinned,
+  Waypoints,
+  MapPinHouse,
 } from "lucide-vue-next";
 import {
   Popover,
@@ -50,6 +57,23 @@ import {
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { useEvent } from "@/composables/services/useEvents";
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  ArrowUpCircle,
+  CheckCircle2,
+  Circle,
+  HelpCircle,
+} from "lucide-vue-next";
+import type { Icon } from "lucide-vue-next";
+import InputSearchBox from "@/components/vue/map/InputSearchBox.vue"
 
 // import Editor from "@tinymce/tinymce-vue";
 
@@ -73,12 +97,70 @@ const loading = computed(() => {
   return useEvents.loading;
 });
 
-const locations = ref<string[]>([""]); // Inicialmente, un solo input de ubicación
+const maxLocations = 5;
+
+interface LocationItem {
+  id: number;
+  name: string;
+  // type: string;
+  open: boolean;
+  selectedStatus: Status | null;
+}
+
+//@ts-ignore
+interface Status {
+  value: string;
+  label: string;
+  icon: any;
+}
+
+const statusStart = {
+  value: "start",
+  label: "Salida",
+  icon: MapPinHouse,
+};
+
+const statusWaypoint = {
+  value: "waypoint",
+  label: "Parada",
+  icon: Waypoints,
+};
+
+const statusEnd = {
+  value: "end",
+  label: "Llegada",
+  icon: MapPinned,
+};
+
+const locationInitialValue: LocationItem[] = [
+  {
+    id: 1,
+    name: "",
+    open: false,
+    selectedStatus: statusStart,
+  },
+];
+
+const statuses: Status[] = [statusStart, statusWaypoint, statusEnd];
+
+const locations = ref<LocationItem[]>(locationInitialValue);
 
 const addLocation = () => {
-  if (locations.value.length === 3) return;
+  // if (locations.value.length === maxLocations) return;
 
-  locations.value.push(""); // Añadir un nuevo input vacío
+  const nextId = locations.value.findLast(() => true)?.id!;
+
+  const newValue: LocationItem = {
+    id: nextId,
+    name: "",
+    open: false,
+    selectedStatus:
+      locations.value.length >= maxLocations - 1 ? statusEnd : statusWaypoint,
+  };
+
+  newValue.id = nextId + 1;
+
+  locations.value.push(newValue);
 };
 
 const removeLocation = (index: number) => {
@@ -156,6 +238,11 @@ const getPlaceholder = (index: number) => {
 };
 
 onMounted(() => {});
+
+const validateLocations = (location: LocationItem) => {
+  if (location.selectedStatus?.value === statusStart.value) {
+  }
+};
 </script>
 
 <template>
@@ -400,7 +487,7 @@ onMounted(() => {});
                     <PopoverTrigger as-child>
                       <div class="relative w-full max-w-sm items-center">
                         <Input
-                          v-model="locations[index]"
+                          v-model="locations[index].name"
                           type="text"
                           :placeholder="getPlaceholder(index)"
                           class="w-full pl-10"
@@ -408,43 +495,102 @@ onMounted(() => {});
                         <span
                           class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
                         >
-                          <LocateFixedIcon
-                            class="size-6 text-slate-400/70"
-                          />
+                          <Map class="size-6 text-slate-400/70" />
                         </span>
                       </div>
                     </PopoverTrigger>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      :disabled="locations.length === 1"
-                      @click="removeLocation(index)"
-                    >
-                      <XIcon
-                        class="ms-auto h-4 w-4 opacity-50 text-red-600"
-                      />
-                    </Button>
                     <PopoverContent
                       class="w-auto p-2"
-                      v-if="locations[index] !== ''"
+                      v-if="locations[index].name !== ''"
                       align="end"
                     >
-                      <p>Ubicación {{ index + 1 }}: {{ locations[index] }}</p>
+                      <p>
+                        Ubicación {{ index + 1 }}: {{ locations[index].name }}
+                      </p>
                     </PopoverContent>
                   </Popover>
+
+                  <Popover v-model:open="location.open">
+                    <PopoverTrigger as-child>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        class="justify-start h-full"
+                      >
+                        <template v-if="location.selectedStatus">
+                          <component
+                            :is="location.selectedStatus?.icon"
+                            class="h-5 w-5 shrink-0"
+                          />
+                          <!--  {{ location.selectedStatus?.label }} -->
+                        </template>
+                        <template v-else>
+                          <MapPinOff class="size-6 text-slate-400/70" />
+                        </template>
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent class="p-0" side="right" align="start">
+                      <Command>
+                        <CommandInput placeholder="Change status..." />
+                        <CommandList>
+                          <CommandEmpty>No results found.</CommandEmpty>
+                          <CommandGroup>
+                            <CommandItem
+                              v-for="status in statuses"
+                              :key="status.value"
+                              :value="status.value"
+                              @select="
+                                (value) => {
+                                  location.selectedStatus = status;
+                                  location.open = false;
+                                  validateLocations(location);
+                                }
+                              "
+                            >
+                              <component
+                                :is="status.icon"
+                                :key="status.value"
+                                :class="
+                                  cn(
+                                    'mr-2 h-4 w-4',
+                                    status.value ===
+                                      location.selectedStatus?.value
+                                      ? 'opacity-100'
+                                      : 'opacity-40'
+                                  )
+                                "
+                              />
+                              <span>{{ status.label }}</span>
+                            </CommandItem>
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <!-- Botón para eliminar ubicacion actual -->
+                  <Button
+                    type="button"
+                    variant="outline"
+                    :disabled="locations.length === 1"
+                    @click="removeLocation(index)"
+                  >
+                    <XIcon class="ms-auto h-5 w-5 opacity-50 text-red-600" />
+                  </Button>
                 </div>
 
                 <!-- Botón para agregar una nueva ubicación -->
                 <Button
                   type="button"
                   variant="outline"
-                  :disabled="locations.length >= 3"
+                  :disabled="locations.length >= maxLocations"
                   @click="addLocation"
                 >
                   Agregar Ubicación
                 </Button>
               </div>
             </div>
+
+            <InputSearchBox />
 
             <div class="pt-4">
               <Button type="submit" class="w-full" :disabled="!loading"

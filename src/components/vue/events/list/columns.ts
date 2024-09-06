@@ -82,15 +82,16 @@ export const columns: ColumnDef<Event>[] = [
 
       // Definir clases de Tailwind CSS basadas en el valor del status
       const statusClasses = {
-        upcoming: "bg-green-100 text-green-800",
-        cancelled: "bg-red-100 text-red-800",
-        default: "bg-gray-100 text-gray-800",
+        upcoming: "bg-yellow-200 text-yellow-700",
+        cancelled: "bg-rose-200 text-rose-700",
+        ongoing: "bg-blue-200 text-blue-700",
+        completed: "bg-lime-200 text-lime-700",
       };
 
       // Seleccionar la clase correspondiente o usar la clase por defecto
       const selectedClass =
         statusClasses[value as keyof typeof statusClasses] ||
-        statusClasses.default;
+        statusClasses.upcoming;
 
       return h(
         "div",

@@ -61,7 +61,7 @@ export default async function seed() {
       endDate: new Date("2024-06-10T17:00:00.000Z"),
       eventType: "time_competition",
       isPublic: true,
-      status: "upcoming",
+      status: "ongoing",
     },
     {
       id: "123123124",
@@ -81,7 +81,7 @@ export default async function seed() {
       endDate: new Date("2024-08-15T18:00:00.000Z"),
       eventType: "time_competition",
       isPublic: true,
-      status: "upcoming",
+      status: "completed",
     },
     {
       id: "122",
@@ -91,7 +91,7 @@ export default async function seed() {
       endDate: new Date("2024-09-20T22:00:00.000Z"),
       eventType: "time_competition",
       isPublic: true,
-      status: "upcoming",
+      status: "completed",
     },
   ]);
   

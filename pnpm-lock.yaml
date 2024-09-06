@@ -50,6 +50,9 @@ dependencies:
   '@tanstack/vue-table':
     specifier: ^8.17.3
     version: 8.17.3(vue@3.4.27)
+  '@tinymce/tinymce-vue':
+    specifier: ^6.0.1
+    version: 6.0.1(vue@3.4.27)
   '@vee-validate/zod':
     specifier: ^4.12.8
     version: 4.12.8(vue@3.4.27)
@@ -81,8 +84,8 @@ dependencies:
     specifier: ^3.2.0
     version: 3.2.0
   lucide-vue-next:
-    specifier: ^0.379.0
-    version: 0.379.0(vue@3.4.27)
+    specifier: ^0.429.0
+    version: 0.429.0(vue@3.4.27)
   mapbox-gl:
     specifier: ^3.4.0
     version: 3.4.0
@@ -107,6 +110,9 @@ dependencies:
   tailwindcss-animate:
     specifier: ^1.0.7
     version: 1.0.7(tailwindcss@3.4.3)
+  tinymce:
+    specifier: ^7.3.0
+    version: 7.3.0
   typescript:
     specifier: ^5.4.5
     version: 5.4.5
@@ -2449,6 +2455,15 @@ packages:
       vue: 3.4.27(typescript@5.4.5)
     dev: false
 
+  /@tinymce/tinymce-vue@6.0.1(vue@3.4.27):
+    resolution: {integrity: sha512-VzjI8AKlNrrsosIk3WuBez6kubqPsPMeaButkRLuts77uo4e2EwPRFX+VyB6fHbMGHwUPK22zNjOUGMvJFZFCw==, tarball: https://registry.npmjs.org/@tinymce/tinymce-vue/-/tinymce-vue-6.0.1.tgz}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      tinymce: 7.3.0
+      vue: 3.4.27(typescript@5.4.5)
+    dev: false
+
   /@tybys/wasm-util@0.8.3:
     resolution: {integrity: sha512-Z96T/L6dUFFxgFJ+pQtkPpne9q7i6kIPYCFnQBHSgSPV9idTsKfIhCss0h5iM9irweZCatkrdeP8yi5uM1eX6Q==, tarball: https://registry.npmjs.org/@tybys/wasm-util/-/wasm-util-0.8.3.tgz}
     requiresBuild: true
@@ -4743,8 +4758,8 @@ packages:
       oslo: 1.2.0
     dev: false
 
-  /lucide-vue-next@0.379.0(vue@3.4.27):
-    resolution: {integrity: sha512-N+dgaDucX55x6485Fmv3Oj3CZn4NS8/DMNAfLEVdkAt3UiuVUhCLmk79kqfuylHg3+Y7msps4f3FNiWawJVHOg==, tarball: https://registry.npmjs.org/lucide-vue-next/-/lucide-vue-next-0.379.0.tgz}
+  /lucide-vue-next@0.429.0(vue@3.4.27):
+    resolution: {integrity: sha512-uehejLcfYLQpmB//bfx3HXManVXffj1rkaMiyDUyAh6meoMjDYMOvReX4ahQvRAgvcPb6NdJEgUST3WY5nzSWA==, tarball: https://registry.npmjs.org/lucide-vue-next/-/lucide-vue-next-0.429.0.tgz}
     peerDependencies:
       vue: '>=3.0.1'
     dependencies:
@@ -6873,6 +6888,10 @@ packages:
   /tiny-lru@11.2.6:
     resolution: {integrity: sha512-0PU3c9PjMnltZaFo2sGYv/nnJsMjG0Cxx8X6FXHPPGjFyoo1SJDxvUXW1207rdiSxYizf31roo+GrkIByQeZoA==, tarball: https://registry.npmjs.org/tiny-lru/-/tiny-lru-11.2.6.tgz}
     engines: {node: '>=12'}
+    dev: false
+
+  /tinymce@7.3.0:
+    resolution: {integrity: sha512-Ls4PgYlpk73XAxBSBqbVmSl8Mb3DuNfgF01GZ0lY6/MOEVRl3IL+VxC1Oe6165e8WqbqVsxO3Qj/PmoYNvQKGQ==, tarball: https://registry.npmjs.org/tinymce/-/tinymce-7.3.0.tgz}
     dev: false
 
   /tinyqueue@2.0.3:
