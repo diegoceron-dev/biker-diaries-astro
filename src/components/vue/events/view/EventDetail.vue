@@ -96,7 +96,7 @@ const dates = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col space-y-4 md:py-12 md:px-24 p-4">
+  <div class="flex flex-col">
     <div class="flex flex-col space-y-4" v-if="event !== undefined">
       <Card>
         <CardHeader
@@ -139,6 +139,10 @@ const dates = computed(() => {
         </CardContent>
         <CardFooter> </CardFooter>
       </Card>
+    </div>
+    <div v-else>
+      <p>No se encontro el Evento {{ props.id }}</p>
+      <p><a href="/">Regresar al inicio</a></p>
     </div>
   </div>
 </template>

@@ -2,7 +2,7 @@
 import MainLayout from "@/layouts/MainLayout.astro";
 import EventDetail from "@/components/vue/events/view/EventDetail.vue";
 
-const { id } = Astro.params || null;
+const id = Astro.params.id ?? "";
 const user = Astro.locals.user;
 
 if (!user) return Astro.redirect("/signin");

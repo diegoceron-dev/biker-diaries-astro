@@ -43,9 +43,9 @@ watch(eventsList, () => {
 
 <template>
   <div>
-    <div class="flex flex-col space-y-4 md:py-12 md:px-24 p-4">
+    <div class="flex flex-col">
       <div class="flex flex-row justify-between">
-        <p class="text-3xl text-slate-600 font-extralight pb-2">Mis Eventos</p>
+        <p class="text-xl text-slate-600 font-extralight pb-2">Mis Eventos</p>
 
         <a href="/events/create"><Button variant="default">Crear nuevo evento</Button></a>
       </div>

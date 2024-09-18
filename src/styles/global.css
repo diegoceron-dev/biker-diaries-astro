@@ -4,36 +4,36 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 8% 23%;
-  
-    --card: 0 0% 100%;
-    --card-foreground: 215.4 16.3% 46.9%;
-  
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-  
-    --primary: 240 70% 70%; /* Índigo brillante */
-    --primary-foreground: 240 100% 100%; /* Texto claro sobre fondo índigo */
-  
-    --secondary: 240 60% 75%; /* Un tono más claro de índigo para elementos secundarios */
-    --secondary-foreground: 240 60% 20%; /* Texto más oscuro sobre fondo claro */
-  
-    --muted: 240 50% 85%; /* Índigo suave para elementos tenues */
-    --muted-foreground: 240 50% 40%; /* Texto tenue pero legible */
-  
-    --accent: 240 50% 85%; /* Puedes usar el mismo que muted para consistencia */
-    --accent-foreground: 240 50% 40%;
-  
-    --destructive: 0 84.2% 60.2%;
+    --background: 0 0% 100%; /* Fondo claro */
+    --foreground: 210 20% 20%; /* Texto más oscuro */
+
+    --card: 0 0% 100%; /* Fondo de tarjeta claro */
+    --card-foreground: 210 20% 30%; /* Texto ligeramente más oscuro */
+
+    --popover: 0 0% 100%; /* Popover claro */
+    --popover-foreground: 210 20% 30%;
+
+    --primary: 210 70% 40%; /* Sky oscuro, alineado con sky-800 */
+    --primary-foreground: 210 30% 90%; /* Texto claro sobre sky oscuro */
+
+    --secondary: 210 60% 45%; /* Un tono más oscuro para elementos secundarios */
+    --secondary-foreground: 210 100% 60%; /* Texto claro sobre fondo oscuro secundario */
+
+    --muted: 210 50% 30%; /* Sky oscuro y tenue */
+    --muted-foreground: 210 30% 60%; /* Texto más tenue pero legible */
+
+    --accent: 210 50% 40%; /* Color de acento ligeramente más oscuro */
+    --accent-foreground: 210 30% 50%;
+
+    --destructive: 0 84.2% 60.2%; /* Mantén el rojo para acciones destructivas */
     --destructive-foreground: 210 40% 98%;
-  
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221 24% 80%;
-    --radius: 1rem;
+
+    --border: 210 20% 85%; /* Bordes más claros para buen contraste */
+    --input: 210 20% 85%; /* Inputs claros */
+    --ring: 210 60% 50%; /* Un anillo oscuro y tenue */
+    --radius: 0.75rem;
   }
-   
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;

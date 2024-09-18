@@ -1,7 +1,7 @@
 ---
 import { ViewTransitions } from "astro:transitions";
 import Button from "@/components/ui/button/Button.vue";
-import { LogOut, UserCog2Icon, Home } from "lucide-vue-next";
+import { LogOut, UserCog2Icon, Home, Menu } from "lucide-vue-next";
 import ModeToggle from "@/components/vue/toggle/ModeToggle.vue";
 
 const user = Astro.locals.user;
@@ -12,26 +12,31 @@ const user = Astro.locals.user;
   class="bg-[url('https://images.unsplash.com/photo-1558979159-2b18a4070a87?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center border border-t-0 border-l-0 border-r-0 border-b-2 dark:border-slate-300 border-slate-700"
 > -->
 <header
-  class="bg-gradient-to-r from-indigo-500/80 to-indigo-700 shadow-md border border-b-[0.5px]"
+  class="bg-gradient-to-r from-sky-700 to-sky-900 shadow-md border border-b-[0.5px]"
 >
   <nav>
     <a href="/">
       <img
         class="pl-8"
-        src="./../../public/logo/default.webp"
+        src="./../../public/logo/logo-white.webp"
         width="220px"
         alt="Biker Diaries"
       /></a
     >
-    <!--     <div class="internal-links">
-      {!user ? <HeaderLink href="/">Inicio</HeaderLink> : null}
-      {user ? <HeaderLink href="/events">Mis Eventos</HeaderLink> : null}
-      {!user ? <HeaderLink href="/about">Acerca de</HeaderLink> : null}
-    </div> -->
-    <div class="social-links pr-10">
+
+    <div class="flex flex-row pr-10">
       {
         user ? (
           <>
+            <div class="md:flex-none pr-2">
+              <Button
+                variant="outline"
+                size="icon"
+                class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
+              >
+                <Menu class={"text-white"} />
+              </Button>
+            </div>
             <div class="pr-2">
               <form method="POST" action="/">
                 <Button

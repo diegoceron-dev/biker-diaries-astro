@@ -73,7 +73,7 @@ import {
   HelpCircle,
 } from "lucide-vue-next";
 import type { Icon } from "lucide-vue-next";
-import InputSearchBox from "@/components/vue/map/InputSearchBox.vue"
+import InputSearchBox from "@/components/vue/map/InputSearchBox.vue";
 
 // import Editor from "@tinymce/tinymce-vue";
 
@@ -116,7 +116,7 @@ interface Status {
 
 const statusStart = {
   value: "start",
-  label: "Salida",
+  label: "Inicio",
   icon: MapPinHouse,
 };
 
@@ -128,7 +128,7 @@ const statusWaypoint = {
 
 const statusEnd = {
   value: "end",
-  label: "Llegada",
+  label: "Meta",
   icon: MapPinned,
 };
 
@@ -246,10 +246,10 @@ const validateLocations = (location: LocationItem) => {
 </script>
 
 <template>
-  <div class="flex flex-col space-y-4 md:py-12 md:px-24 p-4">
+  <div class="flex flex-col">
     <div class="flex flex-col space-y-4">
       <div class="flex flex-row justify-between">
-        <p class="text-3xl text-slate-600 font-extralight pb-2">Nuevo Evento</p>
+        <p class="text-xl text-slate-600 font-extralight pb-2">Nuevo Evento</p>
       </div>
 
       <Card>
@@ -320,54 +320,13 @@ const validateLocations = (location: LocationItem) => {
               </div>
             </div>
 
-            <!-- Descripción -->
-            <div class="flex flex-col">
-              <FormField v-slot="{ componentField }" name="description">
-                <FormItem v-auto-animate>
-                  <FormLabel>Descripción</FormLabel>
-                  <FormControl>
-                    <!--                     <Editor
-                      v-model="editorContent"
-                      ref="editorRef"
-                      api-key=""
-                      :init="{
-                  toolbar_mode: 'sliding',
-                  plugins:
-                    'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
-                  toolbar:
-                    'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-                  tinycomments_mode: 'embedded',
-                  tinycomments_author: 'Author name',
-                  mergetags_list: [
-                    { value: 'First.Name', title: 'First Name' },
-                    { value: 'Email', title: 'Email' },
-                  ],
-                  ai_request: (request: any, respondWith: any) =>
-                    respondWith.string(() =>
-                      Promise.reject('See docs to implement AI Assistant')
-                    ),
-                }"
-                      initial-value=""
-                    /> -->
-                    <Textarea
-                      rows="5"
-                      placeholder="Descripción del evento (opcional, mín. 2 caracteres, máx. 500)."
-                      class="resize-none"
-                      v-bind="componentField"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </FormField>
-            </div>
-
             <!-- Fecha de Inicio y Fecha de Término -->
             <div class="flex flex-col md:flex-row gap-4 md:gap-12">
               <!-- Fecha de Inicio -->
               <div class="flex flex-col md:w-2/6">
                 <FormField v-slot="{ componentField }" name="startDate">
                   <FormItem class="flex flex-col" v-auto-animate>
-                    <FormLabel>Fecha de inicio</FormLabel>
+                    <FormLabel class="font-thin!">Fecha de inicio</FormLabel>
                     <Popover>
                       <PopoverTrigger as-child>
                         <FormControl>
@@ -375,7 +334,7 @@ const validateLocations = (location: LocationItem) => {
                             variant="outline"
                             :class="
                               cn(
-                                'w-full text-start font-normal',
+                                'w-full text-start font-light',
                                 !startDate && 'text-muted-foreground'
                               )
                             "
@@ -428,7 +387,7 @@ const validateLocations = (location: LocationItem) => {
                             variant="outline"
                             :class="
                               cn(
-                                'w-full text-start font-normal',
+                                'w-full text-start font-light',
                                 !endDate && 'text-muted-foreground'
                               )
                             "
@@ -469,10 +428,51 @@ const validateLocations = (location: LocationItem) => {
               </div>
             </div>
 
+            <!-- Descripción -->
+            <div class="flex flex-col md:w-6/6">
+              <FormField v-slot="{ componentField }" name="description">
+                <FormItem v-auto-animate>
+                  <FormLabel>Descripción</FormLabel>
+                  <FormControl>
+                    <!--                     <Editor
+                      v-model="editorContent"
+                      ref="editorRef"
+                      api-key=""
+                      :init="{
+                  toolbar_mode: 'sliding',
+                  plugins:
+                    'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+                  toolbar:
+                    'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                  tinycomments_mode: 'embedded',
+                  tinycomments_author: 'Author name',
+                  mergetags_list: [
+                    { value: 'First.Name', title: 'First Name' },
+                    { value: 'Email', title: 'Email' },
+                  ],
+                  ai_request: (request: any, respondWith: any) =>
+                    respondWith.string(() =>
+                      Promise.reject('See docs to implement AI Assistant')
+                    ),
+                }"
+                      initial-value=""
+                    /> -->
+                    <Textarea
+                      rows="15"
+                      placeholder="Descripción del evento (opcional, mín. 2 caracteres, máx. 500)."
+                      class="resize-none"
+                      v-bind="componentField"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              </FormField>
+            </div>
+
             <!-- Ubicaciones -->
-            <div class="flex flex-col md:flex-row gap-4 md:gap-12 w-full">
+            <div class="flex flex-col md:w-6/6">
               <!-- Bloque para ubicaciones dinámicas -->
-              <div class="flex flex-col space-y-4 md:w-2/6">
+              <div class="flex flex-col space-y-4 md:w-6/6">
                 <span
                   class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-slate-700"
                   >Ubicaciones</span
@@ -514,15 +514,15 @@ const validateLocations = (location: LocationItem) => {
                     <PopoverTrigger as-child>
                       <Button
                         variant="outline"
-                        size="sm"
-                        class="justify-start h-full"
+                        size="default"
+                        class="justify-start w-[100px] text-center"
                       >
                         <template v-if="location.selectedStatus">
                           <component
                             :is="location.selectedStatus?.icon"
                             class="h-5 w-5 shrink-0"
                           />
-                          <!--  {{ location.selectedStatus?.label }} -->
+                          <span class="pl-1">{{ location.selectedStatus?.label }}</span>
                         </template>
                         <template v-else>
                           <MapPinOff class="size-6 text-slate-400/70" />
@@ -584,16 +584,17 @@ const validateLocations = (location: LocationItem) => {
                   variant="outline"
                   :disabled="locations.length >= maxLocations"
                   @click="addLocation"
+                  class="w-2/6"
                 >
                   Agregar Ubicación
                 </Button>
               </div>
             </div>
 
-            <InputSearchBox />
+            <!-- <InputSearchBox /> -->
 
-            <div class="pt-4">
-              <Button type="submit" class="w-full" :disabled="!loading"
+            <div class="flex flex-col">
+              <Button type="submit" class="w-2/6" :disabled="!loading"
                 >Guardar</Button
               >
             </div>

@@ -16,7 +16,7 @@ export const columns: ColumnDef<Event>[] = [
       return h(
         "div",
         { class: "text-left font-medium" },
-        value.toString().toUpperCase()
+        value.toString()
       );
     },
   },
@@ -82,11 +82,12 @@ export const columns: ColumnDef<Event>[] = [
 
       // Definir clases de Tailwind CSS basadas en el valor del status
       const statusClasses = {
-        upcoming: "bg-yellow-200 text-yellow-700",
-        cancelled: "bg-rose-200 text-rose-700",
-        ongoing: "bg-blue-200 text-blue-700",
-        completed: "bg-lime-200 text-lime-700",
+        upcoming: "bg-indigo-200 text-indigo-800", // un tono claro de índigo para que combine bien con el tema
+        cancelled: "bg-red-200 text-red-800", // un rojo desaturado para evitar choque fuerte con el índigo
+        ongoing: "bg-purple-300 text-purple-800", // más intenso para destacar, pero en la misma gama
+        completed: "bg-cyan-300 text-cyan-800", // un verde azulado que complementa el índigo
       };
+      
 
       // Seleccionar la clase correspondiente o usar la clase por defecto
       const selectedClass =
@@ -99,7 +100,7 @@ export const columns: ColumnDef<Event>[] = [
         h(
           "span",
           {
-            class: `px-2 py-1 rounded-full text-xs font-semibold ${selectedClass}`,
+            class: `px-2 py-1 rounded-full text-xs font-normal ${selectedClass}`,
           },
           value.toUpperCase()
         )
