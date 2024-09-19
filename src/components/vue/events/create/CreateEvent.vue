@@ -232,10 +232,6 @@ const onSubmit = handleSubmit(async (values) => {
     status: "upcoming",
     locations,
   });
-
-  /*  setTimeout(() => {
-    window.location.href = "/events";
-  }, 1000); */
 });
 
 const startDate = computed({

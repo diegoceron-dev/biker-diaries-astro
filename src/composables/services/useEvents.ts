@@ -69,12 +69,11 @@ export function useEvent() {
         duration: 5000,
       });
 
-      // Aquí puedes redirigir a la vista del evento usando el eventId
-      //router.push(`/event/${data.eventId}`);
+      getMyEvents();
+
       setTimeout(() => {
         window.location.href = `/events/${data.eventId}`;
-      }, 1000);
-      
+      }, 2500);
     } catch (error: any) {
       console.error("Error al crear el evento:", error);
       toast({
@@ -82,6 +81,7 @@ export function useEvent() {
         description: error.toString(),
         variant: "destructive",
       });
+      
     } finally {
       loading.value = false;
     }
