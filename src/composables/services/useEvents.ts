@@ -40,29 +40,43 @@ export function useEvent() {
 
   const getEvent = (id: string) => {
     const eventStore = getEventById(id);
-    
     return eventStore;
-  }
+  };
 
   const createEvent = async (event: Event) => {
     loading.value = true;
     try {
       const response = await fetch("/api/events/createEvent", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(event),
       });
 
-      console.log("response composable", response);
+      // Verificamos si la respuesta fue exitosa
+      if (!response.ok) {
+        throw new Error("Error al crear el evento");
+      }
 
-      const responseText = await response.text();
+      // Parseamos la respuesta como JSON
+      const data = await response.json();
 
       toast({
-        title: `${responseText}: ${event.name}`,
+        title: `Evento creado: ${event.name}`,
+        description: `ID del evento: ${data.eventId}`,
         variant: "default",
         duration: 5000,
       });
+
+      // Aquí puedes redirigir a la vista del evento usando el eventId
+      //router.push(`/event/${data.eventId}`);
+      setTimeout(() => {
+        window.location.href = `/events/${data.eventId}`;
+      }, 1000);
+      
     } catch (error: any) {
-      console.error("Error al obtener los datos del catálogo:", error);
+      console.error("Error al crear el evento:", error);
       toast({
         title: "¡Uh oh! Algo ha salido mal.",
         description: error.toString(),
@@ -127,7 +141,8 @@ export function useEvent() {
     getMyEvents,
     getEvent,
     createEvent,
+    updateEvent,
     cancelEvent,
-    generateDescriptionEvent
+    generateDescriptionEvent,
   };
 }

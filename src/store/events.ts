@@ -1,6 +1,16 @@
-import { map } from 'nanostores';
+import { map } from "nanostores";
 
 // Tipo de datos para los elementos del catálogo de eventos
+export type Location = {
+  name: string;
+  typeId: string;
+  sequence: number;
+  id?: string;
+  latitude?: string;
+  longitude?: string;
+  description?: string;
+};
+
 export type Event = {
   id?: string;
   name: string;
@@ -13,12 +23,13 @@ export type Event = {
   cover?: string;
   price?: number;
   status: string;
+  locations?: Location[];
 };
 
 // Función para leer desde localStorage (solo en el cliente)
 function loadEventFromLocalStorage() {
-  if (typeof window !== 'undefined') {
-    const savedEvents = localStorage.getItem('events');
+  if (typeof window !== "undefined") {
+    const savedEvents = localStorage.getItem("events");
     return savedEvents ? JSON.parse(savedEvents) : {};
   }
   return {};
@@ -45,9 +56,9 @@ export const getEventById = (id: string): Event | undefined => {
 };
 
 // Suscribirse a cambios en el catálogo de eventos para guardar en localStorage
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   events.subscribe((newItems) => {
-    localStorage.setItem('events', JSON.stringify(newItems));
-    console.log('Events actualizado:', newItems);
+    localStorage.setItem("events", JSON.stringify(newItems));
+    console.log("Events actualizado:", newItems);
   });
 }

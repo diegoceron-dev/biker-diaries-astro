@@ -74,6 +74,7 @@ import {
 } from "lucide-vue-next";
 import type { Icon } from "lucide-vue-next";
 import InputSearchBox from "@/components/vue/map/InputSearchBox.vue";
+import type { Location } from "@/store/events";
 
 // import Editor from "@tinymce/tinymce-vue";
 
@@ -206,7 +207,20 @@ const { handleSubmit, setFieldValue, values } = useForm({
   initialValues: {},
 });
 
+const mappingLocations = () => {
+  console.log(locations.value);
+  const values: Location[] = locations.value.map((l, index) => ({
+    id: l.id?.toString(),
+    name: l.name,
+    typeId: l.selectedStatus?.value.toString()!,
+    sequence: index + 1,
+  }));
+  return values;
+};
+
 const onSubmit = handleSubmit(async (values) => {
+  const locations = mappingLocations() ?? [];
+
   await useEvents.createEvent({
     description: editorContent.value,
     name: values.name!,
@@ -216,11 +230,12 @@ const onSubmit = handleSubmit(async (values) => {
     isPublic: values.isPublic!,
     creatorId: props.userId,
     status: "upcoming",
+    locations,
   });
 
-  setTimeout(() => {
+  /*  setTimeout(() => {
     window.location.href = "/events";
-  }, 1000);
+  }, 1000); */
 });
 
 const startDate = computed({
@@ -254,10 +269,11 @@ const validateLocations = (location: LocationItem) => {
 
       <Card>
         <CardContent>
-          <form @submit="onSubmit" autocomplete="off" class="space-y-4">
-            <div class="flex flex-col md:flex-row gap-4 md:gap-12">
+          <form @submit="onSubmit" autocomplete="off" class="space-y-8">
+            <!-- Cabezera -->
+            <div class="flex flex-col md:flex-row gap-4 md:gap-8">
               <!-- Nombre del Evento -->
-              <div class="flex flex-col md:w-2/6">
+              <div class="flex flex-col md:w-4/6">
                 <FormField v-slot="{ componentField }" name="name">
                   <FormItem v-auto-animate>
                     <FormLabel>Nombre del Evento</FormLabel>
@@ -300,30 +316,12 @@ const validateLocations = (location: LocationItem) => {
                   </FormItem>
                 </FormField>
               </div>
-
-              <!-- Evento Público -->
-              <div class="flex flex-col">
-                <FormField v-slot="{ componentField }" name="isPublic">
-                  <FormItem v-auto-animate>
-                    <FormLabel>Evento Público</FormLabel>
-                    <div class="flex items-center">
-                      <FormControl>
-                        <Switch
-                          class="border dark:border-slate-700"
-                          v-bind="componentField"
-                        />
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                </FormField>
-              </div>
             </div>
 
             <!-- Fecha de Inicio y Fecha de Término -->
-            <div class="flex flex-col md:flex-row gap-4 md:gap-12">
+            <div class="flex flex-col md:flex-row gap-4 md:gap-8">
               <!-- Fecha de Inicio -->
-              <div class="flex flex-col md:w-2/6">
+              <div class="flex flex-col md:w-3/12">
                 <FormField v-slot="{ componentField }" name="startDate">
                   <FormItem class="flex flex-col" v-auto-animate>
                     <FormLabel class="font-thin!">Fecha de inicio</FormLabel>
@@ -376,7 +374,7 @@ const validateLocations = (location: LocationItem) => {
               </div>
 
               <!-- Fecha de Término -->
-              <div class="flex flex-col md:w-2/6">
+              <div class="flex flex-col md:w-3/12">
                 <FormField v-slot="{ componentField }" name="endDate">
                   <FormItem class="flex flex-col" v-auto-animate>
                     <FormLabel>Fecha de término</FormLabel>
@@ -422,6 +420,24 @@ const validateLocations = (location: LocationItem) => {
                         />
                       </PopoverContent>
                     </Popover>
+                    <FormMessage />
+                  </FormItem>
+                </FormField>
+              </div>
+
+              <!-- Evento Público -->
+              <div class="flex flex-col align-top">
+                <FormField v-slot="{ componentField }" name="isPublic">
+                  <FormItem v-auto-animate class="space-y-0">
+                    <FormLabel class="align-top">¿Es Público?</FormLabel>
+                    <div class="flex items-start justify-center align-top">
+                      <FormControl>
+                        <Switch
+                          class="border dark:border-slate-700"
+                          v-bind="componentField"
+                        />
+                      </FormControl>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 </FormField>
@@ -522,7 +538,9 @@ const validateLocations = (location: LocationItem) => {
                             :is="location.selectedStatus?.icon"
                             class="h-5 w-5 shrink-0"
                           />
-                          <span class="pl-1">{{ location.selectedStatus?.label }}</span>
+                          <span class="pl-1">{{
+                            location.selectedStatus?.label
+                          }}</span>
                         </template>
                         <template v-else>
                           <MapPinOff class="size-6 text-slate-400/70" />
@@ -590,6 +608,8 @@ const validateLocations = (location: LocationItem) => {
                 </Button>
               </div>
             </div>
+
+           <!--  {{ locations }} -->
 
             <!-- <InputSearchBox /> -->
 
