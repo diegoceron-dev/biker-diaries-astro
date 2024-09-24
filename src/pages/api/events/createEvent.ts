@@ -1,4 +1,4 @@
-import type { Location } from "@/store/events";
+import type { Waypoint as WaypointType } from "@/store/events";
 import type { APIRoute } from "astro";
 import { db, Event, Waypoint } from "astro:db";
 import { v4 as uuidv4 } from "uuid";
@@ -20,7 +20,7 @@ export const POST: APIRoute = async ({ request }) => {
     status: requestData.status,
   };
 
-  const waypoints = requestData.locations.map((location: Location) => {
+  const waypoints = requestData.waypoints.map((location: WaypointType) => {
     return {
       id: uuidv4(),
       name: location.name,

@@ -35,34 +35,34 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-  
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-  
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-  
-    --primary: 240 100% 50%; /* Índigo brillante para modo oscuro */
-    --primary-foreground: 240 100% 90%;
-  
-    --secondary: 240 60% 75%;
-    --secondary-foreground: 210 40% 98%;
-  
-    --muted: 240 50% 85%;
-    --muted-foreground: 240 50% 40%;
-  
-    --accent: 240 50% 85%;
-    --accent-foreground: 240 50% 40%;
-  
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-  
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --radius: 1rem;
+    --background: 210 30% 12%; /* Fondo más oscuro, pero no completamente negro */
+    --foreground: 210 15% 95%; /* Texto claro sobre fondo oscuro */
+
+    --card: 210 30% 14%; /* Fondo de tarjeta ligeramente más claro */
+    --card-foreground: 210 15% 90%; /* Texto claro para tarjetas */
+
+    --popover: 210 30% 16%; /* Popover oscuro */
+    --popover-foreground: 210 15% 85%; /* Texto claro en popover */
+
+    --primary: 210 70% 60%; /* Sky más brillante */
+    --primary-foreground: 210 30% 90%; /* Texto claro sobre sky brillante */
+
+    --secondary: 210 60% 45%; /* Fondo secundario más tenue */
+    --secondary-foreground: 210 30% 85%; /* Texto claro en fondo secundario */
+
+    --muted: 210 30% 20%; /* Color muted más oscuro */
+    --muted-foreground: 210 15% 60%; /* Texto muted más claro */
+
+    --accent: 210 40% 50%; /* Color de acento brillante */
+    --accent-foreground: 210 20% 90%; /* Texto claro sobre el acento */
+
+    --destructive: 0 70% 40%; /* Rojo más oscuro para acciones destructivas */
+    --destructive-foreground: 0 100% 90%; /* Texto claro sobre fondo destructivo */
+
+    --border: 210 20% 30%; /* Bordes oscuros para buen contraste */
+    --input: 210 20% 30%; /* Inputs oscuros */
+    --ring: 210 60% 50%; /* Anillo más brillante */
+    --radius: 0.75rem;
   }
 }
 

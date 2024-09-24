@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { typeEventCatalog } from "@/store/catalogs";
 import { useStore } from "@nanostores/vue";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, onBeforeUnmount, reactive } from "vue";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
@@ -66,17 +66,21 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import {
-  ArrowUpCircle,
-  CheckCircle2,
-  Circle,
-  HelpCircle,
-} from "lucide-vue-next";
-import type { Icon } from "lucide-vue-next";
-import InputSearchBox from "@/components/vue/map/InputSearchBox.vue";
-import type { Location } from "@/store/events";
+//import InputSearchBox from "@/components/vue/map/InputSearchBox.vue";
+import type { Waypoint } from "@/store/events";
+import Editor from "@tinymce/tinymce-vue";
 
-// import Editor from "@tinymce/tinymce-vue";
+/* 
+
+import { EditorContent, useEditor } from '@tiptap/vue-3';
+import StarterKit from '@tiptap/starter-kit';
+
+const editor = useEditor({
+  extensions: [StarterKit],
+  content: '<p>Hello World!</p>',
+});
+ */
+onBeforeUnmount(() => {});
 
 const props = defineProps({
   userId: String,
@@ -208,8 +212,7 @@ const { handleSubmit, setFieldValue, values } = useForm({
 });
 
 const mappingLocations = () => {
-  console.log(locations.value);
-  const values: Location[] = locations.value.map((l, index) => ({
+  const values: Waypoint[] = locations.value.map((l, index) => ({
     id: l.id?.toString(),
     name: l.name,
     typeId: l.selectedStatus?.value.toString()!,
@@ -219,10 +222,10 @@ const mappingLocations = () => {
 };
 
 const onSubmit = handleSubmit(async (values) => {
-  const locations = mappingLocations() ?? [];
+  const waypoints = mappingLocations() ?? [];
 
   await useEvents.createEvent({
-    description: editorContent.value,
+    description: editorContent.value || values.description!,
     name: values.name!,
     startDate: new Date(values.startDate),
     endDate: new Date(values.endDate),
@@ -230,7 +233,7 @@ const onSubmit = handleSubmit(async (values) => {
     isPublic: values.isPublic!,
     creatorId: props.userId,
     status: "upcoming",
-    locations,
+    waypoints,
   });
 });
 
@@ -254,6 +257,8 @@ const validateLocations = (location: LocationItem) => {
   if (location.selectedStatus?.value === statusStart.value) {
   }
 };
+
+const turnTinyMceIntoEditor = ref(false); // reactive({ value: true });
 </script>
 
 <template>
@@ -446,35 +451,58 @@ const validateLocations = (location: LocationItem) => {
                 <FormItem v-auto-animate>
                   <FormLabel>Descripción</FormLabel>
                   <FormControl>
-                    <!--                     <Editor
-                      v-model="editorContent"
-                      ref="editorRef"
-                      api-key=""
-                      :init="{
-                  toolbar_mode: 'sliding',
-                  plugins:
-                    'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
-                  toolbar:
-                    'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-                  tinycomments_mode: 'embedded',
-                  tinycomments_author: 'Author name',
-                  mergetags_list: [
-                    { value: 'First.Name', title: 'First Name' },
-                    { value: 'Email', title: 'Email' },
-                  ],
-                  ai_request: (request: any, respondWith: any) =>
-                    respondWith.string(() =>
-                      Promise.reject('See docs to implement AI Assistant')
-                    ),
-                }"
-                      initial-value=""
-                    /> -->
-                    <Textarea
-                      rows="15"
-                      placeholder="Descripción del evento (opcional, mín. 2 caracteres, máx. 500)."
-                      class="resize-none"
-                      v-bind="componentField"
-                    />
+                    <div class="flex flex-col align-top">
+                      <FormField v-slot="{ componentField }" name="isPublic">
+                        <FormItem v-auto-animate class="space-y-0">
+                          <FormLabel class="flex align-top justify-end text-sm"
+                            >¿Mostrar modo avanzado?</FormLabel
+                          >
+                          <div class="flex items-start justify-end align-top">
+                            <FormControl>
+                              <Switch
+                                class="border dark:border-slate-700"
+                                v-model:checked="turnTinyMceIntoEditor"
+                              />
+                            </FormControl>
+                          </div>
+                          <FormMessage />
+                        </FormItem>
+                      </FormField>
+                    </div>
+
+                    <div v-if="turnTinyMceIntoEditor">
+                      <Editor
+                        v-model="editorContent"
+                        ref="editorRef"
+                        api-key="ajdk3vdxlti62bf9ctox7sxjtndxlxrub7cjlzhs0rzi75wm"
+                        :init="{
+                        toolbar_mode: 'sliding',
+                        plugins:
+                          'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+                        toolbar:
+                          'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                        tinycomments_mode: 'embedded',
+                        tinycomments_author: 'Author name',
+                        mergetags_list: [
+                          { value: 'First.Name', title: 'First Name' },
+                          { value: 'Email', title: 'Email' },
+                        ],
+                        ai_request: (request: any, respondWith: any) =>
+                          respondWith.string(() =>
+                            Promise.reject('See docs to implement AI Assistant')
+                          ),
+                      }"
+                        initial-value=""
+                      />
+                    </div>
+                    <div v-else>
+                      <Textarea
+                        rows="10"
+                        placeholder="Descripción del evento (opcional, mín. 2 caracteres, máx. 500)."
+                        class="resize-none"
+                        v-bind="componentField"
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -511,7 +539,7 @@ const validateLocations = (location: LocationItem) => {
                         </span>
                       </div>
                     </PopoverTrigger>
-                    <PopoverContent
+                    <!--  <PopoverContent
                       class="w-auto p-2"
                       v-if="locations[index].name !== ''"
                       align="end"
@@ -519,7 +547,7 @@ const validateLocations = (location: LocationItem) => {
                       <p>
                         Ubicación {{ index + 1 }}: {{ locations[index].name }}
                       </p>
-                    </PopoverContent>
+                    </PopoverContent> -->
                   </Popover>
 
                   <Popover v-model:open="location.open">
@@ -605,7 +633,7 @@ const validateLocations = (location: LocationItem) => {
               </div>
             </div>
 
-           <!--  {{ locations }} -->
+            <!--  {{ locations }} -->
 
             <!-- <InputSearchBox /> -->
 

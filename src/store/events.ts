@@ -1,7 +1,7 @@
 import { map } from "nanostores";
 
 // Tipo de datos para los elementos del catálogo de eventos
-export type Location = {
+export type Waypoint = {
   name: string;
   typeId: string;
   sequence: number;
@@ -23,7 +23,7 @@ export type Event = {
   cover?: string;
   price?: number;
   status: string;
-  locations?: Location[];
+  waypoints?: Waypoint[];
 };
 
 // Función para leer desde localStorage (solo en el cliente)
@@ -59,6 +59,5 @@ export const getEventById = (id: string): Event | undefined => {
 if (typeof window !== "undefined") {
   events.subscribe((newItems) => {
     localStorage.setItem("events", JSON.stringify(newItems));
-    console.log("Events actualizado:", newItems);
   });
 }

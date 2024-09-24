@@ -10,7 +10,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { EarthLock, Earth } from "lucide-vue-next";
+import {
+  EarthLock,
+  Earth,
+  Calendar as CalendarIcon,
+  XCircle,
+  XIcon,
+  LocateFixedIcon,
+  Locate,
+  Map,
+  LucideMapPin,
+  MapPinOff,
+  MapPinned,
+  Waypoints,
+  MapPinHouse,
+} from "lucide-vue-next";
 
 const props = defineProps({
   id: {
@@ -57,9 +71,9 @@ const colors = [
 
 // Definir clases de Tailwind CSS basadas en el valor del status
 const statusClasses = {
-  upcoming: "bg-green-100 text-green-800",
-  cancelled: "bg-red-100 text-red-800",
-  default: "bg-gray-100 text-gray-800",
+  upcoming: "bg-indigo-200/50 text-indigo-800 border-indigo/50",
+  cancelled: "bg-red-200/50 text-red-800 border-red/50",
+  default: "bg-cyan-100/50 text-cyan-800 border-cyan/50",
 };
 
 // Seleccionar la clase correspondiente o usar la clase por defecto
@@ -108,34 +122,73 @@ const dates = computed(() => {
           <!-- Contenido del header -->
           <div class="relative z-10 p-4">
             <CardTitle
-              class="flex gap-2 text-white text-2xl font-bold drop-shadow-lg"
+              class="flex flex-row justify-between gap-2 text-white text-2xl font-bold drop-shadow-lg"
             >
               <span>{{ event.name }}</span>
               <span v-if="event.isPublic">
                 <Earth :size="32" />
               </span>
               <span v-else>
-                <EarthLock />
+                <EarthLock :size="32" />
               </span>
             </CardTitle>
             <CardDescription
               class="text-white text-base drop-shadow-md mt-2 flex gap-x-2"
             >
               <span
-                class="card bg-white/20 backdrop-blur-md border border-white/50 rounded-full shadow-lg px-2 py-1 text-base"
+                class="bg-white/20 backdrop-blur-md border border-white/50 rounded-full shadow-lg px-2 py-1 text-base"
               >
                 {{ dates }}
               </span>
               <span
-                :class="`px-2 py-1 rounded-full text-base capitalize ${selectedClass}`"
+                :class="`px-2 py-1  backdrop-blur-md border rounded-full shadow-lg text-base capitalize ${selectedClass}`"
               >
                 {{ event.status }}
+              </span>
+
+              <span
+                :class="`px-2 py-1  backdrop-blur-md border rounded-full shadow-lg text-base capitalize bg-white/20 border-white/50`"
+              >
+                {{ event.eventType.replace(/_/g, " ") }}
               </span>
             </CardDescription>
           </div>
         </CardHeader>
         <CardContent>
-          <p class="text-base" v-html="event.description"></p>
+          <div>
+            <p class="text-base" v-html="event.description"></p>
+          </div>
+          <div class="pt-2 flex flex-col space-y-2">
+            <p class="text-base font-semibold">Ubicaciones</p>
+            <div
+              class="flex flex-col"
+              v-for="waypoint in event.waypoints"
+              :key="waypoint.id"
+            >
+              <div class="flex flex-row justify-items-start space-x-2">
+                <span class="text-base font-extralight pb-2">
+                  <MapPinHouse
+                    class="size-6 text-slate-400/70"
+                    v-if="waypoint.typeId === 'start'"
+                  />
+                  <Waypoints
+                    class="size-6 text-slate-400/70"
+                    v-if="waypoint.typeId === 'waypoint'"
+                  />
+                  <MapPinned
+                    class="size-6 text-slate-400/70"
+                    v-if="waypoint.typeId === 'end'"
+                  />
+                </span>
+                <span class="text-base font-extralight pb-2 capitalize">
+                  {{ waypoint.sequence }}.
+                </span>
+                <span class="text-base font-extralight pb-2 capitalize">
+                  {{ waypoint.name }}
+                </span>
+              </div>
+            </div>
+          </div>
         </CardContent>
         <CardFooter> </CardFooter>
       </Card>

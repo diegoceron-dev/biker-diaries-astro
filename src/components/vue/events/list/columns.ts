@@ -119,7 +119,7 @@ export const columns: ColumnDef<Event>[] = [
       };
 
       const handleSee = () => {
-        window.location.href = `/events/${event.id}`;
+       //  window.location.href = `/events/${event.id}`;
       };
 
       return h(
