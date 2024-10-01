@@ -49,11 +49,11 @@ export const Event = defineTable({
     startDate: column.date({ optional: false }),
     endDate: column.date({ optional: false }),
     eventType: column.text({ optional: false, references: () => EventType.columns.id }), // Referencia a la tabla EventType
-    creatorId: column.text({ optional: true, references: () => User.columns.id }),
     isPublic: column.boolean({ optional: false, default: false }), // Público o Privado
     cover: column.text({ optional: true }),
     price: column.number({ optional: true }),
     status: column.text({ optional: true, references: () => EventStatus.columns.id }), 
+    userId: column.text({ optional: false, references: () => User.columns.id }),
   },
 });
 

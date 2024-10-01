@@ -2,6 +2,7 @@ import type { ColumnDef } from "@tanstack/vue-table";
 import { type Event } from "@/store/events";
 import { h } from "vue";
 import { Badge } from "@/components/ui/badge";
+//@ts-ignore
 import DropdownAction from "@/components/vue/events/list/DropdownAction.vue";
 import { useEvent } from "@/composables/services/useEvents";
 
@@ -13,13 +14,10 @@ export const columns: ColumnDef<Event>[] = [
     header: () => h("div", { class: "text-left" }, "Nombre"),
     cell: ({ row }) => {
       const value = row.getValue("name") as String;
-      return h(
-        "div",
-        { class: "text-left font-medium" },
-        value.toString()
-      );
+      return h("div", { class: "text-left font-medium" }, value.toString());
     },
   },
+  /* 
   {
     accessorKey: "description",
     header: () => h("div", { class: "text-left" }, "Descripción"),
@@ -28,7 +26,8 @@ export const columns: ColumnDef<Event>[] = [
       value = value.length > 25 ? value.substring(0, 25) + "..." : value;
       return h("div", { class: "text-left font-medium" }, value.toString());
     },
-  },
+  }, 
+  */
   {
     accessorKey: "startDate",
     header: () => h("div", { class: "text-left" }, "Inicio"),
@@ -62,6 +61,15 @@ export const columns: ColumnDef<Event>[] = [
     },
   },
   {
+    accessorKey: "userId",
+    header: () => h("div", { class: "text-left" }, "User Id"),
+    cell: ({ row }) => {
+      const value = row.getValue("userId") as String;
+     
+      return h("div", { class: "text-left font-medium" }, value.toString());
+    },
+  },
+  {
     accessorKey: "eventType",
     header: () => h("div", { class: "text-center" }, "Categoría"),
     cell: ({ row }) => {
@@ -87,7 +95,6 @@ export const columns: ColumnDef<Event>[] = [
         ongoing: "bg-purple-300 text-purple-800", // más intenso para destacar, pero en la misma gama
         completed: "bg-cyan-300 text-cyan-800", // un verde azulado que complementa el índigo
       };
-      
 
       // Seleccionar la clase correspondiente o usar la clase por defecto
       const selectedClass =
@@ -115,11 +122,11 @@ export const columns: ColumnDef<Event>[] = [
 
       const handleCancel = async () => {
         await useEvents.cancelEvent(event);
-        await useEvents.getMyEvents();
+        await useEvents.getMyEvents(event.userId!);
       };
 
       const handleSee = () => {
-       //  window.location.href = `/events/${event.id}`;
+        window.location.href = `/events/${event.id}`;
       };
 
       return h(

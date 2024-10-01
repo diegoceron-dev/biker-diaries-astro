@@ -3,12 +3,13 @@ import MainLayout from "@/layouts/MainLayout.astro";
 import MyEvents from "@/components/vue/events/list/MyEvents.vue";
 
 const user = Astro.locals.user;
+const userId = user ? user.id : null;
 
-if (!user) return Astro.redirect("/signin");
+if (!userId) return Astro.redirect("/signin");
 ---
 
 <MainLayout title="Mis eventos">
   <section>
-    <MyEvents client:load />
+    <MyEvents client:load userId={userId} />
   </section>
 </MainLayout>

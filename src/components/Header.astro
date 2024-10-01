@@ -11,6 +11,32 @@ const user = Astro.locals.user;
 <!-- <header
   class="bg-[url('https://images.unsplash.com/photo-1558979159-2b18a4070a87?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center border border-t-0 border-l-0 border-r-0 border-b-2 dark:border-slate-300 border-slate-700"
 > -->
+<!-- <button id="alert">¡Haz Click!</button> -->
+
+<script>
+  // Encuentra todos los botones con la clase `alert` en la página.
+  const buttons = document.querySelectorAll("#alert");
+
+  async function logout() {
+    const response = await fetch("/api/auth/signout", {
+      method: "POST",
+    });
+
+    const data = await response.json();
+
+    if (data.clearLocalStorage) localStorage.clear();
+
+    window.location.href = "/";
+  }
+
+  // Maneja los clics en cada botón.
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      logout();
+    });
+  });
+</script>
+
 <header
   class="bg-gradient-to-r from-sky-700 to-sky-900 shadow-md border border-b-[0.5px]"
 >
@@ -60,7 +86,7 @@ const user = Astro.locals.user;
               </form>
             </div>
             <div>
-              <form method="POST" action="/api/auth/signout">
+              <div id="alert">
                 <Button
                   variant="outline"
                   size="icon"
@@ -68,7 +94,7 @@ const user = Astro.locals.user;
                 >
                   <LogOut class={"text-white"} />
                 </Button>
-              </form>
+              </div>
             </div>
           </>
         ) : null

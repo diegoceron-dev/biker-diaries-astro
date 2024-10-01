@@ -16,7 +16,7 @@ export const POST: APIRoute = async ({ request }) => {
     endDate: new Date(requestData.endDate),
     eventType: requestData.eventType,
     isPublic: requestData.isPublic,
-    creatorId: requestData.creatorId,
+    userId: requestData.userId,
     status: requestData.status,
   };
 
@@ -30,6 +30,7 @@ export const POST: APIRoute = async ({ request }) => {
       longitude: location.longitude ?? null,
       description: location.description,
       eventId: uuidEvent,
+      userId: requestData.userId,
     };
   });
 

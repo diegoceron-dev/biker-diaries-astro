@@ -42,6 +42,7 @@ export default async function seed() {
   ]);
 
   // Insertar un evento
+  /*   
   await db.insert(Event).values([
     {
       id: "123123123",
@@ -94,5 +95,5 @@ export default async function seed() {
       status: "completed",
     },
   ]);
-  
+   */
 }

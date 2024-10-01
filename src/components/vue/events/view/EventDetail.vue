@@ -85,27 +85,31 @@ const selectedClass = computed(() => {
 });
 
 const dates = computed(() => {
-  if (event.value === undefined) return "";
+  if (!event.value) return "";
 
-  const start = new Date(event.value!.startDate.toString()).toLocaleDateString(
-    "es-ES",
-    {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    }
-  );
+  // Asegurarse de que las fechas sean Date válidas
+  const startDate = new Date(event.value.startDate);
+  const endDate = new Date(event.value.endDate);
 
-  const end = new Date(event.value!.endDate.toString()).toLocaleDateString(
-    "es-ES",
-    {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    }
-  );
+  // Agregar un día a cada fecha
+  startDate.setDate(startDate.getDate() + 1);
+  endDate.setDate(endDate.getDate() + 1);
 
-  return `${start} -  ${end}`;
+  // Opciones para formatear la fecha
+  const options: Intl.DateTimeFormatOptions = {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    timeZone: "America/Mexico_City", // Ajusta la zona horaria si es necesario
+  };
+
+  // Convertir la fecha de inicio
+  const start = startDate.toLocaleDateString("es-ES", options);
+
+  // Convertir la fecha de fin
+  const end = endDate.toLocaleDateString("es-ES", options);
+
+  return `${start} - ${end}`;
 });
 </script>
 
@@ -114,7 +118,7 @@ const dates = computed(() => {
     <div class="flex flex-col space-y-4" v-if="event !== undefined">
       <Card>
         <CardHeader
-          class="relative rounded-t-md bg-[url('https://images.unsplash.com/photo-1558979159-2b18a4070a87?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center"
+          class="relative rounded-t-md bg-[url('https://elchico.mx/wp-content/themes/modulo.elchico/images/showcase/showcase-05.jpg')] bg-cover bg-center"
         >
           <!-- Overlay semi-transparente -->
           <div class="absolute inset-0 bg-black/40 rounded-t-md"></div>
@@ -125,6 +129,7 @@ const dates = computed(() => {
               class="flex flex-row justify-between gap-2 text-white text-2xl font-bold drop-shadow-lg"
             >
               <span>{{ event.name }}</span>
+              <span>{{ event.userId }}</span>
               <span v-if="event.isPublic">
                 <Earth :size="32" />
               </span>
@@ -133,21 +138,20 @@ const dates = computed(() => {
               </span>
             </CardTitle>
             <CardDescription
-              class="text-white text-base drop-shadow-md mt-2 flex gap-x-2"
+              class="flex flex-row justify-end text-white text-base drop-shadow-md mt-2 gap-x-2"
             >
               <span
-                class="bg-white/20 backdrop-blur-md border border-white/50 rounded-full shadow-lg px-2 py-1 text-base"
+                class="bg-white/20 backdrop-blur-md border border-white/50 rounded-full shadow-lg px-2 py-1 text-lg"
               >
                 {{ dates }}
               </span>
               <span
-                :class="`px-2 py-1  backdrop-blur-md border rounded-full shadow-lg text-base capitalize ${selectedClass}`"
-              >
+              :class="`px-2 py-1  backdrop-blur-md border rounded-full shadow-lg text-xl capitalize bg-white/20 border-white/50`"              >
                 {{ event.status }}
               </span>
 
               <span
-                :class="`px-2 py-1  backdrop-blur-md border rounded-full shadow-lg text-base capitalize bg-white/20 border-white/50`"
+                :class="`px-2 py-1  backdrop-blur-md border rounded-full shadow-lg text-xl capitalize bg-white/20 border-white/50`"
               >
                 {{ event.eventType.replace(/_/g, " ") }}
               </span>

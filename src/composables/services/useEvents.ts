@@ -11,10 +11,10 @@ export function useEvent() {
   const loading = ref(false);
 
   // Función para obtener los datos del catálogo desde la API
-  const getMyEvents = async () => {
+  const getMyEvents = async (userId: string) => {
     loading.value = true;
     try {
-      const response = await fetch("/api/events/getEvents", {
+      const response = await fetch(`/api/events/getEvents?userId=${userId}`, {
         method: "GET",
       });
 
@@ -69,7 +69,7 @@ export function useEvent() {
         duration: 5000,
       });
 
-      getMyEvents();
+      getMyEvents(event.userId!);
 
       setTimeout(() => {
         window.location.href = `/events/${data.eventId}`;
@@ -81,7 +81,6 @@ export function useEvent() {
         description: error.toString(),
         variant: "destructive",
       });
-      
     } finally {
       loading.value = false;
     }

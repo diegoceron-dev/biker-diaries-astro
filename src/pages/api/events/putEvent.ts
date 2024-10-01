@@ -16,7 +16,7 @@ export const PUT: APIRoute = async ({ request }) => {
     return new Response("Evento no encontrado", { status: 404 });
   }
 
-  // Actualizar los campos del evento menos el uuid y creatorId
+  // Actualizar los campos del evento menos el uuid y userId
   await db
     .update(Event)
     .set({

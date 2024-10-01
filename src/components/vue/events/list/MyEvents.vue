@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, h, ref, watch } from "vue";
+import { onMounted, h, ref, watch, defineProps } from "vue";
 import { useStore } from "@nanostores/vue";
 import { events as eventsStore, type Event } from "@/store/events";
 import { useCatalog } from "@/composables/services/useServiceCatalogs";
@@ -7,6 +7,14 @@ import { useEvent } from "@/composables/services/useEvents";
 import { Button } from "@/components/ui/button";
 import { columns } from "./columns";
 import DataTable from "@/components/vue/tableDefault/data-table/DataTable.vue";
+
+
+const props = defineProps({
+  userId: {
+    type: String,
+    required: true,
+  },
+});
 
 const useServiceCatalogs = useCatalog();
 const useEvents = useEvent();
@@ -24,6 +32,8 @@ const updateEvents = () => {
         ...event,
         startDate: new Date(event.startDate),
         endDate: new Date(event.endDate),
+        // Convertir waypoints a un array mutable si es readonly
+        waypoints: event.waypoints ? [...event.waypoints] : undefined,
       }))
       .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
   }
@@ -31,7 +41,7 @@ const updateEvents = () => {
 
 onMounted(async () => {
   await useServiceCatalogs.getData();
-  await useEvents.getMyEvents();
+  await useEvents.getMyEvents(props.userId);
   updateEvents();
 });
 

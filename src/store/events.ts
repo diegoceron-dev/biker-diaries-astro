@@ -18,7 +18,7 @@ export type Event = {
   startDate: Date;
   endDate: Date;
   eventType: string;
-  creatorId?: string;
+  userId?: string;
   isPublic: boolean;
   cover?: string;
   price?: number;
@@ -61,3 +61,14 @@ if (typeof window !== "undefined") {
     localStorage.setItem("events", JSON.stringify(newItems));
   });
 }
+
+export const logout = () => {
+  // Limpiar el localStorage
+  localStorage.clear();
+
+  // Limpiar el store de eventos
+  events.set({}); // O restablecerlo a su estado inicial
+
+  // Redirigir a la página de inicio
+  window.location.href = "/";
+};

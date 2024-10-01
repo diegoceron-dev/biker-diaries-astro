@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DonutChart } from '@/components/ui/chart-donut'
+//import { DonutChart } from '@/components/ui/chart-donut'
 
 const data = [
   { name: 'Jan', total: Math.floor(Math.random() * 2000) + 500, predicted: Math.floor(Math.random() * 2000) + 500 },
@@ -12,9 +12,9 @@ const data = [
 </script>
 
 <template>
-  <DonutChart
+  <!-- <DonutChart
     index="name"
     :category="'total'"
     :data="data"
-  />
+  /> -->
 </template>

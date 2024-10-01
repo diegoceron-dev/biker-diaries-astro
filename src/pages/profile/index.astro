@@ -7,7 +7,10 @@ if (!user) return Astro.redirect("/signin");
 ---
 
 <MainLayout title="Mis eventos">
-  <section class="h-screen text-center justify-center align-middle items-center content-center">
-    Profile {user.email}
+  <section
+    class="h-screen text-center justify-center align-middle items-center content-center flex flex-col"
+  >
+    <span>Nombre: {user.email}</span>
+    <span>ID: {user.id}</span>
   </section>
 </MainLayout>

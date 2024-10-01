@@ -10,6 +10,6 @@ if (!userId) return Astro.redirect("/signin");
 
 <MainLayout title="Crear evento">
   <section>
-    <CreateEvent client:only :userId="userId" />
+    <CreateEvent client:load userId={userId} />
   </section>
 </MainLayout>
