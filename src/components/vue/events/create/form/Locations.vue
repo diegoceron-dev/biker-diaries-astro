@@ -6,7 +6,6 @@ import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import DataGeneral from "@/components/vue/events/create/form/DataGeneral.vue";
-import Locations from "@/components/vue/events/create/form/Locations.vue";
 
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -276,11 +275,134 @@ const turnTinyMceIntoEditor = ref(false);
 </script>
 
 <template>
-    <div class="flex flex-col">
-      <Card>
-        <CardContent>
-          <DataGeneral :userId="userId" />
-        </CardContent>
-      </Card>
+  <form @submit="onSubmit" autocomplete="off" class="space-y-8">
+    <!-- Ubicaciones -->
+    <div class="flex flex-col md:w-6/6">
+      <!-- Bloque para ubicaciones dinámicas -->
+      <div class="flex flex-col space-y-4 md:w-6/6">
+        <span
+          class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-slate-700"
+          >Ubicaciones</span
+        >
+
+        <div
+          v-for="(location, index) in locations"
+          :key="index"
+          class="flex gap-2 items-center"
+        >
+          <Popover>
+            <PopoverTrigger as-child>
+              <div class="relative w-full max-w-sm items-center">
+                <Input
+                  v-model="locations[index].name"
+                  type="text"
+                  :placeholder="getPlaceholder(index)"
+                  class="w-full pl-10"
+                />
+                <span
+                  class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
+                >
+                  <Map class="size-6 text-slate-400/70" />
+                </span>
+              </div>
+            </PopoverTrigger>
+            <!--  <PopoverContent
+                      class="w-auto p-2"
+                      v-if="locations[index].name !== ''"
+                      align="end"
+                    >
+                      <p>
+                        Ubicación {{ index + 1 }}: {{ locations[index].name }}
+                      </p>
+                    </PopoverContent> -->
+          </Popover>
+
+          <Popover v-model:open="location.open">
+            <PopoverTrigger as-child>
+              <Button
+                variant="outline"
+                size="default"
+                class="justify-start w-[100px] text-center"
+              >
+                <template v-if="location.selectedStatus">
+                  <component
+                    :is="location.selectedStatus?.icon"
+                    class="h-5 w-5 shrink-0"
+                  />
+                  <span class="pl-1">{{ location.selectedStatus?.label }}</span>
+                </template>
+                <template v-else>
+                  <MapPinOff class="size-6 text-slate-400/70" />
+                </template>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent class="p-0" side="right" align="start">
+              <Command>
+                <CommandInput placeholder="Change status..." />
+                <CommandList>
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandGroup>
+                    <CommandItem
+                      v-for="status in statuses"
+                      :key="status.value"
+                      :value="status.value"
+                      @select="
+                        (value) => {
+                          location.selectedStatus = status;
+                          location.open = false;
+                          validateLocations(location);
+                        }
+                      "
+                    >
+                      <component
+                        :is="status.icon"
+                        :key="status.value"
+                        :class="
+                          cn(
+                            'mr-2 h-4 w-4',
+                            status.value === location.selectedStatus?.value
+                              ? 'opacity-100'
+                              : 'opacity-40'
+                          )
+                        "
+                      />
+                      <span>{{ status.label }}</span>
+                    </CommandItem>
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+          <!-- Botón para eliminar ubicacion actual -->
+          <Button
+            type="button"
+            variant="outline"
+            :disabled="locations.length === 1"
+            @click="removeLocation(index)"
+          >
+            <XIcon class="ms-auto h-5 w-5 opacity-50 text-red-600" />
+          </Button>
+        </div>
+
+        <!-- Botón para agregar una nueva ubicación -->
+        <Button
+          type="button"
+          variant="outline"
+          :disabled="locations.length >= maxLocations"
+          @click="addLocation"
+          class="w-2/6"
+        >
+          Agregar Ubicación
+        </Button>
+      </div>
     </div>
+
+    <!--  {{ locations }} -->
+
+    <!-- <InputSearchBox /> -->
+
+    <div class="flex flex-col justify-end">
+      <Button type="submit" class="w-2/6" :disabled="!loading">Continuar</Button>
+    </div>
+  </form>
 </template>

@@ -16,18 +16,28 @@ const currentStep = ref(1);
 const steps = [
   {
     step: 1,
-    title: "Datos del evento",
+    id: "general",
+    title: "Datos generales",
     description:
       "Provide your name and email address. We will use this information to create your account",
   },
   {
     step: 2,
-    title: "Tickets y precios",
+    id: "locations",
+    title: "Ubicaciones",
     description:
       "A few details about your company will help us personalize your experience",
   },
   {
     step: 3,
+    id: "tickets",
+    title: "Tickets y precios",
+    description:
+      "A few details about your company will help us personalize your experience",
+  },
+  {
+    step: 4,
+    id: "share",
     title: "Compatir",
     description:
       "Start collaborating with your team by inviting them to join your account. You can skip this step and invite them later",
@@ -42,14 +52,14 @@ const steps = [
     v-model="currentStep"
   >
     <StepperItem
-      v-for="step in steps"
-      :key="step.step"
+      v-for="step, index in steps"
+      :key="index"
       v-slot="{ state }"
       class="relative flex w-full items-start gap-6"
-      :step="step.step"
+      :step="index + 1"
     >
       <StepperSeparator
-        v-if="step.step !== steps[steps.length - 1].step"
+        v-if="index + 1 !== steps[steps.length - 1].step"
         class="absolute left-[18px] top-[38px] block h-[105%] w-0.5 shrink-0 rounded-full bg-muted group-data-[state=completed]:bg-primary"
       />
 
