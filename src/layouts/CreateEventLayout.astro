@@ -1,0 +1,54 @@
+---
+import "@/styles/global.css";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import Toaster from "@/components/ui/toast/Toaster.vue";
+import Stepper from "@/components/vue/events/create/Stepper.vue";
+
+const { title } = Astro.props;
+---
+
+<script is:inline>
+  const theme = (() => {
+    return "dark";
+  })();
+
+  if (theme === "light") {
+    document.documentElement.classList.remove("dark");
+  } else {
+    document.documentElement.classList.add("dark");
+  }
+  window.localStorage.setItem("theme", theme);
+</script>
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-background">
+    <Header />
+
+    <div class="container mx-auto">
+      <div class="flex flex-row justify-between py-4">
+        <p class="text-xl text-slate-600 font-extralight pb-2">Nuevo Evento</p>
+      </div>
+
+      <div class="flex flex-col lg:flex-row space-x-16">
+        <!-- Columna del Stepper -->
+        <div class="lg:w-2/12 w-full lg:sticky lg:top-0">
+          <Stepper client:load />
+        </div>
+
+        <!-- Columna del contenido -->
+        <div class="lg:w-10/12 w-full lg:h-screen lg:overflow-y-auto lg:pr-6">
+          <slot />
+        </div>
+      </div>
+    </div>
+
+    <Footer />
+    <Toaster client:load />
+  </body>
+</html>

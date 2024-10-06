@@ -285,12 +285,7 @@ const turnTinyMceIntoEditor = ref(false);
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <div class="flex flex-col space-y-4">
-      <div class="flex flex-row justify-between">
-        <p class="text-xl text-slate-600 font-extralight pb-2">Nuevo Evento</p>
-      </div>
-
+    <div class="flex flex-col">
       <Card>
         <CardContent>
           <form @submit="onSubmit" autocomplete="off" class="space-y-8">
@@ -653,5 +648,4 @@ const turnTinyMceIntoEditor = ref(false);
         </CardContent>
       </Card>
     </div>
-  </div>
 </template>
