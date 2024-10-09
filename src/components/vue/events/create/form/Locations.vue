@@ -69,6 +69,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import type { Waypoint } from "@/store/events";
+import { useSteppers } from "@/composables/useSteppers";
 
 onBeforeUnmount(() => {});
 
@@ -76,38 +77,9 @@ const props = defineProps({
   userId: String,
 });
 
-const placeholder = ref();
+const { currentStepCreateEvent, setCurrentStepCreateEvent } = useSteppers(); // Usa el estado global
 
 const editorContent = ref<string>("");
-
-const editorRef = ref(null);
-
-// Opciones de inicialización del editor
-const editorInitOptions = {
-  toolbar_mode: "sliding",
-  plugins:
-    "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown",
-  toolbar:
-    "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
-  tinycomments_mode: "embedded",
-  tinycomments_author: "Author name",
-  mergetags_list: [
-    { value: "First.Name", title: "First Name" },
-    { value: "Email", title: "Email" },
-  ],
-  // AI request con Promise correctamente manejado
-  ai_request: (request: any, respondWith: any) => {
-    return respondWith.string(() =>
-      Promise.reject("See docs to implement AI Assistant")
-    );
-  },
-};
-
-const df = new DateFormatter("en-US", {
-  dateStyle: "long",
-});
-
-const catalogs = useStore(typeEventCatalog);
 
 const useEvents = useEvent();
 
@@ -120,7 +92,6 @@ const maxLocations = 5;
 interface LocationItem {
   id: number;
   name: string;
-  // type: string;
   open: boolean;
   selectedStatus: Status | null;
 }
@@ -187,40 +158,7 @@ const removeLocation = (index: number) => {
   }
 };
 
-const formSchema = toTypedSchema(
-  z
-    .object({
-      name: z
-        .string()
-        .min(2, "El nombre debe tener al menos 2 caracteres")
-        .max(50, "El nombre no puede tener más de 50 caracteres"),
-      description: z
-        .string()
-        .min(2, "La descripción debe tener al menos 2 caracteres")
-        .max(500, "La descripción no puede tener más de 500 caracteres")
-        .optional(),
-      startDate: z.string({
-        required_error: "La fecha de inicio es obligatoria",
-      }),
-      endDate: z.string({ required_error: "La fecha de fin es obligatoria" }),
-      eventType: z.string().min(1, "El tipo de evento es obligatorio"),
-      isPublic: z.boolean().default(false),
-    })
-    .refine(
-      (data) => {
-        const startDate = new Date(data.startDate);
-        const endDate = new Date(data.endDate);
-        return startDate <= endDate;
-      },
-      {
-        message: "La fecha de inicio no puede ser posterior a la fecha de fin",
-        path: ["endDate"],
-      }
-    )
-);
-
 const { handleSubmit, setFieldValue, values } = useForm({
-  validationSchema: formSchema,
   initialValues: {},
 });
 
@@ -237,27 +175,11 @@ const mappingLocations = () => {
 const onSubmit = handleSubmit(async (values) => {
   const waypoints = mappingLocations() ?? [];
 
-  await useEvents.createEvent({
-    description: editorContent.value || values.description!,
-    name: values.name!,
-    startDate: new Date(values.startDate),
-    endDate: new Date(values.endDate),
-    eventType: values.eventType!,
-    isPublic: values.isPublic!,
-    userId: props.userId,
-    status: "upcoming",
-    waypoints,
-  });
-});
+  // TO DO: Agregar waypoints a la API de eventos
 
-const startDate = computed({
-  get: () => (values.startDate ? parseDate(values.startDate) : undefined),
-  set: (val) => val,
-});
+  console.log(waypoints);
 
-const endDate = computed({
-  get: () => (values.endDate ? parseDate(values.endDate) : undefined),
-  set: (val) => val,
+  setCurrentStepCreateEvent(3);
 });
 
 const getPlaceholder = (index: number) => {
@@ -270,8 +192,6 @@ const validateLocations = (location: LocationItem) => {
   if (location.selectedStatus?.value === statusStart.value) {
   }
 };
-
-const turnTinyMceIntoEditor = ref(false);
 </script>
 
 <template>
@@ -401,8 +321,10 @@ const turnTinyMceIntoEditor = ref(false);
 
     <!-- <InputSearchBox /> -->
 
-    <div class="flex flex-col justify-end">
-      <Button type="submit" class="w-2/6" :disabled="!loading">Continuar</Button>
+    <div class="flex flex-col items-end">
+      <Button type="submit" class="w-2/6" :disabled="!loading"
+        >Continuar</Button
+      >
     </div>
   </form>
 </template>

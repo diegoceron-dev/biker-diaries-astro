@@ -16,7 +16,7 @@ import {
   getSortedRowModel,
   useVueTable,
 } from "@tanstack/vue-table";
-import { ArrowUpDown, ChevronDown } from "lucide-vue-next";
+import { ArrowUpDown, ChevronDown, TableIcon, BookCopy } from "lucide-vue-next";
 
 import { h, ref } from "vue";
 import { Button } from "@/components/ui/button";
@@ -37,6 +37,15 @@ import {
 } from "@/components/ui/table";
 import { cn, valueUpdater } from "@/lib/utils";
 import type { EventType } from "@auth/core/types";
+import type { Event } from "@/store/events";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const props = defineProps<{
   columns: ColumnDef<TData, TValue>[];
@@ -50,6 +59,8 @@ const columnFilters = ref<ColumnFiltersState>([]);
 const columnVisibility = ref<VisibilityState>({});
 const rowSelection = ref({});
 const expanded = ref<ExpandedState>({});
+
+const modeShowData = ref<"table" | "cards">("cards");
 
 const table = useVueTable({
   get data() {
@@ -98,6 +109,21 @@ const getColumnNameFromString = (str: string): string | null => {
   const match = str.match(regex);
   return match ? match[1] : null;
 };
+
+const getHeaderClass = (cover: any) => {
+  if (!cover) return "rounded-t-xl bg-slate-700/10 h-[80px]";
+
+  return `relative rounded-t-md bg-cover bg-center ${
+    cover ? `bg-[url('${cover}')]` : ""
+  }`;
+};
+
+const getDescription = (description: any) => {
+  if (!description) return "No description";
+  return description.length > 25
+    ? description.substring(0, 25) + "..."
+    : description;
+};
 </script>
 
 <template>
@@ -111,7 +137,8 @@ const getColumnNameFromString = (str: string): string | null => {
         @update:model-value="table.getColumn('name')?.setFilterValue($event)"
       />
 
-      <DropdownMenu>
+      <!--   {{ modeShowData }} -->
+      <DropdownMenu v-if="modeShowData === 'table'">
         <DropdownMenuTrigger as-child>
           <Button variant="outline" class="ml-auto">
             Columnas <ChevronDown class="ml-2 h-4 w-4" />
@@ -135,8 +162,73 @@ const getColumnNameFromString = (str: string): string | null => {
           </DropdownMenuCheckboxItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      <div
+        class="flex items-center ml-auto bg-secondary rounded-lg hover:cursor-pointer transition-all duration-200 ease-in-out"
+      >
+        <!-- Ícono de tabla -->
+        <span
+          @click="modeShowData = 'table'"
+          :class="[
+            'flex items-center justify-center p-2 rounded-l-lg',
+            modeShowData === 'table' ? 'bg-transparent' : 'bg-white/30',
+          ]"
+        >
+          <TableIcon
+            :class="[
+              'h-5 w-5',
+              modeShowData === 'table' ? 'text-slate-600' : 'text-slate-600 ',
+            ]"
+          />
+        </span>
+        <!-- Ícono de cards -->
+        <span
+          @click="modeShowData = 'cards'"
+          :class="[
+            'flex items-center justify-center p-2 rounded-r-lg',
+            modeShowData === 'cards' ? 'bg-transparent' : 'bg-white/30',
+          ]"
+        >
+          <BookCopy
+            :class="[
+              'h-5 w-5',
+              modeShowData === 'cards' ? 'text-slate-600' : 'text-slate-600',
+            ]"
+          />
+        </span>
+      </div>
     </div>
-    <div class="rounded-md border border-slate-400 shadow-md">
+
+    <!-- Cards Aqui -->
+    <div
+      class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4"
+      v-if="modeShowData === 'cards'"
+    >
+      <Card v-for="(row, index) in table.getRowModel().rows" :key="index">
+        <CardHeader :class="getHeaderClass(row.getValue('cover'))">
+          <CardTitle class="text-sm font-bold">
+            {{ row.getValue("name") }}
+          </CardTitle>
+        </CardHeader>
+        <CardContent class="text-xs">
+          {{ getDescription(row.getValue("description")) }}
+        </CardContent>
+      </Card>
+
+      <div class="flex w-full items-center justify-center">
+        <span
+          :colspan="columns.length"
+          class="h-24 text-sm text-center text-slate-500 pt-4"
+        >
+          Sin Resultados.
+        </span>
+      </div>
+    </div>
+
+    <div
+      class="rounded-md border border-slate-400 shadow-md"
+      v-if="modeShowData === 'table'"
+    >
       <Table>
         <TableHeader>
           <TableRow
@@ -173,7 +265,7 @@ const getColumnNameFromString = (str: string): string | null => {
                   :data-pinned="cell.column.getIsPinned()"
                   :class="
                     cn(
-                      { 'sticky bg-background/95': cell.column.getIsPinned() },
+                      { 'sticky bg-input/90': cell.column.getIsPinned() },
                       cell.column.getIsPinned() === 'left'
                         ? 'left-0'
                         : 'right-0'
@@ -195,7 +287,10 @@ const getColumnNameFromString = (str: string): string | null => {
           </template>
 
           <TableRow v-else>
-            <TableCell :colspan="columns.length" class="h-24 text-center text-slate-500">
+            <TableCell
+              :colspan="columns.length"
+              class="h-24 text-center text-slate-500"
+            >
               Sin Resultados.
             </TableCell>
           </TableRow>

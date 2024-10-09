@@ -10,8 +10,9 @@ import {
   StepperTrigger,
 } from "@/components/ui/stepper";
 import { Button } from "@/components/ui/button";
+import { useSteppers } from "@/composables/useSteppers"; // Importa el composable que maneja el estado
 
-const currentStep = ref(1);
+const { currentStepCreateEvent, setCurrentStepCreateEvent } = useSteppers(); // Usa el estado global
 
 const steps = [
   {
@@ -30,43 +31,56 @@ const steps = [
   },
   {
     step: 3,
+    id: "agenda",
+    title: "Agenda",
+    description:
+      "Start collaborating with your team by inviting them to join your account. You can skip this step and invite them later",
+  },
+  {
+    step: 4,
     id: "tickets",
-    title: "Tickets y precios",
+    title: "Tickets",
     description:
       "A few details about your company will help us personalize your experience",
   },
   {
-    step: 4,
+    step: 5,
     id: "share",
     title: "Compatir",
     description:
       "Start collaborating with your team by inviting them to join your account. You can skip this step and invite them later",
   },
 ];
+
+const setNewStep = (step: number) => {
+  if (step < currentStepCreateEvent.value) setCurrentStepCreateEvent(step);
+  return
+};
 </script>
 
 <template>
   <Stepper
     orientation="vertical"
-    class="mx-auto flex w-full max-w-md flex-col justify-start gap-10"
-    v-model="currentStep"
+    class="mx-auto flex max-w-md flex-col justify-start gap-y-10"
+    v-model="currentStepCreateEvent"
   >
     <StepperItem
-      v-for="step, index in steps"
+      v-for="(step, index) in steps"
       :key="index"
       v-slot="{ state }"
       class="relative flex w-full items-start gap-6"
       :step="index + 1"
+      @click="setNewStep(index + 1)"
     >
       <StepperSeparator
         v-if="index + 1 !== steps[steps.length - 1].step"
-        class="absolute left-[18px] top-[38px] block h-[105%] w-0.5 shrink-0 rounded-full bg-muted group-data-[state=completed]:bg-primary"
+        class="absolute left-[18px] top-[38px] block h-[105%] w-1 shrink-0 rounded-full bg-muted group-data-[state=completed]:bg-primary"
       />
 
       <StepperTrigger as-child>
         <Button
           :variant="
-            state === 'completed' || state === 'active' ? 'default' : 'outline'
+            state === 'completed' || state === 'active' ? 'default' : 'secondary'
           "
           size="icon"
           class="z-10 rounded-full shrink-0"
@@ -84,7 +98,7 @@ const steps = [
       <div class="flex flex-col gap-1">
         <StepperTitle
           :class="[state === 'active' && '!text-primary']"
-          class="text-sm font-semibold transition lg:text-base text-slate-600"
+          class="text-sm font-light transition lg:text-base text-slate-600"
         >
           {{ step.title }}
         </StepperTitle>

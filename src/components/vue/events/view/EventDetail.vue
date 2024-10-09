@@ -129,7 +129,6 @@ const dates = computed(() => {
               class="flex flex-row justify-between gap-2 text-white text-2xl font-bold drop-shadow-lg"
             >
               <span>{{ event.name }}</span>
-              <span>{{ event.userId }}</span>
               <span v-if="event.isPublic">
                 <Earth :size="32" />
               </span>

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import Toaster from "@/components/ui/toast/Toaster.vue";
 import Stepper from "@/components/vue/events/create/Stepper.vue";
+import { Card, CardContent } from "@/components/ui/card";
 
 const { title } = Astro.props;
 ---
@@ -27,28 +28,21 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
   </head>
-  <body class="bg-background">
+  <body class="bg-gray-100/80">
     <Header />
+<!-- 
+    <p class="text-xl text-slate-600 font-extralight pb-4">Nuevo Evento</p> -->
 
-    <div class="container mx-auto">
-      <div class="flex flex-row justify-between py-4">
-        <p class="text-xl text-slate-600 font-extralight pb-2">Nuevo Evento</p>
-      </div>
-
-      <div class="flex flex-col lg:flex-row space-x-16">
-        <!-- Columna del Stepper -->
-        <div class="lg:w-2/12 w-full lg:sticky lg:top-0">
-          <Stepper client:load />
-        </div>
-
-        <!-- Columna del contenido -->
-        <div class="lg:w-10/12 w-full lg:h-screen lg:overflow-y-auto lg:pr-6">
-          <slot />
-        </div>
-      </div>
+   <div class="flex flex-col lg:flex-row">
+    <div class="py-12 px-8 border-dashed border-r-2 ">
+      <Stepper client:load />
     </div>
-
-    <Footer />
-    <Toaster client:load />
+    <div class="w-full">
+      <slot />
+    </div>
+   </div>
   </body>
 </html>
+
+<Footer />
+<Toaster client:load />

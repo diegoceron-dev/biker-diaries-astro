@@ -60,7 +60,7 @@ export const columns: ColumnDef<Event>[] = [
       return h("div", { class: "text-left font-medium" }, formattedDate);
     },
   },
-  {
+  /*   {
     accessorKey: "userId",
     header: () => h("div", { class: "text-left" }, "User Id"),
     cell: ({ row }) => {
@@ -68,7 +68,7 @@ export const columns: ColumnDef<Event>[] = [
      
       return h("div", { class: "text-left font-medium" }, value.toString());
     },
-  },
+  }, */
   {
     accessorKey: "eventType",
     header: () => h("div", { class: "text-center" }, "Categoría"),

@@ -4,67 +4,68 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* Fondo claro */
-    --foreground: 210 20% 20%; /* Texto más oscuro */
+    --background: 200 100% 98%; /* sky-50 */
+    --foreground: 210 20% 20%; /* Texto oscuro */
 
-    --card: 0 0% 100%; /* Fondo de tarjeta claro */
+    --card: 210 100% 100%; /* Fondo de tarjeta claro (sky-50) */
     --card-foreground: 210 20% 30%; /* Texto ligeramente más oscuro */
 
-    --popover: 0 0% 100%; /* Popover claro */
+    --popover: 210 100% 98%; /* Popover claro (sky-50) */
     --popover-foreground: 210 20% 30%;
 
-    --primary: 210 70% 40%; /* Sky oscuro, alineado con sky-800 */
-    --primary-foreground: 210 30% 90%; /* Texto claro sobre sky oscuro */
+    --primary: 210 80% 60%; /* sky-600 */
+    --primary-foreground: 210 100% 98%; /* Texto claro sobre sky-600 */
 
-    --secondary: 210 60% 45%; /* Un tono más oscuro para elementos secundarios */
-    --secondary-foreground: 210 100% 60%; /* Texto claro sobre fondo oscuro secundario */
+    --secondary: 210 100% 86%; /* sky-200 */
+    --secondary-foreground: 210 100% 40%; /* Texto claro sobre sky-200 */
 
-    --muted: 210 50% 30%; /* Sky oscuro y tenue */
+    --muted: 210 80% 52%; /* sky-500 */
     --muted-foreground: 210 30% 60%; /* Texto más tenue pero legible */
 
-    --accent: 210 50% 40%; /* Color de acento ligeramente más oscuro */
-    --accent-foreground: 210 30% 50%;
+    --accent: 210 100% 71%; /* sky-300 */
+    --accent-foreground: 210 30% 50%; /* Texto sobre acento */
 
     --destructive: 0 84.2% 60.2%; /* Mantén el rojo para acciones destructivas */
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 210 100% 98%; /* Texto claro sobre fondo destructivo */
 
-    --border: 210 20% 85%; /* Bordes más claros para buen contraste */
-    --input: 210 20% 85%; /* Inputs claros */
-    --ring: 210 60% 50%; /* Un anillo oscuro y tenue */
+    --border: 210 60% 80%; /* sky-100 para bordes claros */
+    --input: 220 100% 100%; /* Inputs claros (sky-100) */
+    --ring: 210 80% 52%; /* Un anillo en sky-500 */
     --radius: 0.75rem;
   }
 
   .dark {
-    --background: 210 30% 12%; /* Fondo más oscuro, pero no completamente negro */
-    --foreground: 210 15% 95%; /* Texto claro sobre fondo oscuro */
+    --background: 0 0% 98%; /* sky-900 */
+    --foreground: 210 20% 90%; /* Texto claro sobre fondo oscuro */
 
-    --card: 210 30% 14%; /* Fondo de tarjeta ligeramente más claro */
-    --card-foreground: 210 15% 90%; /* Texto claro para tarjetas */
+    --card: 210 35% 18%; /* Fondo de tarjeta oscuro (sky-800) */
+    --card-foreground: 210 20% 85%; /* Texto claro en tarjetas oscuras */
 
-    --popover: 210 30% 16%; /* Popover oscuro */
-    --popover-foreground: 210 15% 85%; /* Texto claro en popover */
+    --popover: 210 35% 18%; /* Popover oscuro (sky-800) */
+    --popover-foreground: 210 20% 85%; /* Texto claro en popover */
 
-    --primary: 210 70% 60%; /* Sky más brillante */
-    --primary-foreground: 210 30% 90%; /* Texto claro sobre sky brillante */
+    --primary: 210 60% 60%; /* sky-700 */
+    --primary-foreground: 210 100% 98%; /* Texto claro sobre sky-700 */
 
-    --secondary: 210 60% 45%; /* Fondo secundario más tenue */
-    --secondary-foreground: 210 30% 85%; /* Texto claro en fondo secundario */
+    --secondary: 210 35% 26%; /* sky-700 para fondo secundario */
+    --secondary-foreground: 210 100% 98%; /* Texto claro en fondo secundario */
 
-    --muted: 210 30% 20%; /* Color muted más oscuro */
-    --muted-foreground: 210 15% 60%; /* Texto muted más claro */
+    --muted: 210 35% 20%; /* Color muted más oscuro (sky-800) */
+    --muted-foreground: 210 100% 90%; /* Texto muted más claro */
 
-    --accent: 210 40% 50%; /* Color de acento brillante */
-    --accent-foreground: 210 20% 90%; /* Texto claro sobre el acento */
+    --accent: 210 60% 70%; /* Color de acento brillante (sky-600) */
+    --accent-foreground: 210 100% 98%; /* Texto claro sobre acento */
 
     --destructive: 0 70% 40%; /* Rojo más oscuro para acciones destructivas */
     --destructive-foreground: 0 100% 90%; /* Texto claro sobre fondo destructivo */
 
-    --border: 210 20% 30%; /* Bordes oscuros para buen contraste */
-    --input: 210 20% 30%; /* Inputs oscuros */
-    --ring: 210 60% 50%; /* Anillo más brillante */
+    --border: 210 35% 30%; /* Bordes oscuros (sky-900) */
+    --input: 210 35% 30%; /* Inputs oscuros (sky-900) */
+    --ring: 210 60% 50%; /* Anillo más brillante (sky-600) */
     --radius: 0.75rem;
   }
 }
+
 
 nav {
   display: flex;

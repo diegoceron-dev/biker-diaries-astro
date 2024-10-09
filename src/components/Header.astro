@@ -9,6 +9,7 @@ const user = Astro.locals.user;
 ---
 
 <!-- <header
+  class="bg-gradient-to-r from-sky-400 to-sky-600 shadow-md"
   class="bg-[url('https://images.unsplash.com/photo-1558979159-2b18a4070a87?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center border border-t-0 border-l-0 border-r-0 border-b-2 dark:border-slate-300 border-slate-700"
 > -->
 <!-- <button id="alert">¡Haz Click!</button> -->
@@ -38,13 +39,13 @@ const user = Astro.locals.user;
 </script>
 
 <header
-  class="bg-gradient-to-r from-sky-700 to-sky-900 shadow-md border border-b-[0.5px]"
+  class="shadow"
 >
   <nav>
     <a href="/">
       <img
         class="pl-8"
-        src="./../../public/logo/logo-white.webp"
+        src="./../../public/logo/logo.webp"
         width="220px"
         alt="Biker Diaries"
       /></a
@@ -60,7 +61,7 @@ const user = Astro.locals.user;
                 size="icon"
                 class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
               >
-                <Menu class={"text-white"} />
+                <Menu class={"text-default-foreground"} />
               </Button>
             </div>
             <div class="pr-2">
@@ -70,7 +71,7 @@ const user = Astro.locals.user;
                   size="icon"
                   class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
                 >
-                  <Home class={"text-white"} />
+                  <Home class={"text-default-foreground"} />
                 </Button>
               </form>
             </div>
@@ -81,7 +82,7 @@ const user = Astro.locals.user;
                   size="icon"
                   class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
                 >
-                  <UserCog2Icon class={"text-white"} />
+                  <UserCog2Icon class={"text-default-foreground"} />
                 </Button>
               </form>
             </div>
@@ -92,7 +93,7 @@ const user = Astro.locals.user;
                   size="icon"
                   class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
                 >
-                  <LogOut class={"text-white"} />
+                  <LogOut class={"text-default-foreground"} />
                 </Button>
               </div>
             </div>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { typeEventCatalog } from "@/store/catalogs";
 import { useStore } from "@nanostores/vue";
-import { computed, onMounted, ref, onBeforeUnmount } from "vue";
+import { computed, onMounted, ref, onBeforeUnmount, defineEmits } from "vue";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
@@ -28,7 +28,6 @@ import {
   CalendarDate,
   DateFormatter,
   parseDate,
-  today,
 } from "@internationalized/date";
 // @ts-ignore
 import { toDate } from "radix-vue/date";
@@ -41,6 +40,10 @@ import {
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { useEvent } from "@/composables/services/useEvents";
+import { useSteppers } from "@/composables/useSteppers";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { fill } from "@cloudinary/url-gen/actions/resize"; // Acciones para redimensionar
+import Editor from "@tinymce/tinymce-vue";
 
 onMounted(() => {});
 
@@ -50,6 +53,10 @@ const props = defineProps({
   userId: String,
 });
 
+const emits = defineEmits(["onSubmit"]);
+
+const { currentStepCreateEvent, setCurrentStepCreateEvent } = useSteppers(); // Usa el estado global
+
 const catalogs = useStore(typeEventCatalog);
 
 const useEvents = useEvent();
@@ -58,28 +65,22 @@ const placeholder = ref();
 
 const editorContent = ref<string>("");
 
-const turnTinyMceIntoEditor = ref(false);
+const turnTinyMceIntoEditor = ref(true);
 
 const editorRef = ref(null);
 
 const editorInitOptions = {
   toolbar_mode: "sliding",
-  plugins:
-    "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown",
   toolbar:
     "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
   tinycomments_mode: "embedded",
   tinycomments_author: "Author name",
-  mergetags_list: [
-    { value: "First.Name", title: "First Name" },
-    { value: "Email", title: "Email" },
-  ],
   // AI request con Promise correctamente manejado
-  ai_request: (request: any, respondWith: any) => {
+  /* ai_request: (request: any, respondWith: any) => {
     return respondWith.string(() =>
       Promise.reject("See docs to implement AI Assistant")
     );
-  },
+  }, */
 };
 
 const df = new DateFormatter("en-US", {
@@ -138,7 +139,11 @@ const { handleSubmit, setFieldValue, values } = useForm({
 });
 
 const onSubmit = handleSubmit(async (values) => {
-  await useEvents.createEvent({
+  await uploadImage();
+
+  emits("onSubmit", { form: values, cover: imageUrl.value });
+
+  /* await useEvents.createEvent({
     description: editorContent.value || values.description!,
     name: values.name!,
     startDate: new Date(values.startDate),
@@ -148,13 +153,69 @@ const onSubmit = handleSubmit(async (values) => {
     userId: props.userId,
     status: "upcoming",
     waypoints: [],
-  });
+  }); */
+
+  // setCurrentStepCreateEvent(2);
 });
+
+const picture = ref<File | null>(null);
+const imageUrl = ref<string | null>(null);
+const uploadError = ref<string | null>(null);
+
+// Crear instancia de Cloudinary
+const cloudName = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME;
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: cloudName, // Leer cloudName desde las variables de entorno
+  },
+});
+
+const uploadImage = async () => {
+  if (!picture.value) return;
+
+  const formData = new FormData();
+  formData.append("file", picture.value);
+  formData.append("upload_preset", "ml_default"); // Cambia esto por tu propio upload_preset
+
+  try {
+    // Usamos fetch para realizar la subida de imagen
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${
+        import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME
+      }/image/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const data = await response.json();
+
+    // Muestra la URL de la imagen subida
+    //imageUrl.value = data.secure_url;
+
+    if (response.ok) {
+      // Si la subida fue exitosa, aplicar la transformación
+      const uploadedImage = cld.image(data.public_id);
+
+      // Aplicar transformación c_fit (redimensionar con ajuste de proporciones)
+      const transformedImage = uploadedImage.resize(
+        fill().width(600).height(300) // Aquí defines el tamaño exacto
+      );
+
+      imageUrl.value = transformedImage.toURL();
+      console.log("Imagen subida y transformada:", imageUrl.value);
+    } else {
+      throw new Error(data.error.message);
+    }
+  } catch (error) {
+    console.error("Error al subir la imagen:", error);
+    uploadError.value = "Error al subir la imagen: " + error;
+  }
+};
 </script>
 
 <template>
-  <form @submit="onSubmit" autocomplete="off" class="space-y-8">
-    <!-- Cabezera -->
+  <form @submit="onSubmit" autocomplete="off" class="space-y-4">
     <div class="flex flex-col md:flex-row gap-4 md:gap-8">
       <!-- Nombre del Evento -->
       <div class="flex flex-col md:w-4/6">
@@ -214,7 +275,7 @@ const onSubmit = handleSubmit(async (values) => {
                     variant="outline"
                     :class="
                       cn(
-                        'w-full text-start font-light',
+                        'w-full text-start font-light !bg-input border-dashed border-2 border-gray-200',
                         !startDate && 'text-muted-foreground'
                       )
                     "
@@ -267,7 +328,7 @@ const onSubmit = handleSubmit(async (values) => {
                     variant="outline"
                     :class="
                       cn(
-                        'w-full text-start font-light',
+                        'w-full text-start font-light !bg-input border-dashed border-2 border-gray-200',
                         !endDate && 'text-muted-foreground'
                       )
                     "
@@ -355,9 +416,10 @@ const onSubmit = handleSubmit(async (values) => {
 
             <div v-if="turnTinyMceIntoEditor">
               <Editor
+              class="!border-dashed !border-2 !border-gray-200"
                 v-model="editorContent"
                 ref="editorRef"
-                api-key="ajdk3vdxlti62bf9ctox7sxjtndxlxrub7cjlzhs0rzi75wm"
+                api-key="m6yhshx15n7lh6omdjuk895p413v1t8eeelyzhr6ujgcmgei"
                 :init="editorInitOptions"
                 initial-value=""
               />
@@ -376,7 +438,27 @@ const onSubmit = handleSubmit(async (values) => {
       </FormField>
     </div>
 
-    <div class="flex flex-col items-end">
+    <!-- Subir imagen -->
+    <div class="flex flex-col md:flex-row gap-4 md:gap-8">
+      <div class="flex flex-col md:w-full">
+        <FormField v-slot="{ componentField }" name="cover">
+          <FormItem v-auto-animate>
+            <FormLabel>Imagen de portada</FormLabel>
+            <FormControl>
+              <Input
+                id="picture"
+                type="file"
+                v-bind="componentField"
+                @change="(e: any) => picture = e.target.files[0]"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-end py-4">
       <Button type="submit" class="w-2/6" :disabled="!loading"
         >Continuar</Button
       >

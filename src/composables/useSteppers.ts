@@ -1,6 +1,5 @@
 import { useToast } from "@/components/ui/toast";
 import { currentStepStore, loadingStore, setCurrentStep, setLoading } from "@/store/stepperStore";
-import { computed } from "vue";
 import { useStore } from '@nanostores/vue';
 
 export const useSteppers = () => {
