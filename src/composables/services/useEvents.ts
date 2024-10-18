@@ -1,6 +1,6 @@
 // src/composables/useCatalog.ts
 
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { setEventItems, getEventById } from "@/store/events";
 import type { Event } from "@/store/events";
@@ -45,6 +45,7 @@ export function useEvent() {
 
   const createEvent = async (event: Event) => {
     loading.value = true;
+    event.status = "upcoming"
     try {
       const response = await fetch("/api/events/createEvent", {
         method: "POST",
@@ -134,6 +135,11 @@ export function useEvent() {
 
     console.log(response);
   };
+
+  const saveEventOnMemory = async (event: Event, step: number) => {
+   
+  }
+
 
   return {
     loading,

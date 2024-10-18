@@ -23,6 +23,16 @@ export default {
     },
     extend: {
       colors: {
+/*         motorcycleOrange: '#D26A3B', // Color del tanque
+        tireBlack: '#333333', // Color de los neumáticos
+        skyBlue: '#A0D7F7', // Color del cielo claro
+        deepBlue: '#5A79BA', // Color del cielo más oscuro */
+        orangeBrand: '#95434c',
+        skyBrand: '#a5b0e1',
+        blueBrand: '#7a89be ',
+        indigoBrand: '#6d71d1',
+        wayBrand: '#6d71d1',
+        
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

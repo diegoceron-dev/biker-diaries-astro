@@ -110,12 +110,17 @@ const getColumnNameFromString = (str: string): string | null => {
   return match ? match[1] : null;
 };
 
-const getHeaderClass = (cover: any) => {
-  if (!cover) return "rounded-t-xl bg-slate-700/10 h-[80px]";
+const getHeaderClass = (row: any) => {
+  const cover = row.getValue("cover");
+  const color = row.getValue("color") ?? "bg-slate-700/20";
+
+  /*   if (!cover) return "rounded-t-xl bg-slate-700/10 h-[80px]";
 
   return `relative rounded-t-md bg-cover bg-center ${
     cover ? `bg-[url('${cover}')]` : ""
-  }`;
+  }`; */
+
+  return cover ? `bg-black/40 bg-[url('${cover}')] bg-cover bg-center` : color;
 };
 
 const getDescription = (description: any) => {
@@ -123,6 +128,12 @@ const getDescription = (description: any) => {
   return description.length > 25
     ? description.substring(0, 25) + "..."
     : description;
+};
+
+const handleSee = (row: any) => {
+  const event = row.original;
+
+  window.location.href = `/events/${event.id}`;
 };
 </script>
 
@@ -205,7 +216,10 @@ const getDescription = (description: any) => {
       v-if="modeShowData === 'cards'"
     >
       <Card v-for="(row, index) in table.getRowModel().rows" :key="index">
-        <CardHeader :class="getHeaderClass(row.getValue('cover'))">
+        <CardHeader
+          :class="['relative rounded-t-md', getHeaderClass(row)]"
+          @click="handleSee(row)"
+        >
           <CardTitle class="text-sm font-bold">
             {{ row.getValue("name") }}
           </CardTitle>
@@ -214,15 +228,18 @@ const getDescription = (description: any) => {
           {{ getDescription(row.getValue("description")) }}
         </CardContent>
       </Card>
+    </div>
 
-      <div class="flex w-full items-center justify-center">
-        <span
-          :colspan="columns.length"
-          class="h-24 text-sm text-center text-slate-500 pt-4"
-        >
-          Sin Resultados.
-        </span>
-      </div>
+    <div
+      class="flex w-full items-center justify-center h-24"
+      v-if="modeShowData === 'cards'"
+    >
+      <span
+        :colspan="columns.length"
+        class="flex items-center justify-center text-sm text-slate-500 rounded-md w-full h-full"
+      >
+        Sin Resultados.
+      </span>
     </div>
 
     <div
@@ -298,7 +315,10 @@ const getDescription = (description: any) => {
       </Table>
     </div>
 
-    <div class="flex items-center justify-end space-x-2 py-4">
+    <div
+      class="flex items-center justify-end space-x-2 py-4"
+      v-if="table.getRowModel().rows?.length"
+    >
       <div class="flex-1 text-sm text-muted-foreground">
         {{ table.getFilteredSelectedRowModel().rows.length }} of
         {{ table.getFilteredRowModel().rows.length }} row(s) selected.

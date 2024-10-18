@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { typeEventCatalog } from "@/store/catalogs";
 import { useStore } from "@nanostores/vue";
-import { computed, onMounted, ref, onBeforeUnmount, reactive } from "vue";
+import { computed, onMounted, ref, onBeforeUnmount, reactive , defineEmits} from "vue";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
@@ -77,6 +77,8 @@ const props = defineProps({
   userId: String,
 });
 
+const emits = defineEmits(["onSubmit"]);
+
 const { currentStepCreateEvent, setCurrentStepCreateEvent } = useSteppers(); // Usa el estado global
 
 const editorContent = ref<string>("");
@@ -87,7 +89,7 @@ const loading = computed(() => {
   return useEvents.loading;
 });
 
-const maxLocations = 5;
+const maxLocations = 10;
 
 interface LocationItem {
   id: number;
@@ -175,9 +177,7 @@ const mappingLocations = () => {
 const onSubmit = handleSubmit(async (values) => {
   const waypoints = mappingLocations() ?? [];
 
-  // TO DO: Agregar waypoints a la API de eventos
-
-  console.log(waypoints);
+  emits("onSubmit", waypoints);
 
   setCurrentStepCreateEvent(3);
 });

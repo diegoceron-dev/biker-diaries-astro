@@ -51,9 +51,10 @@ onBeforeUnmount(() => {});
 
 const props = defineProps({
   userId: String,
+  gradients: Array,
 });
 
-const emits = defineEmits(["onSubmit"]);
+const emits = defineEmits(["onSubmit", "setGradient"]);
 
 const { currentStepCreateEvent, setCurrentStepCreateEvent } = useSteppers(); // Usa el estado global
 
@@ -65,7 +66,7 @@ const placeholder = ref();
 
 const editorContent = ref<string>("");
 
-const turnTinyMceIntoEditor = ref(true);
+const turnTinyMceIntoEditor = ref(false);
 
 const editorRef = ref(null);
 
@@ -155,7 +156,7 @@ const onSubmit = handleSubmit(async (values) => {
     waypoints: [],
   }); */
 
-  // setCurrentStepCreateEvent(2);
+  setCurrentStepCreateEvent(2);
 });
 
 const picture = ref<File | null>(null);
@@ -212,10 +213,14 @@ const uploadImage = async () => {
     uploadError.value = "Error al subir la imagen: " + error;
   }
 };
+
+const selectGradient = (gradient: any) => {
+  emits("setGradient", gradient);
+};
 </script>
 
 <template>
-  <form @submit="onSubmit" autocomplete="off" class="space-y-4">
+  <form @submit.prevent="onSubmit" autocomplete="off" class="space-y-4">
     <div class="flex flex-col md:flex-row gap-4 md:gap-8">
       <!-- Nombre del Evento -->
       <div class="flex flex-col md:w-4/6">
@@ -275,7 +280,7 @@ const uploadImage = async () => {
                     variant="outline"
                     :class="
                       cn(
-                        'w-full text-start font-light !bg-input border-dashed border-2 border-gray-200',
+                        'w-full text-start font-light !bg-input border border-gray-500 border-gray-500',
                         !startDate && 'text-muted-foreground'
                       )
                     "
@@ -328,7 +333,7 @@ const uploadImage = async () => {
                     variant="outline"
                     :class="
                       cn(
-                        'w-full text-start font-light !bg-input border-dashed border-2 border-gray-200',
+                        'w-full text-start font-light !bg-input border border-gray-500',
                         !endDate && 'text-muted-foreground'
                       )
                     "
@@ -374,7 +379,7 @@ const uploadImage = async () => {
             <div class="flex items-start justify-center align-top">
               <FormControl>
                 <Switch
-                  class="border dark:border-slate-700"
+                  class="border dark:border-slate-700 border-gray-500"
                   v-bind="componentField"
                 />
               </FormControl>
@@ -416,7 +421,7 @@ const uploadImage = async () => {
 
             <div v-if="turnTinyMceIntoEditor">
               <Editor
-              class="!border-dashed !border-2 !border-gray-200"
+                class="!border-dashed !border-2 !border-gray-200"
                 v-model="editorContent"
                 ref="editorRef"
                 api-key="m6yhshx15n7lh6omdjuk895p413v1t8eeelyzhr6ujgcmgei"
@@ -440,7 +445,7 @@ const uploadImage = async () => {
 
     <!-- Subir imagen -->
     <div class="flex flex-col md:flex-row gap-4 md:gap-8">
-      <div class="flex flex-col md:w-full">
+      <div class="flex flex-col md:w-3/6">
         <FormField v-slot="{ componentField }" name="cover">
           <FormItem v-auto-animate>
             <FormLabel>Imagen de portada</FormLabel>
@@ -451,6 +456,30 @@ const uploadImage = async () => {
                 v-bind="componentField"
                 @change="(e: any) => picture = e.target.files[0]"
               />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+      </div>
+
+      <div class="flex flex-col md:w-3/6">
+        <FormField v-slot="{ componentField }" name="cover">
+          <FormItem v-auto-animate>
+            <FormLabel>O selecciona un color</FormLabel>
+            <FormControl>
+              <div
+                class="flex flex-row gap-x-4 gap-y-4 border border-gray-500 rounded-sm p-2 bg-input pr-2 pl-4 pt-2 pb-2" 
+              >
+                <button
+                  v-for="(gradient, index) in props.gradients"
+                  :key="index"
+                  :class="[
+                    gradient,
+                    'p-2 text-white font-light rounded-full text-sm w-[24px] h-[24px]',
+                  ]"
+                  @click.prevent="selectGradient(gradient)"
+                ></button>
+              </div>
             </FormControl>
             <FormMessage />
           </FormItem>

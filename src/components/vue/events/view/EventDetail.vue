@@ -111,17 +111,22 @@ const dates = computed(() => {
 
   return `${start} - ${end}`;
 });
+
+const getColorOrCover = () => {
+  const cover = event.value?.cover;
+  const color = event.value?.color ?? "bg-indigoBrand";
+
+  return cover ? `bg-black/40 bg-[url('${cover}')] bg-cover bg-center` : color;
+};
 </script>
 
 <template>
   <div class="flex flex-col">
     <div class="flex flex-col space-y-4" v-if="event !== undefined">
       <Card>
-        <CardHeader
-          class="relative rounded-t-md bg-[url('https://elchico.mx/wp-content/themes/modulo.elchico/images/showcase/showcase-05.jpg')] bg-cover bg-center"
-        >
+        <CardHeader :class="['relative rounded-t-md', getColorOrCover()]">
           <!-- Overlay semi-transparente -->
-          <div class="absolute inset-0 bg-black/40 rounded-t-md"></div>
+          <div class="absolute inset-0 rounded-t-md"></div>
 
           <!-- Contenido del header -->
           <div class="relative z-10 p-4">
@@ -145,7 +150,8 @@ const dates = computed(() => {
                 {{ dates }}
               </span>
               <span
-              :class="`px-2 py-1  backdrop-blur-md border rounded-full shadow-lg text-xl capitalize bg-white/20 border-white/50`"              >
+                :class="`px-2 py-1  backdrop-blur-md border rounded-full shadow-lg text-xl capitalize bg-white/20 border-white/50`"
+              >
                 {{ event.status }}
               </span>
 

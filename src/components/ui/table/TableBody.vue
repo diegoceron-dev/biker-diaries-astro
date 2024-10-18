@@ -8,7 +8,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <tbody :class="cn('[&_tr:last-child]:border-0 bg-input/[0.05]', props.class)">
+  <tbody :class="cn('[&_tr:last-child]:border-0 bg-card', props.class)">
     <slot />
   </tbody>
 </template>

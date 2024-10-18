@@ -4,23 +4,11 @@ import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import Toaster from "@/components/ui/toast/Toaster.vue";
 import Stepper from "@/components/vue/events/create/Stepper.vue";
-import { Card, CardContent } from "@/components/ui/card";
 
 const { title } = Astro.props;
 ---
 
-<script is:inline>
-  const theme = (() => {
-    return "light";
-  })();
-
-  if (theme === "light") {
-    document.documentElement.classList.remove("dark");
-  } else {
-    document.documentElement.classList.add("dark");
-  }
-  window.localStorage.setItem("theme", theme);
-</script>
+<script is:inline></script>
 
 <html lang="es">
   <head>
@@ -28,21 +16,26 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
   </head>
-  <body class="bg-gray-100/80">
-    <Header />
-<!-- 
-    <p class="text-xl text-slate-600 font-extralight pb-4">Nuevo Evento</p> -->
+  <body class="bg-gray-100">
+    <!-- Header fijo -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
+      <Header />
+    </header>
 
-   <div class="flex flex-col lg:flex-row">
-    <div class="py-12 px-8 border-dashed border-r-2 ">
-      <Stepper client:load />
+    <div class="flex pt-20">
+      <!-- Stepper sticky y centrado -->
+      <div class="lg:w-1/5 p-8 h-auto sticky top-24">
+        <Stepper client:load />
+      </div>
+
+      <!-- Contenido desplazable -->
+      <div class="w-full lg:w-4/5 p-8 overflow-y-auto">
+        <slot />
+      </div>
     </div>
-    <div class="w-full">
-      <slot />
-    </div>
-   </div>
+
+    <Footer />
+    <Toaster client:load />
   </body>
 </html>
 
-<Footer />
-<Toaster client:load />

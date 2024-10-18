@@ -21,6 +21,7 @@ export type Event = {
   userId?: string;
   isPublic: boolean;
   cover?: string;
+  color?: string;
   price?: number;
   status: string;
   waypoints?: Waypoint[];

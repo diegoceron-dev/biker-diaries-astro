@@ -54,6 +54,7 @@ export const Event = defineTable({
     }), // Referencia a la tabla EventType
     isPublic: column.boolean({ optional: false, default: false }), // Público o Privado
     cover: column.text({ optional: true }),
+    color: column.text({ optional: true }),
     status: column.text({
       optional: true,
       references: () => EventStatus.columns.id,

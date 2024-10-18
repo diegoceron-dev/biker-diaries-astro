@@ -57,7 +57,7 @@ watch(eventsList, () => {
       <div class="flex flex-row justify-between">
         <p class="text-xl text-slate-600 font-extralight pb-2">Mis Eventos</p>
 
-        <a href="/events/create"><Button variant="default">Crear nuevo evento</Button></a>
+        <a href="/events/create"><Button variant="ghost" class="underline font-bold">Crear nuevo evento</Button></a>
       </div>
       <div class="flex flex-col flex-grow overflow-y-auto">
         <DataTable :columns="columns" :data="events" />

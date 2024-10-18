@@ -21,6 +21,7 @@ const steps = [
     title: "Datos generales",
     description:
       "Provide your name and email address. We will use this information to create your account",
+    show: true,
   },
   {
     step: 2,
@@ -28,6 +29,7 @@ const steps = [
     title: "Ubicaciones",
     description:
       "A few details about your company will help us personalize your experience",
+    show: true,
   },
   {
     step: 3,
@@ -35,6 +37,7 @@ const steps = [
     title: "Agenda",
     description:
       "Start collaborating with your team by inviting them to join your account. You can skip this step and invite them later",
+    show: false,
   },
   {
     step: 4,
@@ -42,6 +45,7 @@ const steps = [
     title: "Tickets",
     description:
       "A few details about your company will help us personalize your experience",
+    show: false,
   },
   {
     step: 5,
@@ -49,13 +53,17 @@ const steps = [
     title: "Compatir",
     description:
       "Start collaborating with your team by inviting them to join your account. You can skip this step and invite them later",
+    show: false,
   },
 ];
 
 const setNewStep = (step: number) => {
   if (step < currentStepCreateEvent.value) setCurrentStepCreateEvent(step);
-  return
+  return;
 };
+
+const visibleStepsCount = computed(() => steps.filter(step => step.show).length);
+
 </script>
 
 <template>
@@ -66,6 +74,7 @@ const setNewStep = (step: number) => {
   >
     <StepperItem
       v-for="(step, index) in steps"
+      v-show="step?.show"
       :key="index"
       v-slot="{ state }"
       class="relative flex w-full items-start gap-6"
@@ -73,14 +82,16 @@ const setNewStep = (step: number) => {
       @click="setNewStep(index + 1)"
     >
       <StepperSeparator
-        v-if="index + 1 !== steps[steps.length - 1].step"
-        class="absolute left-[18px] top-[38px] block h-[105%] w-1 shrink-0 rounded-full bg-muted group-data-[state=completed]:bg-primary"
+      v-if="index + 1 !== visibleStepsCount"
+      class="absolute left-[18px] top-[38px] block h-[105%] w-1 shrink-0 rounded-full bg-muted group-data-[state=completed]:bg-primary"
       />
 
       <StepperTrigger as-child>
         <Button
           :variant="
-            state === 'completed' || state === 'active' ? 'default' : 'secondary'
+            state === 'completed' || state === 'active'
+              ? 'default'
+              : 'secondary'
           "
           size="icon"
           class="z-10 rounded-full shrink-0"
