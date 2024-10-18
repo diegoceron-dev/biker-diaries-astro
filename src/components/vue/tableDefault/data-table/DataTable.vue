@@ -215,11 +215,13 @@ const handleSee = (row: any) => {
       class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4"
       v-if="modeShowData === 'cards'"
     >
-      <Card v-for="(row, index) in table.getRowModel().rows" :key="index">
-        <CardHeader
-          :class="['relative rounded-t-md', getHeaderClass(row)]"
-          @click="handleSee(row)"
-        >
+      <Card
+        v-for="(row, index) in table.getRowModel().rows"
+        :key="index"
+        class="!cursor-pointer"
+        @click="handleSee(row)"
+      >
+        <CardHeader :class="['relative rounded-t-md', getHeaderClass(row)]">
           <CardTitle class="text-sm font-bold">
             {{ row.getValue("name") }}
           </CardTitle>
