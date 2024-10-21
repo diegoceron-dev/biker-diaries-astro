@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Check, Circle, Dot, CircleCheckBig } from "lucide-vue-next";
 import { ref, computed } from "vue";
+import { Button } from "@/components/ui/button";
+
 import {
   Stepper,
   StepperDescription,
@@ -9,7 +10,7 @@ import {
   StepperTitle,
   StepperTrigger,
 } from "@/components/ui/stepper";
-import { Button } from "@/components/ui/button";
+import { Check, Circle, Dot } from "lucide-vue-next";
 import { useSteppers } from "@/composables/useSteppers"; // Importa el composable que maneja el estado
 
 const { currentStepCreateEvent, setCurrentStepCreateEvent } = useSteppers(); // Usa el estado global
@@ -20,7 +21,7 @@ const steps = [
     id: "general",
     title: "Datos generales",
     description:
-      "Provide your name and email address. We will use this information to create your account",
+      "Completa los datos básicos del evento, como el nombre, fecha de inicio y término, y tipo de evento.",
     show: true,
   },
   {
@@ -28,15 +29,15 @@ const steps = [
     id: "locations",
     title: "Ubicaciones",
     description:
-      "A few details about your company will help us personalize your experience",
+      "Añade las ubicaciones donde se llevará a cabo el evento. Puedes incluir una o más direcciones.",
     show: true,
   },
-  {
+  /*   {
     step: 3,
     id: "agenda",
     title: "Agenda",
     description:
-      "Start collaborating with your team by inviting them to join your account. You can skip this step and invite them later",
+      "Configura la agenda del evento, incluyendo horarios y actividades específicas que se realizarán.",
     show: false,
   },
   {
@@ -44,16 +45,16 @@ const steps = [
     id: "tickets",
     title: "Tickets",
     description:
-      "A few details about your company will help us personalize your experience",
+      "Define el tipo de boletos para tu evento, precios y opciones de compra para los asistentes.",
     show: false,
-  },
+  }, */
   {
     step: 5,
     id: "share",
-    title: "Compatir",
+    title: "Compartir",
     description:
-      "Start collaborating with your team by inviting them to join your account. You can skip this step and invite them later",
-    show: false,
+      "Comparte tu evento con los asistentes a través de redes sociales o invitaciones personalizadas.",
+    show: true,
   },
 ];
 
@@ -62,28 +63,28 @@ const setNewStep = (step: number) => {
   return;
 };
 
-const visibleStepsCount = computed(() => steps.filter(step => step.show).length);
-
+const visibleStepsCount = computed(
+  () => steps.filter((step) => step.show).length
+);
 </script>
 
 <template>
   <Stepper
     orientation="vertical"
-    class="mx-auto flex max-w-md flex-col justify-start gap-y-10"
+    class="mx-auto flex w-full max-w-md flex-col justify-start gap-10"
     v-model="currentStepCreateEvent"
   >
     <StepperItem
       v-for="(step, index) in steps"
-      v-show="step?.show"
-      :key="index"
+      :key="step.step"
       v-slot="{ state }"
       class="relative flex w-full items-start gap-6"
-      :step="index + 1"
+      :step="step.step"
       @click="setNewStep(index + 1)"
     >
       <StepperSeparator
-      v-if="index + 1 !== visibleStepsCount"
-      class="absolute left-[18px] top-[38px] block h-[105%] w-1 shrink-0 rounded-full bg-muted group-data-[state=completed]:bg-primary"
+        v-if="step.step !== steps[steps.length - 1].step"
+        class="absolute left-[18px] top-[38px] block h-[105%] w-0.5 shrink-0 rounded-full bg-muted group-data-[state=completed]:bg-primary"
       />
 
       <StepperTrigger as-child>
@@ -100,7 +101,7 @@ const visibleStepsCount = computed(() => steps.filter(step => step.show).length)
               'ring-2 ring-ring ring-offset-2 ring-offset-background',
           ]"
         >
-          <CircleCheckBig v-if="state === 'completed'" />
+          <Check v-if="state === 'completed'" class="size-5" />
           <Circle v-if="state === 'active'" />
           <Dot v-if="state === 'inactive'" />
         </Button>
@@ -108,14 +109,14 @@ const visibleStepsCount = computed(() => steps.filter(step => step.show).length)
 
       <div class="flex flex-col gap-1">
         <StepperTitle
-          :class="[state === 'active' && '!text-primary']"
-          class="text-sm font-light transition lg:text-base text-slate-600"
+          :class="[state === 'active' && 'text-primary']"
+          class="text-sm font-semibold transition lg:text-base"
         >
           {{ step.title }}
         </StepperTitle>
         <StepperDescription
           :class="[state === 'active' && 'text-primary']"
-          class="sr-only text-xs text-slate-600 transition md:not-sr-only lg:text-sm"
+          class="text-xs text-muted-foreground transition md:not-sr-only lg:text-sm"
         >
           {{ step.description }}
         </StepperDescription>

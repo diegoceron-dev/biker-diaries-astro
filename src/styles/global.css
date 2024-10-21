@@ -4,64 +4,64 @@
 
 @layer base {
   :root {
-    --background: 200 100% 98%; /* sky-50 */
-    --foreground: 210 20% 20%; /* Texto oscuro */
+    --background: 230 50% 95%; /* light sky */
+    --foreground: 210 20% 30%; /* Texto oscuro */
 
-    --card: 210 100% 100%; /* Fondo de tarjeta claro (sky-50) */
-    --card-foreground: 210 20% 30%; /* Texto ligeramente más oscuro */
+    --card: 230 60% 98%; /* Fondo de tarjeta claro (skyBrand) */
+    --card-foreground: 210 20% 40%; /* Texto ligeramente más oscuro */
 
-    --popover: 210 100% 98%; /* Popover claro (sky-50) */
-    --popover-foreground: 210 20% 30%;
+    --popover: 230 60% 98%; /* Popover claro (skyBrand) */
+    --popover-foreground: 210 20% 40%;
 
-    --primary: 210 80% 60%; /* sky-600 */
-    --primary-foreground: 210 100% 98%; /* Texto claro sobre sky-600 */
+    --primary: 225 50% 60%; /* blueBrand */
+    --primary-foreground: 0 0% 100%; /* Texto claro sobre primary */
 
-    --secondary: 210 100% 86%; /* sky-200 */
-    --secondary-foreground: 210 100% 40%; /* Texto claro sobre sky-200 */
+    --secondary: 230 70% 80%; /* lighter sky */
+    --secondary-foreground: 210 20% 30%; /* Texto oscuro sobre fondo claro */
 
-    --muted: 210 80% 52%; /* sky-500 */
-    --muted-foreground: 210 30% 60%; /* Texto más tenue pero legible */
+    --muted: 225 30% 70%; /* muted blueBrand */
+    --muted-foreground: 210 20% 50%; /* Texto más tenue pero legible */
 
-    --accent: 210 100% 71%; /* sky-300 */
-    --accent-foreground: 210 30% 50%; /* Texto sobre acento */
+    --accent: 340 60% 55%; /* orangeBrand */
+    --accent-foreground: 210 20% 40%; /* Texto claro sobre acento */
 
-    --destructive: 0 84.2% 60.2%; /* Mantén el rojo para acciones destructivas */
-    --destructive-foreground: 210 100% 98%; /* Texto claro sobre fondo destructivo */
+    --destructive: 0 84% 60%; /* Rojo para acciones destructivas */
+    --destructive-foreground: 0 100% 98%; /* Texto claro sobre fondo destructivo */
 
-    --border: 210 60% 80%; /* sky-100 para bordes claros */
-    --input: 220 100% 100%; /* Inputs claros (sky-100) */
-    --ring: 210 80% 52%; /* Un anillo en sky-500 */
+    --border: 230 40% 90%; /* skyBrand para bordes claros */
+    --input: 230 50% 98%; /* Inputs claros */
+    --ring: 225 40% 70%; /* Anillo en blueBrand */
     --radius: 0.75rem;
   }
 
   .dark {
-    --background: 0 0% 98%; /* sky-900 */
-    --foreground: 210 20% 90%; /* Texto claro sobre fondo oscuro */
+    --background: 230 40% 10%; /* Fondo oscuro (indigoBrand más oscuro) */
+    --foreground: 0 0% 98%; /* Texto claro sobre fondo oscuro */
 
-    --card: 210 35% 18%; /* Fondo de tarjeta oscuro (sky-800) */
-    --card-foreground: 210 20% 85%; /* Texto claro en tarjetas oscuras */
+    --card: 230 40% 18%; /* Fondo de tarjeta oscuro */
+    --card-foreground: 0 0% 90%; /* Texto claro en tarjetas oscuras */
 
-    --popover: 210 35% 18%; /* Popover oscuro (sky-800) */
-    --popover-foreground: 210 20% 85%; /* Texto claro en popover */
+    --popover: 230 40% 18%; /* Popover oscuro */
+    --popover-foreground: 0 0% 90%; /* Texto claro en popover */
 
-    --primary: 210 60% 60%; /* sky-700 */
-    --primary-foreground: 210 100% 98%; /* Texto claro sobre sky-700 */
+    --primary: 230 50% 30%; /* indigoBrand */
+    --primary-foreground: 0 0% 98%; /* Texto claro sobre primary */
 
-    --secondary: 210 35% 26%; /* sky-700 para fondo secundario */
-    --secondary-foreground: 210 100% 98%; /* Texto claro en fondo secundario */
+    --secondary: 230 40% 30%; /* Fondo secundario más oscuro */
+    --secondary-foreground: 0 0% 98%; /* Texto claro sobre fondo secundario */
 
-    --muted: 210 35% 20%; /* Color muted más oscuro (sky-800) */
-    --muted-foreground: 210 100% 90%; /* Texto muted más claro */
+    --muted: 230 40% 20%; /* muted dark (indigoBrand más oscuro) */
+    --muted-foreground: 0 0% 90%; /* Texto muted más claro */
 
-    --accent: 210 60% 70%; /* Color de acento brillante (sky-600) */
-    --accent-foreground: 210 100% 98%; /* Texto claro sobre acento */
+    --accent: 340 60% 40%; /* orangeBrand más oscuro */
+    --accent-foreground: 0 0% 98%; /* Texto claro sobre acento */
 
-    --destructive: 0 70% 40%; /* Rojo más oscuro para acciones destructivas */
+    --destructive: 0 70% 40%; /* Rojo oscuro para acciones destructivas */
     --destructive-foreground: 0 100% 90%; /* Texto claro sobre fondo destructivo */
 
-    --border: 210 35% 30%; /* Bordes oscuros (sky-900) */
-    --input: 210 35% 30%; /* Inputs oscuros (sky-900) */
-    --ring: 210 60% 50%; /* Anillo más brillante (sky-600) */
+    --border: 230 40% 30%; /* Bordes oscuros */
+    --input: 230 40% 30%; /* Inputs oscuros */
+    --ring: 230 50% 40%; /* Anillo más brillante (blueBrand) */
     --radius: 0.75rem;
   }
 }

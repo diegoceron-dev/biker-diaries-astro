@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { typeEventCatalog } from "@/store/catalogs";
 import { useStore } from "@nanostores/vue";
-import { computed, onMounted, ref, onBeforeUnmount, reactive , defineEmits} from "vue";
+import {
+  computed,
+  onMounted,
+  ref,
+  onBeforeUnmount,
+  reactive,
+  defineEmits,
+} from "vue";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
@@ -242,7 +249,7 @@ const validateLocations = (location: LocationItem) => {
               <Button
                 variant="outline"
                 size="default"
-                class="justify-start w-[100px] text-center"
+                class="justify-start w-[100px] text-center border-slate-500"
               >
                 <template v-if="location.selectedStatus">
                   <component
@@ -258,7 +265,7 @@ const validateLocations = (location: LocationItem) => {
             </PopoverTrigger>
             <PopoverContent class="p-0" side="right" align="start">
               <Command>
-                <CommandInput placeholder="Change status..." />
+                <CommandInput placeholder="Cambiar estado..." />
                 <CommandList>
                   <CommandEmpty>No results found.</CommandEmpty>
                   <CommandGroup>
@@ -296,6 +303,7 @@ const validateLocations = (location: LocationItem) => {
           <!-- Botón para eliminar ubicacion actual -->
           <Button
             type="button"
+            class="border-slate-500"
             variant="outline"
             :disabled="locations.length === 1"
             @click="removeLocation(index)"
@@ -307,7 +315,7 @@ const validateLocations = (location: LocationItem) => {
         <!-- Botón para agregar una nueva ubicación -->
         <Button
           type="button"
-          variant="outline"
+          variant="secondary"
           :disabled="locations.length >= maxLocations"
           @click="addLocation"
           class="w-2/6"

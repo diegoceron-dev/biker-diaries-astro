@@ -16,9 +16,13 @@ import type { Event, Waypoint } from "@/store/events";
 import { typeEventCatalog } from "@/store/catalogs";
 import { useStore } from "@nanostores/vue";
 
-onMounted(() => {});
+onMounted(() => {
+  selectedGradient.value = gradients[0];
+});
 
-onBeforeUnmount(() => {});
+onBeforeUnmount(() => {
+  setCurrentStepCreateEvent(1);
+});
 
 const props = defineProps({
   userId: String,
@@ -44,21 +48,21 @@ const event = reactive<Event>({
 });
 
 const gradients = [
-  "border-gray-500 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500",
-  "border-gray-500 bg-gradient-to-r from-green-400 to-blue-500",
-  "border-gray-500 bg-gradient-to-r from-yellow-400 to-red-500",
-  "border-gray-500 bg-gradient-to-r from-pink-500 to-orange-500",
-  "border-gray-500 bg-gradient-to-r from-blue-500 via-green-500 to-yellow-500",
-  "border-gray-500 bg-gradient-to-r from-gray-600 to-gray-900",
-  "border-gray-500 bg-gradient-to-r from-purple-500 to-indigo-500",
-  "border-gray-500 bg-gradient-to-r from-teal-500 to-lime-500",
-  "border-gray-500 bg-gradient-to-r from-emerald-500 via-cyan-500 to-light-blue-500",
-  "border-gray-500 bg-gradient-to-r from-fuchsia-500 via-pink-600 to-rose-500",
-  "border-gray-500 bg-gradient-to-r from-red-500 via-orange-400 to-amber-500",
-  "border-gray-500 bg-gradient-to-r from-cool-gray-500 via-true-gray-600 to-warm-gray-700",
+  "border-gray-500 bg-gradient-to-r from-skyBrand to-indigoBrand", // Combinación suave de azul cielo a índigo
+  "border-gray-500 bg-gradient-to-r from-blue-300 to-blue-700", // Grises más suaves y menos saturados
+  "border-gray-500 bg-gradient-to-r from-teal-400 to-blueBrand", // Gradiente de teal a azul suave
+  "border-gray-500 bg-gradient-to-r from-orange-400 to-orangeBrand", // Gradiente de tonos naranjas más modernos
+  "border-gray-500 bg-gradient-to-r from-rose-400 via-pink-500 to-orangeBrand", // De rosa a naranja, cálido y vibrante
+  "border-gray-500 bg-gradient-to-r from-indigoBrand via-skyBrand to-yellow-400", // Azul cielo a amarillo con tonos índigo
+  "border-gray-500 bg-gradient-to-r from-purple-500 to-indigoBrand", // De morado a índigo
+  "border-gray-500 bg-gradient-to-r from-teal-500 to-lime-500", // Verde lima y teal más modernos
+  "border-gray-500 bg-gradient-to-r from-emerald-500 via-cyan-500 to-skyBrand", // De esmeralda a azul cielo, frescura
+  "border-gray-500 bg-gradient-to-r from-fuchsia-500 via-rose-500 to-pink-600", // De fucsia a rosa intenso
+  "border-gray-500 bg-gradient-to-r from-red-500 via-orange-400 to-amber-500", // De rojo a ámbar, vibrante y cálido
+  "border-gray-500 bg-gradient-to-r from-cool-gray-500 via-true-gray-600 to-warm-gray-700", // Grises neutros y balanceados
 ];
 
-const selectedGradient = ref(null);
+const selectedGradient = ref('');
 
 const selectGradient = (gradient: any) => {
   selectedGradient.value = gradient;
@@ -75,7 +79,7 @@ const onSaveDataGeneral = (data: { form: any; cover: string }) => {
   event.userId = props.userId;
   event.status = data.form.status;
   event.waypoints = data.form.waypoints;
-  
+
   if (data.cover) {
     event.cover = data.cover;
     cover.value = data.cover;
@@ -100,7 +104,7 @@ watch(event, (newValue, oldValue) => {
         :class="[
           selectedGradient,
           'w-full flex items-center justify-center transition-all rounded-t-md',
-          selectedGradient ? 'h-36' : '',
+          selectedGradient ? 'h-24' : '',
         ]"
       ></div>
       <div class="p-8">
