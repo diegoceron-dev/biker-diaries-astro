@@ -5,8 +5,10 @@ import { Badge } from "@/components/ui/badge";
 //@ts-ignore
 import DropdownAction from "@/components/vue/events/list/DropdownAction.vue";
 import { useEvent } from "@/composables/services/useEvents";
+import { useSanitize } from "@/composables/utilities/useSanitize";
 
 const useEvents = useEvent();
+const { sanitizeHtml } = useSanitize();
 
 export const columns: ColumnDef<Event>[] = [
   {
@@ -17,17 +19,24 @@ export const columns: ColumnDef<Event>[] = [
       return h("div", { class: "text-left font-medium" }, value.toString());
     },
   },
-  /* 
+
   {
     accessorKey: "description",
     header: () => h("div", { class: "text-left" }, "Descripción"),
     cell: ({ row }) => {
-      let value = row.getValue("description") as String;
-      value = value.length > 25 ? value.substring(0, 25) + "..." : value;
-      return h("div", { class: "text-left font-medium" }, value.toString());
+      let description = row.getValue("description") as String;
+      //value = value.length > 25 ? value.substring(0, 25) + "..." : value;
+
+      if (!description) return "No description";
+
+      description = description.length > 150
+        ? description.substring(0, 150) + "..."
+        : description;
+
+      return h("div", { class: "text-left font-medium" }, sanitizeHtml(description.toString()));
     },
-  }, 
-  */
+  },
+
   {
     accessorKey: "startDate",
     header: () => h("div", { class: "text-left" }, "Inicio"),

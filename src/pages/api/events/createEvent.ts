@@ -18,6 +18,7 @@ export const POST: APIRoute = async ({ request }) => {
     isPublic: requestData.isPublic,
     userId: requestData.userId,
     status: requestData.status,
+    color: requestData.color,
   };
 
   const waypoints = requestData.waypoints.map((location: WaypointType) => {

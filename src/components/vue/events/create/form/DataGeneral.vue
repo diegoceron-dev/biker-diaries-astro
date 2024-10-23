@@ -66,7 +66,7 @@ const placeholder = ref();
 
 const editorContent = ref<string>("");
 
-const turnTinyMceIntoEditor = ref(false);
+const turnTinyMceIntoEditor = ref(true);
 
 const editorRef = ref(null);
 
@@ -142,7 +142,19 @@ const { handleSubmit, setFieldValue, values } = useForm({
 const onSubmit = handleSubmit(async (values) => {
   await uploadImage();
 
-  emits("onSubmit", { form: values, cover: imageUrl.value });
+  const formData = {
+    description: editorContent.value || values.description!,
+    name: values.name!,
+    startDate: new Date(values.startDate),
+    endDate: new Date(values.endDate),
+    eventType: values.eventType!,
+    isPublic: values.isPublic!,
+    userId: props.userId,
+    status: "upcoming"
+  }
+
+
+  emits("onSubmit", { form: formData, cover: imageUrl.value });
 
   /* await useEvents.createEvent({
     description: editorContent.value || values.description!,
@@ -468,7 +480,7 @@ const selectGradient = (gradient: any) => {
             <FormLabel>O selecciona un color</FormLabel>
             <FormControl>
               <div
-                class="flex flex-row gap-x-4 gap-y-4 border border-gray-500 rounded-sm p-2 bg-input pr-2 pl-4 pt-2 pb-2" 
+                class="flex flex-row gap-x-4 gap-y-4 border border-gray-500 rounded-sm p-2 bg-input pr-2 pl-4 pt-2 pb-2"
               >
                 <button
                   v-for="(gradient, index) in props.gradients"

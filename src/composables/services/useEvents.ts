@@ -2,18 +2,20 @@
 
 import { ref, reactive } from "vue";
 import { useToast } from "@/components/ui/toast/use-toast";
-import { setEventItems, getEventById } from "@/store/events";
+import { setEventItems, getEventById, addEvent } from "@/store/events";
 import type { Event } from "@/store/events";
 
 // Define y exporta el composable
 export function useEvent() {
   const { toast } = useToast();
   const loading = ref(false);
+  const notFound = ref(false);
 
   // Función para obtener los datos del catálogo desde la API
   const getMyEvents = async (userId: string) => {
-    loading.value = true;
     try {
+      loading.value = true;
+
       const response = await fetch(`/api/events/getEvents?userId=${userId}`, {
         method: "GET",
       });
@@ -38,14 +40,47 @@ export function useEvent() {
     }
   };
 
-  const getEvent = (id: string) => {
-    const eventStore = getEventById(id);
-    return eventStore;
+  const getEvent = async (userId: string, id: string) => {
+    try {
+      loading.value = true;
+      notFound.value = false;
+
+      const response = await fetch(
+        `/api/events/getEventById?userId=${userId}&eventId=${id}`,
+        {
+          method: "GET",
+        }
+      );
+
+      if (!response.ok) {
+        setTimeout(() => {
+          notFound.value = true;
+        }, 2500);
+
+        throw new Error(`Error al obtener los datos: ${response.statusText}`);
+      }
+      const data: Event = await response.json();
+
+      console.log(data);
+
+      addEvent(data.id!, data);
+
+      return data;
+    } catch (error: any) {
+      console.error("Error al obtener los datos del evento:", error);
+      toast({
+        title: "¡Uh oh! Algo ha salido mal.",
+        description: error.toString(),
+        variant: "destructive",
+      });
+    } finally {
+      loading.value = false;
+    }
   };
 
   const createEvent = async (event: Event) => {
     loading.value = true;
-    event.status = "upcoming"
+    event.status = "upcoming";
     try {
       const response = await fetch("/api/events/createEvent", {
         method: "POST",
@@ -63,18 +98,18 @@ export function useEvent() {
       // Parseamos la respuesta como JSON
       const data = await response.json();
 
-      toast({
-        title: `Evento creado: ${event.name}`,
-        description: `ID del evento: ${data.eventId}`,
-        variant: "default",
-        duration: 5000,
-      });
-
       getMyEvents(event.userId!);
 
       setTimeout(() => {
-        window.location.href = `/events/${data.eventId}`;
-      }, 2500);
+        toast({
+          title: `Evento creado: ${event.name}`,
+          description: `ID del evento: ${data.eventId}`,
+          variant: "default",
+          duration: 5000,
+        });  
+      }, 1000);
+
+      window.location.href = `/events/${data.eventId}`;
     } catch (error: any) {
       console.error("Error al crear el evento:", error);
       toast({
@@ -136,13 +171,11 @@ export function useEvent() {
     console.log(response);
   };
 
-  const saveEventOnMemory = async (event: Event, step: number) => {
-   
-  }
-
+  const saveEventOnMemory = async (event: Event, step: number) => {};
 
   return {
     loading,
+    notFound,
     getMyEvents,
     getEvent,
     createEvent,

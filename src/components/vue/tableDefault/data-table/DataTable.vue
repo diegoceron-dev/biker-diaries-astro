@@ -47,10 +47,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import { useSanitize } from "@/composables/utilities/useSanitize";
+
 const props = defineProps<{
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }>();
+
+const { sanitizeHtml } = useSanitize();
 
 const columnHelper = createColumnHelper<EventType>();
 
@@ -111,8 +115,11 @@ const getColumnNameFromString = (str: string): string | null => {
 };
 
 const getHeaderClass = (row: any) => {
-  const cover = row.getValue("cover");
-  const color = row.getValue("color") ?? "bg-slate-700/20";
+  const cover = getCover(row);
+  const color = "bg-blueBrand/80";
+  // getColor(row) ?? "bg-indigoBrand";
+
+  //const color = row.getValue("color") ?? "bg-slate-700/20";
 
   /*   if (!cover) return "rounded-t-xl bg-slate-700/10 h-[80px]";
 
@@ -123,11 +130,33 @@ const getHeaderClass = (row: any) => {
   return cover ? `bg-black/40 bg-[url('${cover}')] bg-cover bg-center` : color;
 };
 
-const getDescription = (description: any) => {
+const getDescription = (row: any) => {
+  const obj = JSON.stringify(row.original);
+  const newValue = Object.assign({}, JSON.parse(obj));
+  const description = newValue.description;
+
   if (!description) return "No description";
-  return description.length > 25
-    ? description.substring(0, 25) + "..."
+  return description.length > 150
+    ? description.substring(0, 150) + "..."
     : description;
+};
+
+const getCover = (row: any) => {
+  console.log(row.original);
+  const original = JSON.stringify(row.original);
+  const newValue = Object.assign({}, JSON.parse(original));
+  const cover = newValue.cover;
+
+  return cover;
+};
+
+const getColor = (row: any) => {
+  console.log(row.original);
+  const original = JSON.stringify(row.original);
+  const newValue = Object.assign({}, JSON.parse(original));
+  const color = newValue.color;
+
+  return color;
 };
 
 const handleSee = (row: any) => {
@@ -212,22 +241,22 @@ const handleSee = (row: any) => {
 
     <!-- Cards Aqui -->
     <div
-      class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4"
+      class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-2"
       v-if="modeShowData === 'cards'"
     >
       <Card
         v-for="(row, index) in table.getRowModel().rows"
         :key="index"
-        class="!cursor-pointer"
+        class="!cursor-pointer transition duration-200 ease-in-out transform hover:scale-105"
         @click="handleSee(row)"
       >
         <CardHeader :class="['relative rounded-t-md', getHeaderClass(row)]">
-          <CardTitle class="text-sm font-bold">
+          <CardTitle class="text-sm text-white font-light">
             {{ row.getValue("name") }}
           </CardTitle>
         </CardHeader>
         <CardContent class="text-xs">
-          {{ getDescription(row.getValue("description")) }}
+          {{ sanitizeHtml(getDescription(row)) }}
         </CardContent>
       </Card>
     </div>

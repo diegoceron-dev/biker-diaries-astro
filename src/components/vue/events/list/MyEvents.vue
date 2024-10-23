@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { columns } from "./columns";
 import DataTable from "@/components/vue/tableDefault/data-table/DataTable.vue";
 
-
 const props = defineProps({
   userId: {
     type: String,
@@ -52,16 +51,18 @@ watch(eventsList, () => {
 </script>
 
 <template>
-  <div>
-    <div class="flex flex-col">
-      <div class="flex flex-row justify-between">
-        <p class="text-xl text-slate-600 font-extralight pb-2">Mis Eventos</p>
+  <div class="flex flex-col">
+    <div class="flex flex-row justify-between">
+      <p class="text-xl text-slate-600 font-extralight pb-2">Mis Eventos</p>
 
-        <a href="/events/create"><Button variant="ghost" class="underline font-bold">Crear nuevo evento</Button></a>
-      </div>
-      <div class="flex flex-col flex-grow overflow-y-auto">
-        <DataTable :columns="columns" :data="events" />
-      </div>
+      <a href="/events/create"
+        ><Button variant="ghost" class="underline font-bold"
+          >Crear nuevo evento</Button
+        ></a
+      >
+    </div>
+    <div class="flex flex-col flex-grow overflow-y-auto">
+      <DataTable :columns="columns" :data="events" />
     </div>
   </div>
 </template>

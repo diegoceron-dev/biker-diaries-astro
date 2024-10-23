@@ -52,54 +52,62 @@ const user = Astro.locals.user;
     >
 
     <div class="flex flex-row pr-10">
-      {
-        user ? (
-          <>
-            <div class="md:flex-none pr-2">
+      <!-- Icono de Menú (hamburguesa) visible solo en móvil -->
+      <div class="md:hidden pr-2">
+        <Button
+          variant="outline"
+          size="icon"
+          class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
+        >
+          <Menu class="text-white" />
+        </Button>
+      </div>
+    
+      <!-- Iconos visibles solo en pantallas medianas o más grandes (escritorio) -->
+      {user ? (
+        <>
+          <!-- Icono de Home -->
+          <div class="hidden md:flex pr-2">
+            <form method="POST" action="/">
               <Button
                 variant="outline"
                 size="icon"
                 class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
               >
-                <Menu class={"text-white"} />
+                <Home class="text-white" />
+              </Button>
+            </form>
+          </div>
+    
+          <!-- Icono de Usuario (perfil) -->
+          <div class="hidden md:flex pr-2">
+            <form method="POST" action="/profile">
+              <Button
+                variant="outline"
+                size="icon"
+                class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
+              >
+                <UserCog2Icon class="text-white" />
+              </Button>
+            </form>
+          </div>
+    
+          <!-- Icono de Logout -->
+          <div class="hidden md:flex">
+            <div id="alert">
+              <Button
+                variant="outline"
+                size="icon"
+                class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
+              >
+                <LogOut class="text-white" />
               </Button>
             </div>
-            <div class="pr-2">
-              <form method="POST" action="/">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
-                >
-                  <Home class={"text-white"} />
-                </Button>
-              </form>
-            </div>
-            <div class="pr-2">
-              <form method="POST" action="/profile">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
-                >
-                  <UserCog2Icon class={"text-white"} />
-                </Button>
-              </form>
-            </div>
-            <div>
-              <div id="alert">la
-                <Button
-                  variant="outline"
-                  size="icon"
-                  class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
-                >
-                  <LogOut class={"text-white"} />
-                </Button>
-              </div>
-            </div>
-          </>
-        ) : null
-      }
+          </div>
+        </>
+      ) : null}
+    </div>
+    
       <!--       <div class="pl-2">
         <ModeToggle client:load />
       </div> -->

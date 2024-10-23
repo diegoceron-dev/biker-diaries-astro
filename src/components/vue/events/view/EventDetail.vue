@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useEvent } from "@/composables/services/useEvents";
-import type { Event } from "@/store/events";
+import { useStore } from "@nanostores/vue";
+import { events as eventsStore, type Event } from "@/store/events";
 import {
   Card,
   CardContent,
@@ -25,9 +26,14 @@ import {
   Waypoints,
   MapPinHouse,
 } from "lucide-vue-next";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const props = defineProps({
   id: {
+    type: String,
+    required: true,
+  },
+  userId: {
     type: String,
     required: true,
   },
@@ -35,21 +41,26 @@ const props = defineProps({
 
 const useEvents = useEvent();
 
+// const eventsList = useStore(eventsStore);
+
 const bgColor = ref<string>("");
+
 const event = ref<Event | undefined>(undefined);
 
 // Lifecycle hook
-onMounted(() => {
-  const value = useEvents.getEvent(props.id);
-  event.value = value;
+onMounted(async () => {
+  const result = await useEvents.getEvent(props.userId, props.id);
+
+  event.value = result;
   // Selecciona un color aleatorio al montar el componente
-  bgColor.value = colors[Math.floor(Math.random() * colors.length)];
+  // bgColor.value = colors[Math.floor(Math.random() * colors.length)];
 });
 
-const loading = computed(() => {
-  return useEvents.loading;
-});
-
+// Watcher para actualizar la lista de eventos cuando el store cambie
+/* watch(eventsList, () => {
+  updateEvents();
+}); */
+/* 
 const colors = [
   "bg-gradient-to-r from-violet-200 to-indigo-400",
   "bg-gradient-to-r from-red-200 to-orange-400",
@@ -68,7 +79,7 @@ const colors = [
   "bg-gradient-to-r from-neutral-200 to-stone-400",
   "bg-gradient-to-r from-slate-200 to-slate-400",
 ];
-
+ */
 // Definir clases de Tailwind CSS basadas en el valor del status
 const statusClasses = {
   upcoming: "bg-indigo-200/50 text-indigo-800 border-indigo/50",
@@ -116,13 +127,34 @@ const getColorOrCover = () => {
   const cover = event.value?.cover;
   const color = event.value?.color ?? "bg-indigoBrand";
 
-  return cover ? `bg-black/40 bg-[url('${cover}')] bg-cover bg-center` : color;
+  return cover ? `bg-black/40 bg-[url('${cover}')] bg-cover bg-center` : `${color}`;
 };
+
+const loading = computed(() => {
+  return useEvents.loading.value;
+});
 </script>
 
 <template>
   <div class="flex flex-col">
-    <div class="flex flex-col space-y-4" v-if="event !== undefined">
+    <div v-if="loading">
+      <div class="flex flex-col space-y-3">
+        <Skeleton class="h-[125px] w-full rounded-xl" />
+        <div class="space-y-2">
+          <Skeleton class="h-4 w-[100%]" />
+          <Skeleton class="h-4 w-[100%]" />
+          <Skeleton class="h-4 w-[100%]" /> 
+          <Skeleton class="h-4 w-[100%]" />
+
+          <Skeleton class="h-[40px] w-[100%]" />
+          <Skeleton class="h-4 w-[40%]" />
+          <Skeleton class="h-4 w-[40%]" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Si no hay loading, verifica si el evento fue encontrado -->
+    <div v-else-if="event">
       <Card>
         <CardHeader :class="['relative rounded-t-md', getColorOrCover()]">
           <!-- Overlay semi-transparente -->
@@ -202,9 +234,11 @@ const getColorOrCover = () => {
         <CardFooter> </CardFooter>
       </Card>
     </div>
-    <div v-else>
-      <p>No se encontro el Evento {{ props.id }}</p>
+
+    <!-- Muestra el mensaje de "No se encontró el Evento" solo después del retraso -->
+    <!--  <div v-else-if="useEvents.notFound">
+      <p>No se encontró el Evento</p>
       <p><a href="/">Regresar al inicio</a></p>
-    </div>
+    </div> -->
   </div>
 </template>
