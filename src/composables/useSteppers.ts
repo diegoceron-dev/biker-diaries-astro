@@ -12,7 +12,7 @@ export const useSteppers = () => {
   // Define un método para actualizar el estado del stepper
   const setCurrentStepCreateEvent = (value: number) => {
     setCurrentStep(value);
-    toast({ description: `Step changed to ${value}` });
+    // toast({ description: `Step changed to ${value}` });
   };
 
   // Define un método para actualizar el estado de carga

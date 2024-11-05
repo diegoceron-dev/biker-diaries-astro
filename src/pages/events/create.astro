@@ -1,5 +1,4 @@
 ---
-import MainLayout from "@/layouts/MainLayout.astro";
 import CreateEventLayout from "@/layouts/CreateEventLayout.astro";
 import CreateEvent from "@/components/vue/events/create/CreateEvent.vue";
 
@@ -13,4 +12,5 @@ if (!userId) return Astro.redirect("/signin");
   <section>
     <CreateEvent client:load userId={userId} />
   </section>
-</CreateEventLayouts>
+</CreateEventLayout>
+

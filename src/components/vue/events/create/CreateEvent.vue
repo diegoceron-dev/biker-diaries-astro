@@ -1,38 +1,28 @@
 <script setup lang="ts">
 import {
+  reactive,
   computed,
   onMounted,
   ref,
   onBeforeUnmount,
-  reactive,
   watch,
 } from "vue";
-import DataGeneral from "@/components/vue/events/create/form/DataGeneral.vue";
-import Locations from "@/components/vue/events/create/form/Locations.vue";
 import { vAutoAnimate } from "@formkit/auto-animate/vue";
-import { useSteppers } from "@/composables/useSteppers";
-import { useEvent } from "@/composables/services/useEvents";
 import type { Event, Waypoint } from "@/store/events";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { typeEventCatalog } from "@/store/catalogs";
 import { useStore } from "@nanostores/vue";
-
-onMounted(() => {
-  selectedGradient.value = gradients[0];
-});
-
-onBeforeUnmount(() => {
-  setCurrentStepCreateEvent(1);
-});
-
-const props = defineProps({
-  userId: String,
-});
-
-const useEvents = useEvent();
-
-const { currentStepCreateEvent, setCurrentStepCreateEvent } = useSteppers(); // Usa el estado global
-
-const cover = ref("");
+import { useSteppers } from "@/composables/useSteppers";
+import { useEvent } from "@/composables/services/useEvents";
+import DataGeneral from "@/components/vue/events/create/form/DataGeneral.vue";
+import Locations from "@/components/vue/events/create/form/Locations.vue";
 
 const event = reactive<Event>({
   name: "",
@@ -46,6 +36,24 @@ const event = reactive<Event>({
   waypoints: [],
   cover: "",
 });
+
+const props = defineProps({
+  userId: String,
+});
+
+const useEvents = useEvent();
+
+const { currentStepCreateEvent, setCurrentStepCreateEvent } = useSteppers(); // Usa el estado global
+
+onMounted(() => {
+  selectedGradient.value = gradients[0];
+});
+
+onBeforeUnmount(() => {
+  setCurrentStepCreateEvent(1);
+});
+
+const cover = ref("");
 
 const gradients = [
   "border-gray-500 bg-gradient-to-r from-skyBrand to-indigoBrand", // Combinación suave de azul cielo a índigo
@@ -62,11 +70,12 @@ const gradients = [
   "border-gray-500 bg-gradient-to-r from-cool-gray-500 via-true-gray-600 to-warm-gray-700", // Grises neutros y balanceados
 ];
 
-const selectedGradient = ref('');
+const selectedGradient = ref("");
 
 const selectGradient = (gradient: any) => {
   selectedGradient.value = gradient;
   event.color = gradient;
+  console.log(event.color);
 };
 
 const onSaveDataGeneral = (data: { form: any; cover: string }) => {
@@ -99,17 +108,21 @@ watch(event, (newValue, oldValue) => {
 
 <template>
   <div class="flex flex-col" v-auto-animate>
-    <div class="w-full border-dashed border-2 border-gray-400 rounded-md">
-      <div
-        :class="[
-          selectedGradient,
-          'w-full flex items-center justify-center transition-all rounded-t-md',
-          selectedGradient ? 'h-24' : '',
-        ]"
-      ></div>
-      <div class="p-8">
+    <Card>
+      <CardHeader
+        class="p-0 w-full border-dashed border-2 border-gray-400 rounded-t-md"
+      >
+        <div
+          :class="[
+            selectedGradient,
+            'w-full flex items-center justify-center transition-all rounded-t-md',
+            selectedGradient ? 'h-24' : '',
+          ]"
+        ></div>
+      </CardHeader>
+      <CardContent>
         <DataGeneral
-          v-show="currentStepCreateEvent === 1"
+          v-show="currentStepCreateEvent == 1"
           :userId="userId"
           :gradients="gradients"
           @setGradient="selectGradient"
@@ -121,7 +134,7 @@ watch(event, (newValue, oldValue) => {
           :userId="userId"
           @onSubmit="(value: any) => onSaveLocations(value)"
         />
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   </div>
 </template>

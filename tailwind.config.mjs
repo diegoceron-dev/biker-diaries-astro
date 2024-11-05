@@ -1,38 +1,39 @@
-import animate from "tailwindcss-animate"
+import animate from "tailwindcss-animate";
 
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
   safelist: ["dark"],
   prefix: "",
-    content: [
-      './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
-    ],
-  
+  // content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}", "./path-to-any-other-files/**/*.{js,ts,jsx,tsx}"],
   theme: {
     container: {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
       },
       spacing: {
-        '112': '28rem',
-        '128': '32rem',
+        112: "28rem",
+        128: "32rem",
       },
     },
     extend: {
       colors: {
-/*         motorcycleOrange: '#D26A3B', // Color del tanque
+        /*         motorcycleOrange: '#D26A3B', // Color del tanque
         tireBlack: '#333333', // Color de los neumáticos
         skyBlue: '#A0D7F7', // Color del cielo claro
         deepBlue: '#5A79BA', // Color del cielo más oscuro */
-        orangeBrand: '#95434c',
-        skyBrand: '#a5b0e1',
-        blueBrand: '#7a89be ',
-        indigoBrand: '#6d71d1',
-        wayBrand: '#6d71d1',
-        
+        orangeBrand: "#95434c",
+        skyBrand: "#a5b0e1",
+        blueBrand: "#7a89be ",
+        indigoBrand: "#6d71d1",
+        wayBrand: "#6d71d1",
+
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -68,7 +69,7 @@ export default {
         },
       },
       borderRadius: {
-      	xl: "calc(var(--radius) + 4px)",
+        xl: "calc(var(--radius) + 4px)",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
@@ -84,10 +85,10 @@ export default {
         },
         "collapsible-down": {
           from: { height: 0 },
-          to: { height: 'var(--radix-collapsible-content-height)' },
+          to: { height: "var(--radix-collapsible-content-height)" },
         },
         "collapsible-up": {
-          from: { height: 'var(--radix-collapsible-content-height)' },
+          from: { height: "var(--radix-collapsible-content-height)" },
           to: { height: 0 },
         },
       },
@@ -100,4 +101,4 @@ export default {
     },
   },
   plugins: [animate],
-}
+};

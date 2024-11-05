@@ -66,7 +66,7 @@ const placeholder = ref();
 
 const editorContent = ref<string>("");
 
-const turnTinyMceIntoEditor = ref(true);
+const turnTinyMceIntoEditor = ref(false);
 
 const editorRef = ref(null);
 
@@ -156,18 +156,6 @@ const onSubmit = handleSubmit(async (values) => {
 
   emits("onSubmit", { form: formData, cover: imageUrl.value });
 
-  /* await useEvents.createEvent({
-    description: editorContent.value || values.description!,
-    name: values.name!,
-    startDate: new Date(values.startDate),
-    endDate: new Date(values.endDate),
-    eventType: values.eventType!,
-    isPublic: values.isPublic!,
-    userId: props.userId,
-    status: "upcoming",
-    waypoints: [],
-  }); */
-
   setCurrentStepCreateEvent(2);
 });
 
@@ -175,11 +163,10 @@ const picture = ref<File | null>(null);
 const imageUrl = ref<string | null>(null);
 const uploadError = ref<string | null>(null);
 
-// Crear instancia de Cloudinary
 const cloudName = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME;
 const cld = new Cloudinary({
   cloud: {
-    cloudName: cloudName, // Leer cloudName desde las variables de entorno
+    cloudName: cloudName,
   },
 });
 
@@ -232,7 +219,7 @@ const selectGradient = (gradient: any) => {
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit" autocomplete="off" class="space-y-4">
+  <form @submit.prevent="onSubmit" autocomplete="off" class="space-y-4 gap-4 md:gap-8">
     <div class="flex flex-col md:flex-row gap-4 md:gap-8">
       <!-- Nombre del Evento -->
       <div class="flex flex-col md:w-4/6">
@@ -403,7 +390,7 @@ const selectGradient = (gradient: any) => {
     </div>
 
     <!-- Descripción -->
-    <div class="flex flex-col md:w-6/6">
+    <div class="flex flex-col md:w-6/6 gap-4 md:gap-8">
       <FormField v-slot="{ componentField }" name="description">
         <FormItem v-auto-animate>
           <FormLabel>Descripción</FormLabel>

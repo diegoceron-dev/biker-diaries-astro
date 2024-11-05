@@ -21,15 +21,25 @@ const { title } = Astro.props;
       <Header />
     </header>
 
-    <div class="flex pt-20 h-screen px-24">
-      <!-- Stepper sticky y centrado -->
-      <div class="lg:w-1/5 px-4 h-screen[80%] flex justify-center items-center sticky top-24">
-        <Stepper client:load />
+    <div class="flex flex-col pt-[68px] h-screen px-6 md:px-16 lg:px-24">
+      <div class="flex flex-col justify-between">
+        <p class="text-xl text-slate-600 font-extralight pt-6 pb-8">
+          Crear nuevo evento
+        </p>
       </div>
-      
-      <!-- Contenido desplazable -->
-      <div class="w-full lg:w-4/5 p-8 overflow-y-auto h-screen">
-        <slot />
+
+      <div class="flex flex-row">
+        <!-- Stepper sticky y centrado -->
+        <div
+          class="lg:w-1/5 px-4 h-[80vh] justify-center items-center sticky md:top-32"
+        >
+          <Stepper client:load />
+        </div>
+
+        <!-- Contenido desplazable -->
+        <div class="w-full lg:w-4/5 p-0 md:px-8 overflow-y-auto h-screen">
+          <slot />
+        </div>
       </div>
     </div>
 

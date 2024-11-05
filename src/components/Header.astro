@@ -3,6 +3,7 @@ import { ViewTransitions } from "astro:transitions";
 import Button from "@/components/ui/button/Button.vue";
 import { LogOut, UserCog2Icon, Home, Menu } from "lucide-vue-next";
 import ModeToggle from "@/components/vue/toggle/ModeToggle.vue";
+import MenuSheet from "@/components/vue/menu/MenuSheet.vue";
 
 const user = Astro.locals.user;
 // const session = Astro.locals.session;
@@ -11,9 +12,7 @@ const user = Astro.locals.user;
 <!-- <header
   class="bg-gradient-to-r from-sky-400 to-sky-600 shadow-md"
   class="bg-[url('https://images.unsplash.com/photo-1558979159-2b18a4070a87?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center border border-t-0 border-l-0 border-r-0 border-b-2 dark:border-slate-300 border-slate-700"
-> -->
-<!-- <button id="alert">¡Haz Click!</button> -->
-
+> --><!-- <button id="alert">¡Haz Click!</button> -->
 <script>
   // Encuentra todos los botones con la clase `alert` en la página.
   const buttons = document.querySelectorAll("#alert");
@@ -38,9 +37,7 @@ const user = Astro.locals.user;
   });
 </script>
 
-<header
-  class="shadow bg-black"
->
+<header class="shadow bg-black">
   <nav>
     <a href="/">
       <img
@@ -50,92 +47,15 @@ const user = Astro.locals.user;
         alt="Biker Diaries"
       /></a
     >
-
-    <div class="flex flex-row pr-10">
-      <!-- Icono de Menú (hamburguesa) visible solo en móvil -->
-      <div class="md:hidden pr-2">
-        <Button
-          variant="outline"
-          size="icon"
-          class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
-        >
-          <Menu class="text-white" />
-        </Button>
-      </div>
-    
-      <!-- Iconos visibles solo en pantallas medianas o más grandes (escritorio) -->
-      {user ? (
-        <>
-          <!-- Icono de Home -->
-          <div class="hidden md:flex pr-2">
-            <form method="POST" action="/">
-              <Button
-                variant="outline"
-                size="icon"
-                class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
-              >
-                <Home class="text-white" />
-              </Button>
-            </form>
-          </div>
-    
-          <!-- Icono de Usuario (perfil) -->
-          <div class="hidden md:flex pr-2">
-            <form method="POST" action="/profile">
-              <Button
-                variant="outline"
-                size="icon"
-                class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
-              >
-                <UserCog2Icon class="text-white" />
-              </Button>
-            </form>
-          </div>
-    
-          <!-- Icono de Logout -->
-          <div class="hidden md:flex">
-            <div id="alert">
-              <Button
-                variant="outline"
-                size="icon"
-                class="bg-transparent transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
-              >
-                <LogOut class="text-white" />
-              </Button>
-            </div>
-          </div>
-        </>
-      ) : null}
-    </div>
-    
-      <!--       <div class="pl-2">
-        <ModeToggle client:load />
-      </div> -->
-      <!-- 
     {
-        user === null ? (
-          <HeaderLink href="/signin">Iniciar sesión</HeaderLink>
-        ) : (
-          <div>
-            <form method="POST" action="/api/auth/signout">
-              <Button
-                variant="outline"
-                size="icon"
-                class="transition duration-300 ease-in-out transform hover:scale-110 hover:text-secondary-foreground"
-              >
-                <LogOut />
-              </Button>
-            </form>
+      user ? (
+        <div class="flex flex-row pr-4">
+          <div class="pr-2">
+            <MenuSheet client:load />
           </div>
-        )
-      }
-      
-      {
-        user === null && session === null ? (
-          <HeaderLink href="/signup">Registro</HeaderLink>
-        ) : null
-      } -->
-    </div>
+        </div>
+      ) : null
+    }
   </nav>
   <ViewTransitions />
 </header>

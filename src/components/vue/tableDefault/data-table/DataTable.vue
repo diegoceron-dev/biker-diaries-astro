@@ -267,7 +267,7 @@ const handleSee = (row: any) => {
     >
       <span
         :colspan="columns.length"
-        class="flex items-center justify-center text-sm text-slate-500 rounded-md w-full h-full"
+        class="flex items-center justify-center text-sm text-slate-500 rounded-md w-full h-full bg-slate-100"
       >
         Sin Resultados.
       </span>
