@@ -47,6 +47,11 @@ const user = Astro.locals.user;
         alt="Biker Diaries"
       /></a
     >
+    
+    <div class="flex flex-row items-end justify-end">
+      <ModeToggle client:load />
+    </div>
+
     {
       user ? (
         <div class="flex flex-row pr-4">

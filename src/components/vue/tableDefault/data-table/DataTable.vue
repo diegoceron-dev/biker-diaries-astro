@@ -16,7 +16,14 @@ import {
   getSortedRowModel,
   useVueTable,
 } from "@tanstack/vue-table";
-import { ArrowUpDown, ChevronDown, TableIcon, BookCopy } from "lucide-vue-next";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  TableIcon,
+  BookCopy,
+  EarthLock,
+  Earth,
+} from "lucide-vue-next";
 
 import { h, ref } from "vue";
 import { Button } from "@/components/ui/button";
@@ -116,45 +123,36 @@ const getColumnNameFromString = (str: string): string | null => {
 
 const getHeaderClass = (row: any) => {
   const cover = getCover(row);
-  const color = "bg-blueBrand/80";
-  // getColor(row) ?? "bg-indigoBrand";
-
-  //const color = row.getValue("color") ?? "bg-slate-700/20";
-
-  /*   if (!cover) return "rounded-t-xl bg-slate-700/10 h-[80px]";
-
-  return `relative rounded-t-md bg-cover bg-center ${
-    cover ? `bg-[url('${cover}')]` : ""
-  }`; */
+  const color = getColor(row);
 
   return cover ? `bg-black/40 bg-[url('${cover}')] bg-cover bg-center` : color;
 };
 
 const getDescription = (row: any) => {
-  const obj = JSON.stringify(row.original);
-  const newValue = Object.assign({}, JSON.parse(obj));
-  const description = newValue.description;
+  const descriptionRow = row.getValue("description") as string;
+  const descriptionSanitized = sanitizeHtml(
+    descriptionRow || "No description..."
+  );
+  const value =
+    descriptionSanitized.length > 150
+      ? `${descriptionSanitized.substring(0, 150)}...`
+      : descriptionSanitized;
 
-  if (!description) return "No description";
-  return description.length > 150
-    ? description.substring(0, 150) + "..."
-    : description;
+  return value;
 };
 
 const getCover = (row: any) => {
-  console.log(row.original);
   const original = JSON.stringify(row.original);
   const newValue = Object.assign({}, JSON.parse(original));
-  const cover = newValue.cover;
+  const cover = newValue.cover?.replace(/\?_a=DATAg1AAZAA0$/, "");
 
   return cover;
 };
 
 const getColor = (row: any) => {
-  console.log(row.original);
   const original = JSON.stringify(row.original);
   const newValue = Object.assign({}, JSON.parse(original));
-  const color = newValue.color;
+  const color = newValue.color ?? "bg-indigoBrand";
 
   return color;
 };
@@ -163,6 +161,34 @@ const handleSee = (row: any) => {
   const event = row.original;
 
   window.location.href = `/events/${event.id}`;
+};
+
+const dates = (startDateItem: Date, endDateItem: Date) => {
+  if (!startDateItem || !endDateItem) return "";
+
+  // Asegurarse de que las fechas sean Date válidas
+  const startDate = new Date(startDateItem);
+  const endDate = new Date(endDateItem);
+
+  // Agregar un día a cada fecha
+  startDate.setDate(startDate.getDate() + 1);
+  endDate.setDate(endDate.getDate() + 1);
+
+  // Opciones para formatear la fecha
+  const options: Intl.DateTimeFormatOptions = {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    timeZone: "America/Mexico_City", // Ajusta la zona horaria si es necesario
+  };
+
+  // Convertir la fecha de inicio
+  const start = startDate.toLocaleDateString("es-ES", options);
+
+  // Convertir la fecha de fin
+  const end = endDate.toLocaleDateString("es-ES", options);
+
+  return `${start} - ${end}`;
 };
 </script>
 
@@ -251,23 +277,41 @@ const handleSee = (row: any) => {
         @click="handleSee(row)"
       >
         <CardHeader :class="['relative rounded-t-md', getHeaderClass(row)]">
-          <CardTitle class="text-sm text-white font-light">
-            {{ row.getValue("name") }}
+          <CardTitle
+            class="flex flex-row justify-between gap-2 text-sm text-white font-semibold z-10"
+          >
+            <span>{{ row.getValue("name") }}</span>
+            <span v-if="row.getValue('isPublic')">
+              <Earth :size="16" />
+            </span>
+            <span v-else>
+              <EarthLock :size="16" />
+            </span>
           </CardTitle>
+         <div class="flex flex-row justify-end space-x-2 pt-2">
+          <span
+            class="z-10 bg-white/20 backdrop-blur-md border border-white/50 rounded-full shadow-lg px-2 py-1 text-xs"
+          >
+            {{ dates(row.getValue("startDate"), row.getValue("endDate")) }}
+          </span>
+         </div>
+          <div
+            class="absolute inset-0 rounded-t-md bg-gradient-to-t from-black/60 to-transparent"
+          ></div>
         </CardHeader>
         <CardContent class="text-xs">
-          {{ sanitizeHtml(getDescription(row)) }}
+          {{ getDescription(row) }}
         </CardContent>
       </Card>
     </div>
 
     <div
       class="flex w-full items-center justify-center h-24"
-      v-if="modeShowData === 'cards'"
+      v-if="modeShowData === 'cards' && !data.length"
     >
       <span
         :colspan="columns.length"
-        class="flex items-center justify-center text-sm text-slate-500 rounded-md w-full h-full bg-slate-100"
+        class="flex items-center justify-center text-sm text-slate-500 rounded-md w-full h-full bg-card"
       >
         Sin Resultados.
       </span>

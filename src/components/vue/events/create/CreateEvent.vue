@@ -88,9 +88,11 @@ const onSaveDataGeneral = (data: { form: any; cover: string }) => {
   event.userId = props.userId;
   event.status = data.form.status;
   event.waypoints = data.form.waypoints;
-
+  console.log(data.cover);
+  debugger;
   if (data.cover) {
     event.cover = data.cover;
+    console.log("Imagen seleccionada:", data.cover);
     cover.value = data.cover;
   }
 };
@@ -109,14 +111,12 @@ watch(event, (newValue, oldValue) => {
 <template>
   <div class="flex flex-col" v-auto-animate>
     <Card>
-      <CardHeader
-        class="p-0 w-full border-dashed border-2 border-gray-400 rounded-t-md"
-      >
+      <CardHeader class="p-0 w-full rounded-t-md">
         <div
           :class="[
             selectedGradient,
             'w-full flex items-center justify-center transition-all rounded-t-md',
-            selectedGradient ? 'h-24' : '',
+            selectedGradient ? 'h-16' : '',
           ]"
         ></div>
       </CardHeader>

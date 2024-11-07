@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 230 50% 95%; /* light sky */
+    --background: 230 50% 98% /* light sky */
     --foreground: 210 20% 30%; /* Texto oscuro */
 
     --card: 230 60% 98%; /* Fondo de tarjeta claro (skyBrand) */

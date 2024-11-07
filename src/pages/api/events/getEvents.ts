@@ -16,8 +16,6 @@ export const GET: APIRoute = async ({ request }) => {
     });
   }
 
-  console.log("UserId: ", userId);
-
   // Obtener todos los eventos
   const events = await db.select().from(Event).where(eq(Event.userId, userId));
 
@@ -37,8 +35,6 @@ export const GET: APIRoute = async ({ request }) => {
       };
     })
   );
-
-  console.log("Events with waypoints: ", eventsWithWaypoints);
 
   // Invertir el orden de los eventos
   const reversedEvents = eventsWithWaypoints; //.reverse();

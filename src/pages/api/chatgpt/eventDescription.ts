@@ -16,7 +16,6 @@ export const POST: APIRoute = async ({ request }) => {
   let data: RequestBody;
   try {
     data = await request.json();
-    console.log("Request Data:", data);
   } catch (error) {
     console.error("Error parsing JSON:", error);
     return new Response(
@@ -54,8 +53,6 @@ export const POST: APIRoute = async ({ request }) => {
         },
       }
     );
-
-    console.log("API Response:", response.data);
 
     const recommendation = response.data.choices[0].message.content.trim();
 

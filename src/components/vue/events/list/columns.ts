@@ -24,16 +24,16 @@ export const columns: ColumnDef<Event>[] = [
     accessorKey: "description",
     header: () => h("div", { class: "text-left" }, "Descripción"),
     cell: ({ row }) => {
-      let description = row.getValue("description") as String;
-      //value = value.length > 25 ? value.substring(0, 25) + "..." : value;
+      const descriptionRow = row.getValue("description") as string;
+      const descriptionSanitized = sanitizeHtml(
+        descriptionRow || "No description..."
+      );
+      const value =
+        descriptionSanitized.length > 150
+          ? `${descriptionSanitized.substring(0, 150)}...`
+          : descriptionSanitized;
 
-      if (!description) return "No description";
-
-      description = description.length > 150
-        ? description.substring(0, 150) + "..."
-        : description;
-
-      return h("div", { class: "text-left font-medium" }, sanitizeHtml(description.toString()));
+      return h("div", { class: "text-left font-medium" }, value);
     },
   },
 

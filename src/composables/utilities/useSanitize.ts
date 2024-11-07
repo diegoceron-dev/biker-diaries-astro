@@ -11,7 +11,7 @@ export const useSanitize = () => {
     const doc = parser.parseFromString(htmlString, "text/html");
 
     // Extraer solo el contenido de texto, ignorando las etiquetas HTML
-    const sanitizedText = doc.body.textContent || "";
+    const sanitizedText = doc.body.textContent || "No se encontró contenido";
 
     return sanitizedText.trim();
   };

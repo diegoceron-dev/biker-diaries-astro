@@ -71,7 +71,7 @@ const visibleStepsCount = computed(
 <template>
   <Stepper
     orientation="vertical"
-    class="mx-auto flex w-full max-w-md flex-col justify-start gap-10"
+    class="mx-auto flex w-full max-w-md flex-col justify-start gap-4 md:gap-8"
     v-model="currentStepCreateEvent"
   >
     <StepperItem
@@ -110,7 +110,7 @@ const visibleStepsCount = computed(
       <div class="flex flex-col gap-1">
         <StepperTitle
           :class="[state === 'active' && 'text-primary']"
-          class="text-sm font-semibold transition lg:text-base"
+          class="text-sm font-semibold transition lg:text-base text-primary"
         >
           {{ step.title }}
         </StepperTitle>

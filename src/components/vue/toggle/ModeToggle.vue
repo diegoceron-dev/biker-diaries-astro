@@ -21,9 +21,9 @@ const toggleTheme = () => {
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button variant="outline" @click="toggleTheme" class="p-0 m-0 w-[40px]">
-        <MoonStarIcon v-if="mode == 'light'" />
-        <Sun v-if="mode == 'dark'" />
+      <Button variant="outline" @click="toggleTheme" class="p-0 m-0 w-[40px] bg-black">
+        <MoonStarIcon v-if="mode == 'light'" class="text-white" />
+        <Sun v-if="mode == 'dark'"  class="text-white"/>
         <span class="sr-only">Toggle theme</span>
       </Button>
     </DropdownMenuTrigger>

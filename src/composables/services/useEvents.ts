@@ -25,8 +25,6 @@ export function useEvent() {
 
       const data: Event[] = await response.json();
 
-      console.log(data);
-
       setEventItems(data);
     } catch (error: any) {
       console.error("Error al obtener los datos del catálogo:", error);
@@ -61,8 +59,6 @@ export function useEvent() {
       }
       const data: Event = await response.json();
 
-      console.log(data);
-
       addEvent(data.id!, data);
 
       return data;
@@ -81,6 +77,7 @@ export function useEvent() {
   const createEvent = async (event: Event) => {
     loading.value = true;
     event.status = "upcoming";
+    console.log(event);
     try {
       const response = await fetch("/api/events/createEvent", {
         method: "POST",
@@ -167,11 +164,7 @@ export function useEvent() {
       method: "POST",
       body: JSON.stringify(body),
     });
-
-    console.log(response);
   };
-
-  const saveEventOnMemory = async (event: Event, step: number) => {};
 
   return {
     loading,

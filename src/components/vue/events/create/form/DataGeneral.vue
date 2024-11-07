@@ -76,6 +76,28 @@ const editorInitOptions = {
     "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
   tinycomments_mode: "embedded",
   tinycomments_author: "Author name",
+  plugins: [
+    "advlist",
+    "autolink",
+    "link",
+    "image",
+    "lists",
+    "charmap",
+    "preview",
+    "anchor",
+    "pagebreak",
+    "searchreplace",
+    "wordcount",
+    "visualblocks",
+    "visualchars",
+    "code",
+    "fullscreen",
+    "insertdatetime",
+    "media",
+    "table",
+    "emoticons",
+    "help",
+  ],
   // AI request con Promise correctamente manejado
   /* ai_request: (request: any, respondWith: any) => {
     return respondWith.string(() =>
@@ -150,9 +172,8 @@ const onSubmit = handleSubmit(async (values) => {
     eventType: values.eventType!,
     isPublic: values.isPublic!,
     userId: props.userId,
-    status: "upcoming"
-  }
-
+    status: "upcoming",
+  };
 
   emits("onSubmit", { form: formData, cover: imageUrl.value });
 
@@ -171,6 +192,7 @@ const cld = new Cloudinary({
 });
 
 const uploadImage = async () => {
+  debugger;
   if (!picture.value) return;
 
   const formData = new FormData();
@@ -191,7 +213,7 @@ const uploadImage = async () => {
     const data = await response.json();
 
     // Muestra la URL de la imagen subida
-    //imageUrl.value = data.secure_url;
+    imageUrl.value = data.secure_url;
 
     if (response.ok) {
       // Si la subida fue exitosa, aplicar la transformación
@@ -213,13 +235,32 @@ const uploadImage = async () => {
   }
 };
 
+const selectedGradient = ref(null);
+
 const selectGradient = (gradient: any) => {
   emits("setGradient", gradient);
+  selectedGradient.value = gradient;
+};
+
+const onFileSelected = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const files = target.files;
+
+  if (files && files.length > 0) {
+    picture.value = files[0];
+    console.log("Imagen seleccionada:", picture.value);
+  } else {
+    console.error("No se seleccionó ninguna imagen");
+  }
 };
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit" autocomplete="off" class="space-y-4 gap-4 md:gap-8">
+  <form
+    @submit.prevent="onSubmit"
+    autocomplete="off"
+    class="space-y-4 gap-4 md:gap-8"
+  >
     <div class="flex flex-col md:flex-row gap-4 md:gap-8">
       <!-- Nombre del Evento -->
       <div class="flex flex-col md:w-4/6">
@@ -279,7 +320,7 @@ const selectGradient = (gradient: any) => {
                     variant="outline"
                     :class="
                       cn(
-                        'w-full text-start font-light !bg-input border border-gray-500 border-gray-500',
+                        'w-full text-start font-light !bg-input border border-gray-500',
                         !startDate && 'text-muted-foreground'
                       )
                     "
@@ -420,7 +461,7 @@ const selectGradient = (gradient: any) => {
 
             <div v-if="turnTinyMceIntoEditor">
               <Editor
-                class="!border-dashed !border-2 !border-gray-200"
+                class="!border-dashed !border-2 !border-gray-200 bg-black"
                 v-model="editorContent"
                 ref="editorRef"
                 api-key="m6yhshx15n7lh6omdjuk895p413v1t8eeelyzhr6ujgcmgei"
@@ -453,7 +494,7 @@ const selectGradient = (gradient: any) => {
                 id="picture"
                 type="file"
                 v-bind="componentField"
-                @change="(e: any) => picture = e.target.files[0]"
+                @change="onFileSelected"
               />
             </FormControl>
             <FormMessage />
@@ -475,6 +516,9 @@ const selectGradient = (gradient: any) => {
                   :class="[
                     gradient,
                     'p-2 text-white font-light rounded-full text-sm w-[24px] h-[24px]',
+                    selectedGradient === gradient
+                      ? 'border-2 border-gray-500 shadow-lg'
+                      : '',
                   ]"
                   @click.prevent="selectGradient(gradient)"
                 ></button>

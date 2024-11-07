@@ -53,10 +53,10 @@ watch(eventsList, () => {
 <template>
   <div class="flex flex-col">
     <div class="flex flex-row justify-between">
-      <p class="text-xl text-slate-600 font-extralight pb-2">Mis Eventos</p>
+      <p class="text-xl font-extralight pb-2 text-card-foreground">Mis Eventos</p>
 
       <a href="/events/create"
-        ><Button variant="ghost" class="underline font-bold"
+        ><Button variant="ghost" class="underline font-bold text-card-foreground"
           >Crear nuevo evento</Button
         ></a
       >

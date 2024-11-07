@@ -124,10 +124,12 @@ const dates = computed(() => {
 });
 
 const getColorOrCover = () => {
-  const cover = event.value?.cover;
+  const cover = event.value?.cover?.replace(/\?_a=DATAg1AAZAA0$/, "");
   const color = event.value?.color ?? "bg-indigoBrand";
 
-  return cover ? `bg-black/40 bg-[url('${cover}')] bg-cover bg-center` : `${color}`;
+  return event.value?.cover
+    ? `bg-cover bg-center bg-[url('${cover}')] min-h-[200px]`
+    : color;
 };
 
 const loading = computed(() => {
@@ -143,7 +145,7 @@ const loading = computed(() => {
         <div class="space-y-2">
           <Skeleton class="h-4 w-[100%]" />
           <Skeleton class="h-4 w-[100%]" />
-          <Skeleton class="h-4 w-[100%]" /> 
+          <Skeleton class="h-4 w-[100%]" />
           <Skeleton class="h-4 w-[100%]" />
 
           <Skeleton class="h-[40px] w-[100%]" />
@@ -156,10 +158,14 @@ const loading = computed(() => {
     <!-- Si no hay loading, verifica si el evento fue encontrado -->
     <div v-else-if="event">
       <Card>
-        <CardHeader :class="['relative rounded-t-md', getColorOrCover()]">
+        <CardHeader
+          :class="[
+            'flex flex-col gap-y-1.5 p-6 relative rounded-t-md',
+            getColorOrCover(),
+          ]"
+        >
           <!-- Overlay semi-transparente -->
-          <div class="absolute inset-0 rounded-t-md"></div>
-
+          <div class="absolute inset-0 rounded-t-md bg-gradient-to-t from-black/60 to-transparent"></div>
           <!-- Contenido del header -->
           <div class="relative z-10 p-4">
             <CardTitle
@@ -174,7 +180,7 @@ const loading = computed(() => {
               </span>
             </CardTitle>
             <CardDescription
-              class="flex flex-row justify-end text-white text-base drop-shadow-md mt-2 gap-x-2"
+              class="flex flex-col sm:flex-row justify-end text-white text-base drop-shadow-md mt-2 gap-x-2 gap-y-2"
             >
               <span
                 class="bg-white/20 backdrop-blur-md border border-white/50 rounded-full shadow-lg px-2 py-1 text-lg"
@@ -182,13 +188,12 @@ const loading = computed(() => {
                 {{ dates }}
               </span>
               <span
-                :class="`px-2 py-1  backdrop-blur-md border rounded-full shadow-lg text-xl capitalize bg-white/20 border-white/50`"
+                :class="`px-2 py-1 backdrop-blur-md border rounded-full shadow-lg text-xl capitalize bg-white/20 border-white/50`"
               >
                 {{ event.status }}
               </span>
-
               <span
-                :class="`px-2 py-1  backdrop-blur-md border rounded-full shadow-lg text-xl capitalize bg-white/20 border-white/50`"
+                :class="`px-2 py-1 backdrop-blur-md border rounded-full shadow-lg text-xl capitalize bg-white/20 border-white/50`"
               >
                 {{ event.eventType.replace(/_/g, " ") }}
               </span>
@@ -199,7 +204,7 @@ const loading = computed(() => {
           <div>
             <p class="text-base" v-html="event.description"></p>
           </div>
-          <div class="pt-2 flex flex-col space-y-2">
+          <div class="pt-4 flex flex-col space-y-2">
             <p class="text-base font-semibold">Ubicaciones</p>
             <div
               class="flex flex-col"
@@ -231,7 +236,7 @@ const loading = computed(() => {
             </div>
           </div>
         </CardContent>
-        <CardFooter> </CardFooter>
+        <CardFooter></CardFooter>
       </Card>
     </div>
 
