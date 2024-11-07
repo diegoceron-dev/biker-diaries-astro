@@ -290,7 +290,7 @@ const dates = (startDateItem: Date, endDateItem: Date) => {
           </CardTitle>
          <div class="flex flex-row justify-end space-x-2 pt-2">
           <span
-            class="z-10 bg-white/20 backdrop-blur-md border border-white/50 rounded-full shadow-lg px-2 py-1 text-xs"
+            class="z-10 bg-white/20 backdrop-blur-md border border-white/50 rounded-full shadow-lg px-2 py-1 text-xs text-white"
           >
             {{ dates(row.getValue("startDate"), row.getValue("endDate")) }}
           </span>

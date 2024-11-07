@@ -25,7 +25,7 @@ async function logout() {
 </script>
 
 <template>
-  <Sheet>
+  <Sheet class="z-20">
     <SheetTrigger>
       <Button
         variant="outline"
@@ -44,9 +44,9 @@ async function logout() {
             <form method="POST" action="/">
               <Button
                 variant="outline"
-                class="w-full flex items-center justify-start gap-2 bg-transparent border-secondary-foreground text-black hover:text-secondary-foreground transition duration-300 ease-in-out transform hover:scale-105"
+                class="w-full flex items-center justify-start gap-2 bg-transparent border-secondary-foreground text-foreground hover:text-secondary-foreground transition duration-300 ease-in-out transform hover:scale-105"
               >
-                <Home class="text-black" />
+                <Home class="text-foreground" />
                 <span>Ir al inicio</span>
               </Button>
             </form>
@@ -57,9 +57,9 @@ async function logout() {
             <form method="POST" action="/profile">
               <Button
                 variant="outline"
-                class="w-full flex items-center justify-start gap-2 bg-transparent border-secondary-foreground text-black hover:text-secondary-foreground transition duration-300 ease-in-out transform hover:scale-105"
+                class="w-full flex items-center justify-start gap-2 bg-transparent border-secondary-foreground text-foreground hover:text-secondary-foreground transition duration-300 ease-in-out transform hover:scale-105"
               >
-                <UserCog2Icon class="text-black" />
+                <UserCog2Icon class="text-foreground" />
                 <span>Ver mi perfil</span>
               </Button>
             </form>
@@ -70,10 +70,10 @@ async function logout() {
             <div id="alert">
               <Button
                 variant="outline"
-                class="w-full flex items-center justify-start gap-2 bg-transparent border-secondary-foreground text-black hover:text-secondary-foreground transition duration-300 ease-in-out transform hover:scale-105"
+                class="w-full flex items-center justify-start gap-2 bg-transparent border-secondary-foreground text-foreground hover:text-secondary-foreground transition duration-300 ease-in-out transform hover:scale-105"
                 @click="logout"
                 >
-                <LogOut class="text-black" />
+                <LogOut class="text-foreground" />
                 <span>Salir de la aplicación</span>
               </Button>
             </div>
