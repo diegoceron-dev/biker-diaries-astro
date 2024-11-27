@@ -66,7 +66,7 @@ const placeholder = ref();
 
 const editorContent = ref<string>("");
 
-const turnTinyMceIntoEditor = ref(false);
+const turnTinyMceIntoEditor = ref(true);
 
 const editorRef = ref(null);
 
@@ -325,7 +325,7 @@ const onFileSelected = (event: Event) => {
                       )
                     "
                   >
-                    <span>{{
+                    <span class="text-slate-400">{{
                       startDate
                         ? df.format(toDate(startDate))
                         : "Seleccionar fecha"
@@ -378,7 +378,7 @@ const onFileSelected = (event: Event) => {
                       )
                     "
                   >
-                    <span>{{
+                    <span class="text-slate-400">{{
                       endDate ? df.format(toDate(endDate)) : "Seleccionar fecha"
                     }}</span>
                     <CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
@@ -419,7 +419,7 @@ const onFileSelected = (event: Event) => {
             <div class="flex items-start justify-center align-top">
               <FormControl>
                 <Switch
-                  class="border dark:border-slate-700 border-gray-500"
+                  class="border-gray-500"
                   v-bind="componentField"
                 />
               </FormControl>

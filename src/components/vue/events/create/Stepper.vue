@@ -116,7 +116,7 @@ const visibleStepsCount = computed(
         </StepperTitle>
         <StepperDescription
           :class="[state === 'active' && 'text-primary']"
-          class="text-xs text-muted-foreground transition md:not-sr-only lg:text-sm"
+          class="text-xs text-muted-foreground transition md:not-sr-only lg:text-sm dark:text-slate-400"
         >
           {{ step.description }}
         </StepperDescription>

@@ -127,8 +127,11 @@ const getColorOrCover = () => {
   const cover = event.value?.cover?.replace(/\?_a=DATAg1AAZAA0$/, "");
   const color = event.value?.color ?? "bg-indigoBrand";
 
-  return event.value?.cover
-    ? `bg-cover bg-center bg-[url('${cover}')] min-h-[200px]`
+  // Verificar si el cover es una cadena válida y no está vacía
+  const hasCover = typeof cover === "string" && cover.trim() !== "";
+
+  return hasCover
+    ? `bg-cover bg-center bg-[url('${cover.toString()}')] min-h-[200px]`
     : color;
 };
 
@@ -158,6 +161,7 @@ const loading = computed(() => {
     <!-- Si no hay loading, verifica si el evento fue encontrado -->
     <div v-else-if="event">
       <Card>
+        {{ getColorOrCover() }}
         <CardHeader
           :class="[
             'flex flex-col gap-y-1.5 p-6 relative rounded-t-md',
@@ -202,6 +206,7 @@ const loading = computed(() => {
         </CardHeader>
         <CardContent>
           <div>
+            <p class="text-base font-semibold">Descripción</p>
             <p class="text-base" v-html="event.description"></p>
           </div>
           <div class="pt-4 flex flex-col space-y-2">
