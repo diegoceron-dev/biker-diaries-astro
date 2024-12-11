@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { eq } from "astro:db";
-import { db, Event, Waypoint } from "astro:db";
+import { db, Event, Waypoint, EventStatus } from "astro:db";
 
 export const GET: APIRoute = async ({ request }) => {
   // Obtener el userId de los parámetros de la URL
@@ -48,9 +48,22 @@ export const GET: APIRoute = async ({ request }) => {
     .from(Waypoint)
     .where(eq(Waypoint.eventId, event.id));
 
+  // Obtener el estado del evento desde el catálogo `EventStatus`
+  const eventStatus = await db
+    .select()
+    .from(EventStatus)
+    .where(eq(EventStatus.id, String(event.status)))
+    .get();
+
   // Devolver el evento con sus ubicaciones
   const eventWithWaypoints = {
     ...event,
+    status: eventStatus
+    ? {
+        id: eventStatus.id,
+        name: eventStatus.name, // Nombre legible del estado
+      }
+    : null, // Si no se encuentra el estado
     waypoints, // Agregar las ubicaciones al evento
   };
 

@@ -1,0 +1,53 @@
+---
+import "@/styles/global.css";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import Toaster from "@/components/ui/toast/Toaster.vue";
+import Stepper from "@/components/vue/events/create/Stepper.vue";
+
+const { title } = Astro.props;
+---
+
+<script is:inline></script>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-background">
+    <!-- Header fijo -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
+      <Header />
+    </header>
+
+    <div class="flex flex-col pt-[112px] h-screen px-8">
+<!--       <div class="flex flex-col justify-between">
+        <p
+          class="text-xl text-slate-600 font-extralight pt-4 pb-4 sm:pb-8 sm:pt-8 dark:text-slate-300"
+        >
+          Crear nuevo evento
+        </p>
+      </div> -->
+
+      <div class="flex flex-col sm:flex-row">
+        <!-- Stepper sticky y centrado -->
+        <!--         <div
+          class="block lg:w-1/5 px-4 pt-0 pb-4 sm:h-[80vh] justify-center items-center sticky md:top-32 lg:block lg:sticky"
+        >
+          <Stepper client:load />
+        </div> -->
+
+        <!-- Contenido desplazable -->
+        <div class="w-full p-0 h-screen">
+          <slot />
+        </div>
+      </div>
+    </div>
+
+    <!-- <footer class="bg-white shadow-md py-4 text-center">
+      <Footer />
+    </footer> -->
+    <Toaster client:load />
+  </body>
+</html>

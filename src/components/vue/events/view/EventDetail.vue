@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/card";
 import {
   EarthLock,
+  CalendarCheck,
+  Bell,
   Earth,
   Calendar as CalendarIcon,
   XCircle,
@@ -25,6 +27,7 @@ import {
   MapPinned,
   Waypoints,
   MapPinHouse,
+  Package,
 } from "lucide-vue-next";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -90,7 +93,7 @@ const statusClasses = {
 // Seleccionar la clase correspondiente o usar la clase por defecto
 const selectedClass = computed(() => {
   return (
-    statusClasses[event.value?.status as keyof typeof statusClasses] ||
+    statusClasses[event.value?.status.id as keyof typeof statusClasses] ||
     statusClasses.default
   );
 });
@@ -159,90 +162,105 @@ const loading = computed(() => {
     </div>
 
     <!-- Si no hay loading, verifica si el evento fue encontrado -->
-    <div v-else-if="event">
-      <Card>
-        {{ getColorOrCover() }}
-        <CardHeader
-          :class="[
-            'flex flex-col gap-y-1.5 p-6 relative rounded-t-md',
-            getColorOrCover(),
-          ]"
-        >
-          <!-- Overlay semi-transparente -->
-          <div class="absolute inset-0 rounded-t-md bg-gradient-to-t from-black/60 to-transparent"></div>
-          <!-- Contenido del header -->
-          <div class="relative z-10 p-4">
-            <CardTitle
-              class="flex flex-row justify-between gap-2 text-white text-2xl font-bold drop-shadow-lg"
-            >
-              <span>{{ event.name }}</span>
-              <span v-if="event.isPublic">
-                <Earth :size="32" />
-              </span>
-              <span v-else>
-                <EarthLock :size="32" />
-              </span>
-            </CardTitle>
-            <CardDescription
-              class="flex flex-col sm:flex-row justify-end text-white text-base drop-shadow-md mt-2 gap-x-2 gap-y-2"
-            >
-              <span
+    <div v-else-if="event" class="flex flex-row">
+      <div class="flex flex-col w-2/5 bg-background p-4 rounded-md">
+        <div><span>Acceso al evento</span></div>
+        <div><span>Información de pago</span></div>
+        <div><span>Mis Entradas</span></div>
+      </div>
+      <div class="flex flex-col w-3/5 align-top">
+        <Card>
+          <!--  {{ getColorOrCover() }} -->
+          <CardHeader
+            :class="[
+              'flex flex-col gap-y-1.5 p-6 relative rounded-t-md',
+              getColorOrCover(),
+            ]"
+          >
+            <!-- Overlay semi-transparente -->
+            <div
+              class="absolute inset-0 rounded-t-md bg-gradient-to-t from-black/60 to-transparent"
+            ></div>
+            <!-- Contenido del header -->
+            <div class="relative z-10 p-4">
+              <CardTitle
+                class="flex flex-row justify-between gap-2 text-white text-2xl font-bold drop-shadow-lg"
+              >
+                <span>{{ event.name }}</span>
+              </CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div class="flex flex-wrap items-center justify-evenly gap-4">
+              <div
                 class="bg-white/20 backdrop-blur-md border border-white/50 rounded-full shadow-lg px-2 py-1 text-lg"
               >
-                {{ dates }}
-              </span>
-              <span
-                :class="`px-2 py-1 backdrop-blur-md border rounded-full shadow-lg text-xl capitalize bg-white/20 border-white/50`"
-              >
-                {{ event.status }}
-              </span>
-              <span
-                :class="`px-2 py-1 backdrop-blur-md border rounded-full shadow-lg text-xl capitalize bg-white/20 border-white/50`"
-              >
-                {{ event.eventType.replace(/_/g, " ") }}
-              </span>
-            </CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div>
-            <p class="text-base font-semibold">Descripción</p>
-            <p class="text-base" v-html="event.description"></p>
-          </div>
-          <div class="pt-4 flex flex-col space-y-2">
-            <p class="text-base font-semibold">Ubicaciones</p>
-            <div
-              class="flex flex-col"
-              v-for="waypoint in event.waypoints"
-              :key="waypoint.id"
-            >
-              <div class="flex flex-row justify-items-start space-x-2">
-                <span class="text-base font-extralight pb-2">
-                  <MapPinHouse
-                    class="size-6 text-slate-400/70"
-                    v-if="waypoint.typeId === 'start'"
-                  />
-                  <Waypoints
-                    class="size-6 text-slate-400/70"
-                    v-if="waypoint.typeId === 'waypoint'"
-                  />
-                  <MapPinned
-                    class="size-6 text-slate-400/70"
-                    v-if="waypoint.typeId === 'end'"
-                  />
+                <span v-if="event.isPublic">
+                  <Earth :size="24" />
+                  <span>Publico</span>
                 </span>
-                <span class="text-base font-extralight pb-2 capitalize">
-                  {{ waypoint.sequence }}.
-                </span>
-                <span class="text-base font-extralight pb-2 capitalize">
-                  {{ waypoint.name }}
+                <span v-else class="flex flex-row items-center gap-2">
+                  <EarthLock :size="24" />
+                  <span>Privado</span>
                 </span>
               </div>
+              <span
+                class="flex flex-row items-center gap-2 bg-white/20 backdrop-blur-md border border-white/50 rounded-full shadow-lg px-2 py-1 text-lg"
+              >
+                <span> <CalendarCheck :size="24" /></span>
+                <span> {{ dates }}</span>
+              </span>
+              <span
+                class="flex flex-row items-center gap-2 bg-white/20 backdrop-blur-md border border-white/50 rounded-full shadow-lg px-2 py-1 text-lg"
+              >
+                <Bell :size="24" /> {{ event.status.name }}
+              </span>
+              <span
+                class="flex flex-row items-center gap-2 bg-white/20 backdrop-blur-md border border-white/50 rounded-full shadow-lg px-2 py-1 text-lg capitalize"
+              >
+                <Package :size="24" />
+                {{ event.eventType.replace(/_/g, " ") }}
+              </span>
             </div>
-          </div>
-        </CardContent>
-        <CardFooter></CardFooter>
-      </Card>
+            <div>
+              <p class="text-base font-semibold">Descripción</p>
+              <p class="text-base" v-html="event.description"></p>
+            </div>
+            <div class="pt-4 flex flex-col space-y-2">
+              <p class="text-base font-semibold">Ubicaciones</p>
+              <div
+                class="flex flex-col"
+                v-for="waypoint in event.waypoints"
+                :key="waypoint.id"
+              >
+                <div class="flex flex-row justify-items-start space-x-2">
+                  <span class="text-base font-extralight pb-2">
+                    <MapPinHouse
+                      class="size-6 text-slate-400/70"
+                      v-if="waypoint.typeId === 'start'"
+                    />
+                    <Waypoints
+                      class="size-6 text-slate-400/70"
+                      v-if="waypoint.typeId === 'waypoint'"
+                    />
+                    <MapPinned
+                      class="size-6 text-slate-400/70"
+                      v-if="waypoint.typeId === 'end'"
+                    />
+                  </span>
+                  <span class="text-base font-extralight pb-2 capitalize">
+                    {{ waypoint.sequence }}.
+                  </span>
+                  <span class="text-base font-extralight pb-2 capitalize">
+                    {{ waypoint.name }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+          <CardFooter></CardFooter>
+        </Card>
+      </div>
     </div>
 
     <!-- Muestra el mensaje de "No se encontró el Evento" solo después del retraso -->

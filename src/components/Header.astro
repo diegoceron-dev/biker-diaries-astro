@@ -36,31 +36,37 @@ const user = Astro.locals.user;
     });
   });
 </script>
-
-<header class="shadow bg-black">
-  <nav>
+<header class="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 text-white shadow  flex flex-row justify-between items-center px-8">
+  <!-- Logo y navegación -->
+  <nav class="flex flex-row items-center gap-4">
+    <!-- Logo -->
     <a href="/">
       <img
-        class="pl-8"
+        class="h-auto"
         src="./../../public/logo/LOGO_WEB.png"
-        width="220px"
+        width="180"
         alt="Biker Diaries"
-      /></a
-    >
-    
-    <div class="flex flex-row items-end justify-end pr-4">
+      />
+    </a>
+  </nav>
+
+  <!-- Iconos y acciones -->
+  <div class="flex flex-row items-center gap-4">
+    <!-- Modo de tema -->
+    <div>
       <ModeToggle client:load />
     </div>
 
-    {
-      user ? (
-        <div class="flex flex-row pr-4">
-          <div class="pr-2">
-            <MenuSheet client:load />
-          </div>
+    <!-- Menú -->
+    <div>
+      {user ? (
+        <div class="flex flex-row items-center gap-2">
+          <MenuSheet client:load />
         </div>
-      ) : null
-    }
-  </nav>
+      ) : null}
+    </div>
+  </div>
+
+  <!-- Transiciones -->
   <ViewTransitions />
 </header>

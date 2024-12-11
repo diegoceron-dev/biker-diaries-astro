@@ -11,6 +11,11 @@ export type Waypoint = {
   description?: string;
 };
 
+export type Catalog = {
+  id: string;
+  name: string;
+};
+
 export type Event = {
   id?: string;
   name: string;
@@ -23,7 +28,7 @@ export type Event = {
   cover?: string;
   color?: string;
   price?: number;
-  status: string;
+  status: Catalog;
   waypoints?: Waypoint[];
 };
 

@@ -44,6 +44,7 @@ import { useSteppers } from "@/composables/useSteppers";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { fill } from "@cloudinary/url-gen/actions/resize"; // Acciones para redimensionar
 import Editor from "@tinymce/tinymce-vue";
+import { watch } from "vue";
 
 onMounted(() => {});
 
@@ -54,7 +55,7 @@ const props = defineProps({
   gradients: Array,
 });
 
-const emits = defineEmits(["onSubmit", "setGradient"]);
+const emits = defineEmits(["onSubmit", "setGradient", "onNameChange"]);
 
 const { currentStepCreateEvent, setCurrentStepCreateEvent } = useSteppers(); // Usa el estado global
 
@@ -253,6 +254,12 @@ const onFileSelected = (event: Event) => {
     console.error("No se seleccionó ninguna imagen");
   }
 };
+
+const onNameChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const value = target.value;
+  emits('onNameChange', value);
+};
 </script>
 
 <template>
@@ -272,6 +279,7 @@ const onFileSelected = (event: Event) => {
                 type="text"
                 placeholder="Nombre del evento (mín. 2 caracteres, máx. 50)."
                 v-bind="componentField"
+                @input="onNameChange"
               />
             </FormControl>
             <FormMessage />

@@ -29,7 +29,7 @@
     --destructive-foreground: 0 100% 98%; /* Texto claro sobre fondo destructivo */
 
     --border: 230 40% 90%; /* skyBrand para bordes claros */
-    --input: 230 50% 98%; /* Inputs claros */
+    --input: 230 60% 100%;/* Inputs claros */
     --ring: 225 40% 70%; /* Anillo en blueBrand */
     --radius: 0.75rem;
   }
